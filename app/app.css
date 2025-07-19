@@ -1,15 +1,45 @@
 @import "tailwindcss";
 
+/* Configure dark mode using class strategy */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+  --color-primary-50: #f6f4fb;
+  --color-primary-100: #ede9f7;
+  --color-primary-200: #dbd3ef;
+  --color-primary-300: #c9bde7;
+  --color-primary-400: #b7a7df;
+  --color-primary-500: #a88bdd;
+  --color-primary-600: #8a6bc5;
+  --color-primary-700: #6c4bad;
+  --color-primary-800: #4e2b95;
+  --color-primary-900: #300b7d;
+  --color-primary: #a88bdd;
+  
+  --color-secondary-50: #fef5f2;
+  --color-secondary-100: #fdeae5;
+  --color-secondary-200: #fbd5cb;
+  --color-secondary-300: #f9c0b1;
+  --color-secondary-400: #f7ab97;
+  --color-secondary-500: #F78769;
+  --color-secondary-600: #f5633f;
+  --color-secondary-700: #f33f15;
+  --color-secondary-800: #c92f10;
+  --color-secondary-900: #9f1f0b;
+  --color-secondary: #F78769;
+  
+  --color-cream-50: #fefefe;
+  --color-cream-100: #fdfcf8;
+  --color-cream-200: #fbf9f1;
+  --color-cream-300: #f9f6ea;
+  --color-cream-400: #f7f3e3;
+  --color-cream-500: #f5f0dc;
+  --color-cream-600: #f3edd5;
+  --color-cream-700: #f1eace;
+  --color-cream-800: #efe7c7;
+  --color-cream-900: #ede4c0;
+  --color-cream: #fdfcf8;
+  
+  --font-family-serif: Merriweather, serif;
+  --font-family-sans: Inter, sans-serif;
 }
