@@ -1,4 +1,5 @@
 import type { Route } from "./+types/home";
+import { Link } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -22,18 +23,22 @@ export default function Home() {
               Poetry and writings by Susan Engle. Explore themes of friendship, family, faith, and life's beautiful moments.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="/poems" 
+              <Link 
+                to="/poems" 
+                viewTransition
                 className="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors duration-200 font-medium"
+                style={{ backgroundColor: 'var(--color-primary)' }}
               >
                 Explore Poems
-              </a>
-              <a 
-                href="/tiny-books" 
+              </Link>
+              <Link 
+                to="/tiny-books" 
+                viewTransition
                 className="px-6 py-3 bg-secondary text-white rounded-md hover:bg-secondary-600 transition-colors duration-200 font-medium"
+                style={{ backgroundColor: 'var(--color-secondary)' }}
               >
                 Tiny Books
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -146,9 +151,9 @@ export default function Home() {
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                 Explore poems organized by theme - friends, family, and faith.
               </p>
-              <a href="/poems" className="text-primary hover:text-primary-600 font-medium text-sm">
+              <Link to="/poems" viewTransition className="text-primary hover:text-primary-600 font-medium text-sm">
                 Browse Poems →
-              </a>
+              </Link>
             </div>
             
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow duration-200">
@@ -158,9 +163,9 @@ export default function Home() {
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                 Discover miniature poetry collections and chapbooks.
               </p>
-              <a href="/tiny-books" className="text-primary hover:text-primary-600 font-medium text-sm">
+              <Link to="/tiny-books" viewTransition className="text-primary hover:text-primary-600 font-medium text-sm">
                 View Collection →
-              </a>
+              </Link>
             </div>
             
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow duration-200">
@@ -170,9 +175,9 @@ export default function Home() {
               <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                 Learn about Susan Engle and her journey in poetry.
               </p>
-              <a href="/about" className="text-primary hover:text-primary-600 font-medium text-sm">
+              <Link to="/about" viewTransition className="text-primary hover:text-primary-600 font-medium text-sm">
                 Read More →
-              </a>
+              </Link>
             </div>
           </div>
         </section>

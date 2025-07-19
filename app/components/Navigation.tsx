@@ -105,6 +105,7 @@ const DesktopNavItem: React.FC<DesktopNavItemProps> = ({ item, isActive, isActiv
     >
       <Link
         to={item.href}
+        viewTransition
         className={`
           relative flex items-center gap-1 px-4 py-2 rounded-md
           transition-all duration-200 ease-out
@@ -149,6 +150,7 @@ const DesktopNavItem: React.FC<DesktopNavItemProps> = ({ item, isActive, isActiv
               <li key={child.href} role="menuitem" className="first:rounded-t-lg last:rounded-b-lg overflow-hidden">
                 <Link
                   to={child.href}
+                  viewTransition
                   className={`
                     relative block px-4 py-3 text-sm 
                     transition-all duration-200 ease-out
@@ -240,6 +242,7 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({
                   <li key={child.href} role="menuitem">
                     <Link
                       to={child.href}
+                      viewTransition
                       className={`
                         block pl-12 pr-6 py-3 transition-colors duration-200
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary
@@ -265,6 +268,7 @@ const MobileNavItem: React.FC<MobileNavItemProps> = ({
       ) : (
         <Link
           to={item.href}
+          viewTransition
           className={`
             block px-6 py-4 transition-colors duration-200
             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary
