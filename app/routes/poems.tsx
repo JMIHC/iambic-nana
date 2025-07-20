@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Route } from "./+types/poems";
 
 export function meta({}: Route.MetaArgs) {
@@ -18,24 +19,33 @@ export default function Poems() {
             Welcome to the poetry collection. Explore poems organized by theme:
           </p>
           <div className="mt-6 grid md:grid-cols-3 gap-6">
-            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+            <Link 
+              to="/poems/friends" 
+              className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:scale-105 block"
+            >
               <h3 className="font-semibold text-primary">Friends</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Poems celebrating friendship and connection
               </p>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+            </Link>
+            <Link 
+              to="/poems/family" 
+              className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:scale-105 block"
+            >
               <h3 className="font-semibold text-primary">Family</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Poems about family bonds and memories
               </p>
-            </div>
-            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+            </Link>
+            <Link 
+              to="/poems/faith" 
+              className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:scale-105 block"
+            >
               <h3 className="font-semibold text-primary">Faith</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                 Spiritual reflections and faith-inspired verses
               </p>
-            </div>
+            </Link>
           </div>
       </div>
     </div>

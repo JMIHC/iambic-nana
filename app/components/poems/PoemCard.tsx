@@ -8,10 +8,10 @@ import {
   CardAction
 } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
-import type { Poem } from "~/data/friends-poems";
+import type { BasePoem } from "~/types/poem";
 
 interface PoemCardProps {
-  poem: Poem;
+  poem: BasePoem;
   className?: string;
 }
 
@@ -28,7 +28,7 @@ const getCategoryBadgeStyles = (category: string) => {
   }
 };
 
-const getExcerpt = (poem: Poem): string => {
+const getExcerpt = (poem: BasePoem): string => {
   if (poem.excerpt) {
     return poem.excerpt.length > 150 ? poem.excerpt.substring(0, 150) + "..." : poem.excerpt;
   }

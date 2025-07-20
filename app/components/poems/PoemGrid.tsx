@@ -1,9 +1,9 @@
 import { PoemCard } from "./PoemCard";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import type { Poem } from "~/data/friends-poems";
+import type { BasePoem } from "~/types/poem";
 
 interface PoemGridProps {
-  poems: Poem[];
+  poems: BasePoem[];
   isLoading?: boolean;
   emptyMessage?: string;
 }
