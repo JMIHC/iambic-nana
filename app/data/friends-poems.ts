@@ -1,0 +1,1143 @@
+export interface Poem {
+  id: string;
+  title: string;
+  category: string;
+  audioUrl?: string;
+  copyright: string;
+  content: string;
+  excerpt: string;
+}
+
+export const friendsPoems: Poem[] = [
+  {
+    id: "a-travelers-tale",
+    title: "A Traveler's Tale",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `A-hiking o'er the mountainside
+Midst fog and gloom and wood,
+I came upon a little man
+A-weeping where he stood.
+He beat his breast with heavy hands
+And sighed, "She's gone for good."
+
+Great tears splashed down from one small eye
+And, ach, his nose was red.
+His hair flew wildly 'round his face
+As if to flee his head.
+I bent to offer comfort, but
+"She's gone," was all he said.
+
+So down I sat and pulled a great
+Big hankie from my vest.
+The troll reached out (he was a troll)
+And held it to his chest
+Then wiped his eye and blew his nose
+And moaned, "I should have guessed."
+
+"Guessed what?" I ventured quietly,
+For soon I hoped to hear
+The fellow's tale to lighten thus
+His load and offer cheer.
+"My precious love, my sweet, sweet love
+Is gone fore'er from here."
+
+"Full two months past," the troll went on
+"I met a lovely thing
+So delicate and fair of face
+And amethyst of wing!
+She was a fairy of the glade
+And made my heart to sing."
+
+"Alas, the Fairy Queen herself
+Grew jealous of my joy.
+The loved that danced throughout the glade
+She threatened to destroy.
+'Be still! Be sad! Be gone!' she screamed,
+'You ugly hag troll's boy.'"
+
+"Before the queen's words left her lips,
+My fairy love so dear
+Began to turn a pale, pale green,
+To shrink and disappear.
+The Fairy Queen laughed long and left.
+And thus, you see me here."
+
+Again the troll began to cry.
+His tears splashed on the ground
+And lo, from down beneath his feet
+There came the sweetest sound.
+"I'm here, my love," a lilting voice
+Did gently echo 'round.
+
+Small heart-shaped leaves and slender stem
+Sprang forth from earth below.
+A bud appeared and, wondrously,
+A flower began to grow
+Until a purple blossom shaped
+Like wings swayed to and fro.
+
+And as it swayed, it touched the troll.
+His ruddy face turned white.
+"This is my jewel," he cried, "my gem,
+Transformed before my sight."
+That gloomy wood, that foggy glade
+Shone gently gold with light.
+
+I left him there, the little troll
+So lately I had met,
+And if you come to where I stood,
+You'll see him standing yet
+Beside his flow'r, his lovely flow'r,
+His precious violet.`,
+    excerpt: `A-hiking o'er the mountainside
+Midst fog and gloom and wood,
+I came upon a little man
+A-weeping where he stood.
+He beat his breast with heavy hands
+And sighed, "She's gone for good."`
+  },
+  {
+    id: "carrie-and-harry",
+    title: "Carrie and Harry",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `There once was a plant
+Who grew in a pot
+From a little seed tended by Carrie.
+She loved his green leaves
+And fuzzy blue flowers
+And gave him her favorite name: Harry.
+
+Harry was happy there
+In his red pot
+Near a window, so round and so sunny.
+And every night,
+Carrie would tell him good jokes
+That he usually thought were quite funny.
+
+Then one Sunday morning,
+Carrie found out
+That one of her buddies was ill.
+She thought and she thought
+About what she could do.
+Write a verse, make a card, send a pill?
+
+She talked with her mom
+Who just happened to be
+A wise and wonderful botanist.
+They thought about presents
+That would be the best
+To help friends feel better, not rottenest.
+
+"Now this might be hard,"
+Her mom said out loud.
+"But your friend would get better with Harry."
+And Carrie remembered
+That plants could be helpful
+In sickness. "Well, maybe," said Carrie.
+
+You see, Carrie knew
+What some people don't.
+To keep sickness from getting much worser,
+Plants can breathe out
+What people breathe in,
+And this miracle works vice versa.
+
+She shed several tears
+And paced up and down
+Before giving dear Harry away.
+To whom could she read
+And who would smile back
+At her jokes at the end of the day?
+
+Yes, Carrie took Harry
+In his red pot
+To live on a new window sill
+Where Harry exhaléd
+Some sweet oxygen
+And he helped her friend stop being ill.
+
+This friend was so grateful
+He took a small seed
+And grew a new plant of his own.
+Then he gave Harry back
+To his smart, funny friend
+Who would no longer tell jokes alone.`,
+    excerpt: `There once was a plant
+Who grew in a pot
+From a little seed tended by Carrie.
+She loved his green leaves
+And fuzzy blue flowers
+And gave him her favorite name: Harry.`
+  },
+  {
+    id: "chuckys-choice",
+    title: "Chucky's Choice",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `For Clare
+Chucky the Chipmunk, while scouting around,
+Discovered a small, secret Cookie Jar Town.
+"What ho," muttered Chucky. "These mushrooms are tough.
+They're harder than bricks. Such inedible stuff.
+But I do see a place where a hole can be dug."
+And he tested the soil with some scrapes and a tug.
+
+This town was a playground of cookie jar houses,
+A barn, and a teepee the right size for mouses
+And chipmunks, of course. He did not use the doors.
+He just dug underneath and created new floors,
+Which toppled the buildings and left them askew.
+Wreaking havoc was something he knew how to do.
+
+Then Chucky heard noises, a soft humming sound,
+And he poked his wee nose from his hole in the ground.
+A large head with gray hair sprouting out of the top
+Appeared much too close, and he paused in mid-hop. 
+Its big mouth had a curve. He knew not what it meant.
+Were those teeth going to eat him? He hid by the tent.
+
+Not a tent, not exactly. But he didn't know
+That the tent was a teepee. No matter, he'd go
+Pack his bags and move off to a quieter place
+Where the chances of seeing a rather old face
+Were not part of his day. Or his night, for that matter.
+One leap and he left with a soft little patter.
+
+He didn't look back as he sprinted away.
+It was good moving weather, this fine sunny day.
+Farewell, little Chucky. I'll miss your small frown,
+But I won't miss the havoc in Cookie Jar Town.`,
+    excerpt: `For Clare
+Chucky the Chipmunk, while scouting around,
+Discovered a small, secret Cookie Jar Town.
+"What ho," muttered Chucky. "These mushrooms are tough.
+They're harder than bricks. Such inedible stuff.
+But I do see a place where a hole can be dug."
+And he tested the soil with some scrapes and a tug.`
+  },
+  {
+    id: "comfort",
+    title: "Comfort",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `The world is a wonderful place to be
+
+But when night is too dark and the voices too loud,
+When our bright smiles and waves are ignored by the crowd
+When the folks we love most are too angry or proud
+Light your lamp.
+Come with Me.
+
+Beauty surrounds us abundantly
+
+But when friends we hold tightly have lost their own way
+When shadows are with us all hours of the day
+When sad disappointments seem destined to stay
+Light your lamp.
+Come with Me.
+
+We'll scrub up our hearts 'til they're shiny and clean
+We'll sit close together and pray
+O, the lamps of our spirits will glow with our love
+And the darkness will wither away.
+
+Yes, this world is a wonderful place to be
+
+But remember, when tulips are buried by snow
+When clouds hide the stars in the sky, row by row
+We can search for the Voice deep inside we all know
+"Light your lamp.
+Come with Me."`,
+    excerpt: `The world is a wonderful place to be
+
+But when night is too dark and the voices too loud,
+When our bright smiles and waves are ignored by the crowd
+When the folks we love most are too angry or proud
+Light your lamp.
+Come with Me.`
+  },
+  {
+    id: "creation",
+    title: "Creation",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `Way back in the long ago
+And far away, my dear,
+There lived a sweet creator who
+Created something strange and new,
+As new and strange and lovely, too,
+As ever reached the ear.
+
+One day, while sitting in the sun
+Beside a rushing stream,
+A feeling grew inside a maid.
+It felt of clouds and marmalade,
+Of tickly toes and warm socks laid
+In pairs, of pie and cream.
+
+"How very snug I feel," she thought.
+"How very warm and light."
+Then from her mouth a song came out,
+A halfway hum, a halfway shout,
+A trill that rose and turned about
+And danced in joyous flight.
+
+The maid flew home to share the song.
+Folks came from far and wide
+To hear the new and wondrous sound
+That made feet tap, that made hearts pound
+From king to babe to howling hound,
+From town to countryside.
+
+Before too long, a singing voice
+Was heard in every shire
+And men and women, young and old
+Were trilling tunes of heroes bold,
+Of love and death their voices tolled
+In trio, band, or choir.
+
+And thus, a happy, sun-warmed maid
+Brought music to our ears.
+A call to joy she did obey
+And simple song was born that day,
+One sweet creation here to stay
+For years and years and years and years
+And years
+        And years
+                And years`,
+    excerpt: `Way back in the long ago
+And far away, my dear,
+There lived a sweet creator who
+Created something strange and new,
+As new and strange and lovely, too,
+As ever reached the ear.`
+  },
+  {
+    id: "dara-of-deeds",
+    title: "Dara of Deeds",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `There once was a land
+That lay empty and green
+Under blue sky and warm summer breeze.
+It was patiently lying there,
+(Land often does),
+Whisp'ring riddles and singing to bees.
+
+Then one morning, a rumble
+Was felt on the land.
+It came from a wandering crowd.
+And heading them up
+Was a tall man in robes
+Who was also exceedingly loud.
+
+"How 'bout here?" he cried out.
+Then he answered himself,
+"What a brilliant idea! My word!"
+And he called out to people
+To follow behind
+Very close so his thoughts could be heard.
+
+This baron, Sir Worthington,
+Grabbed his valise
+And way up on the top of one peak,
+He settled and sat.
+Then he opened his mouth,
+And from then on did nothing but speak.
+
+"O noodles and poodles,
+O fruit flies and fleas,
+Stretch up with your minds unto me.
+For green cheese is gumptious
+And fairies are fluttering
+Flutes on the shores of the sea."
+
+Many folks gathered near
+And were soon stuck like glue
+By the words that rolled by down the hill.
+But others decided
+To try out the east
+Where a hillside lay empty and still.
+
+Far down at the bottom
+Of hill number two,
+Young Dara of Deeds made her camp.
+Smiling and waving,
+She welcomed the folks
+To make friends and make plans round her lamp.
+
+"What is needed," she asked
+Women, children, and men
+"To help us all prosper and grow?"
+"We need houses and schools.
+We need farms, orchards, pools,"
+Came the answers she'd wanted to know.
+
+"Now, tell me the names
+Of the work you all love."
+And people signed up, two by two,
+To take on the jobs,
+All the science and arts.
+Each one knew what they needed to do.
+
+That night, folks on hillsides
+Slept under the moon,
+Dreaming dreams. But as weeks flew ahead,
+One hillside sat spellbound.
+The other worked wonders
+'Til one day, an East Hill child said,
+
+"Look, Mama. Look Dad.
+Over on the West Hill.
+Are those clouds or balloons or large birds?"
+Sir Worthington's lectures
+Had filled West Hill heads
+With the Gas of Continuous Words.
+
+For days, weeks, and months,
+All the folks in the west
+Had done nothing but listen and eat.
+One by one, the whole hillside
+Was floating aloft,
+Ribbons tied to the earth and folks' feet.
+
+What a sight! Dara rushed
+To the hill, calling out,
+"Are you happy? Content? Need a hand?"
+"Bring us ba-a-a-ck. We're so seasick,"
+They called from the sky.
+So she pulled each by foot to the land.
+
+Then, bold as you please,
+She took Worthington's hand
+And led him to work that he loves:
+Spouting words that make gas
+So all festivals have
+Floating rubber inflatable gloves.
+
+Now the land 'neath the sun,
+Once so empty and still,
+Is exploding with bustle and laughter.
+Dara's life of good deeds
+Had infected them all
+And the hills rang with joy ever after.`,
+    excerpt: `There once was a land
+That lay empty and green
+Under blue sky and warm summer breeze.
+It was patiently lying there,
+(Land often does),
+Whisp'ring riddles and singing to bees.`
+  },
+  {
+    id: "dewards-dilemma",
+    title: "Deward's Dilemma",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `Big Deward the Dump was a mite bit upset.
+Over long years, his diet of trash
+Had been growing in items he'd rather forget,
+Things that made him break out in a rash.
+
+"How I long for an eggshell, a rind or a crust
+That I used to enjoy by the ton.
+Most the things in me now don't digest, or they rust.
+I am fasting 'til something is done."
+
+With those words, Big Deward closed up his large mouth
+And refused all the garbage that streamed
+From the east and the west and the north and the south.
+Heaps of cast-offs just piled up and steamed.
+
+Many garbage truck drivers tried all kinds of tricks
+To get Deward to alter his ways.
+But no joking or patting, cajoling or kicks
+Changed a thing. His fast went on for days.
+
+At last—weakly—he posted a banner up high,
+Right where all of the people could see.
+And it said, "If you don't want Big Deward to die,
+Please recycle the trash that hurts me."
+
+"Recycle? What's that?" asked a man at Town Hall.
+Some kids heard him and held up their hands.
+"You just use things again. Make a dish or a doll
+Out of plastic or bottles or cans."
+
+"I can turn all the plastic to t-shirts and swings,"
+Yelled a man who could weave and make toys.
+"We'll make bottles and cans into all kinds of things,"
+Offered others. And soon all the noise
+
+Of recycling ideas reached way out of town
+To the ears of Big Deward the Dump.
+And he tore down the banner while swallowing down
+The edible trash in one lump.
+
+How the people rejoiced as they carted away
+Ev'ry smidgeon of synthetic scum.
+Now they annually celebrate Deward Dump Day
+Chewing biodegradable gum.`,
+    excerpt: `Big Deward the Dump was a mite bit upset.
+Over long years, his diet of trash
+Had been growing in items he'd rather forget,
+Things that made him break out in a rash.`
+  },
+  {
+    id: "fire-chief-omy",
+    title: "Fire Chief O'My",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `The station was quiet.
+The crew polished brass.
+The steam from Joe's chili
+Fogged up all the glass.
+Nearby, in her office,
+Her work piled up high,
+Sat Fire Chief Nelly
+O'Mally O'My.
+
+"I'll catch up on papers'"
+Thought hard-working Nell.
+"No building's on fire."
+But just then the loud bell
+In the firehouse clanged
+As it called all the crew.
+And they jumped in their boots
+Hats, and coats. Nell did, too.
+
+They turned on the sirens.
+Their lights sprinkled red.
+The fire trucks pulled up
+To a flame-circled shed.
+High up on the roof
+Shook Ted Smith and son Cy.
+"Aim the hoses! Bring nets, team!"
+Called Fire Chief O'My.
+
+Now Nelly was worried.
+The flames rose up higher.
+It seemed Ted and Cy
+Just might die in the fire.
+The crew battled on
+With brave Nell helping, too.
+She fed faith and strength
+To her firehouse crew.
+
+Old Ted Smith and his son
+Jumped to safety that day.
+All the smoke disappeared.
+All the fear drained away.
+"Well done," cried the mayor.
+"You saved Ted and his boy!"
+"That's our job," smiled the chief,
+Her heart racing with joy.
+
+Back at the station,
+The fire trucks were cleaned.
+The firefighters polished
+'Til everything gleamed.
+Chief O'My praised her workers,
+Each one of her men.
+Now the danger was done
+And the town safe again.
+
+The firefighters glowed
+With the praises of Nell.
+Spoons dipped in Joe's chili,
+Ears aimed toward the bell
+That would summon anew
+All the crew with the cry,
+"There's a fire. Call Chief Nelly
+O'Malley O'My!"`,
+    excerpt: `The station was quiet.
+The crew polished brass.
+The steam from Joe's chili
+Fogged up all the glass.
+Nearby, in her office,
+Her work piled up high,
+Sat Fire Chief Nelly
+O'Mally O'My.`
+  },
+  {
+    id: "great-places-a-to-z",
+    title: "Great Places A to Z",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `"Hey, I know my letters!" yelled Albert one day.
+"O yeah? Are you sure?" Zelda started to say.
+"I'll tell you my favorite places to be
+And great stuff I like," Albert said, "A to Z."
+
+A is for airport from whence people fly
+To visit Australia or France or Mumbai.
+
+B is for bathtub, all bubbly and hot,
+Where I can get squeaky when spotless I'm not.
+
+C is for city with people en masse.
+And C is for country with cows, trees, and grass.
+
+D is for desert where sunsets supreme
+Show colors so thick you could eat them with cream.
+
+E is for elevator. It's such fun
+To push all the buttons in rows, one by one.
+
+F is for forest with creatures unseen
+And sunlight in rays piercing through the thick green.
+
+G is for garden, all weeded and neat.
+New carrots with dirt are delicious to eat.
+
+H is for home, O so cozy and warm,
+A place meant for resting from testing and storm.
+
+I is for island, surrounded by sea.
+If you love to swim, it's a great place to be.
+
+J is for jungle, all luscious and shower-y,
+All much overgrown-y, insect-y and flowery.
+
+K is for kitchen where everyone meets,
+Makes jokes and tells stories and giggles and eats.
+
+L is for lake and the loons living there
+Who call for their mates in the soft evening air.
+
+M is for mountain, majestic and craggy,
+Where mountain goats' coats get all matted and shaggy.
+
+N is for nursery, just up the stairs,
+Where mothers and dads sometimes sing us our prayers.
+
+O is for outside where we love to play
+By the creek, on the swings, up the trees, in the hay.
+
+P is for playground, all covered with friends.
+It's always too soon when our afternoon ends.
+
+Q is for quasar, a kind of black hole.
+I wouldn't go visit if Mars is your goal.
+
+R is for refuge, a good place to hide
+With feelings of sad, mad, or quiet inside.
+
+S is for school where we learn the three "R's"
+And all about lizards and singing and stars.
+
+T is for there, which is someplace not here,
+Sometimes very distant, sometimes very near.
+
+U is for universe, vast, deep, and wide.
+We could travel forever and still be inside.
+
+V is for valley where food can be grown.
+Folks yodel their messages when there's no phone.
+
+W is world. All this big world around
+Will soon be at peace, not a war to be found.
+
+X is for xebec, a great place afloat.
+Just in case you've not seen one, a xebec's a boat.
+
+Y is for yurt, a small house with a dome.
+If you were a nomad, you might call it home.
+
+Z is for zenith, that star's path up high.
+Or a great big success we can reach if we try.
+
+"So Zelda my friend, did I do it all right?"
+"Yep. You certainly did. Now let's both say good night."
+"But it's only lunchtime," smiled Al, "about noon."
+"Well, we've sure traveled far!" Zelda yawned. "See you soon."`,
+    excerpt: `"Hey, I know my letters!" yelled Albert one day.
+"O yeah? Are you sure?" Zelda started to say.
+"I'll tell you my favorite places to be
+And great stuff I like," Albert said, "A to Z."`
+  },
+  {
+    id: "king-of-the-bees",
+    title: "King of the Bees",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `The day was so warm and so sunny and fine.
+The Queen Bee had just hung the wash on the line
+When the King of the Bees sipped his last cup of tea
+And said, "What a great day to be bad!"
+
+He lazily strolled through the frantic bee town
+Throwing, tickling, and kicking bees up and bees down.
+Damaged drones of all sizes and shapes lined his path.
+All the bee folk were angry and sad.
+
+The Great Spirit peered down, as He often will do,
+And He called out, "O King of the Bee Hives, will you
+Please stop hurting your subjects? They can't laugh or work,
+And their honey is bitter and thin."
+
+The old king rolled his eyes. He had nothing to fear.
+Why, hadn't that voice warned him twice just last year?
+And wasn't the bee town still his to abuse?
+No, he wasn't about to give in.
+
+Now, I really must tell you, O dearly loved friend,
+That, at that very instant, the king met his end
+And the Great Spirit's eye fell at once on the queen.
+"Will you try to bring peace here for Me?"
+
+"With your help," smiled the queen, "I will love them for You."
+The bees leapt to their feet and with vigor anew
+Gathered buckets of honey all creamy and sweet
+Ah, they feasted on crumpets and tea.
+
+Though life for the bees is not perfect, the queen
+Tries to rule them all justly. Each day she is seen
+Helping busy bee subjects succeed at their work,
+Buzzes rising in sweet harmony.
+
+And to this very day, O my friend and my dear,
+There is hardly a hive or a home where you'll hear
+Of the old King of Bees, for his misdeeds are dim
+In the annals of bee history.`,
+    excerpt: `The day was so warm and so sunny and fine.
+The Queen Bee had just hung the wash on the line
+When the King of the Bees sipped his last cup of tea
+And said, "What a great day to be bad!"`
+  },
+  {
+    id: "nursery-rhymes-revisited",
+    title: "Nursery Rhymes Revisited",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `A Woman and Her Shoe
+
+There was an old woman
+Who lived in a shoe.
+She had dozens of children
+And knew what to do.
+
+She sent them to school
+And she taught them to pray
+And they loved the whole world
+When they all moved away.
+
+Helping Humpty
+
+Humpty Dumpty
+Sat on a wall.
+His mother had warned him
+He could have a fall.
+
+"I would love to come down,
+But I can't find the way."
+So they built him some steps
+And he's with us today.
+
+Miss Muffet Changes Her Attitude
+
+Little Miss Muffet
+Held on to her tuffet
+Doing her deep knee bends.
+
+Along came a spider
+Who pliéd beside her
+And now they're the bestest of friends.
+
+A Just King
+
+Old King Cole was a merry old soul.
+A Bahá'í he decided to be.
+He brought about justice.
+He brought about peace
+By virtue of royal decree.
+
+Ev'ry day King Cole feels such love in his soul,
+He invites all the people around
+To work and to pray
+To eat goodies and play
+And to join in the Faith he has found.
+
+Study Buddies
+
+Jack and Jill
+Went up a hill
+To study math and hist'ry.
+
+They got an A
+In math next day
+But hist'ry's still a myst'ry.
+
+Jill and Jack
+Had found the knack
+Of working well together.
+
+And now they know,
+Where e'er they go
+They'll stay good friends forever.
+
+Written with Khalil Moutrie:
+
+Naw-Rúz Surprise
+
+Old Mother Hubbard
+Went to the cupboard
+To get some goodies for Feast
+
+And when she got there,
+There was plenty to spare
+Because she'd been fasting for weeks.
+
+Three Mice That Saw
+
+Three fine mice.
+Three fine mice.
+See how they work!
+See how they pray!
+
+They always helped out the farmer's wife.
+They never knew hatred. They never knew strife.
+They laughed and they served 'til the end of their life
+Those three fine mice.`,
+    excerpt: `A Woman and Her Shoe
+
+There was an old woman
+Who lived in a shoe.
+She had dozens of children
+And knew what to do.`
+  },
+  {
+    id: "take-me-to-australia",
+    title: "Take Me to Australia",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `Australia has water
+On every single side.
+If you looked on a globe you would think it was maybe an island.
+But it's not.
+
+Australia is bigger
+Than Texas or Peru.
+In fact, it is almost as big as the whole U.S.A.
+But not quite.
+
+Australia's first people
+Are aborigines.
+Their dreams are important, and some play the dijeridoo.
+But not all.
+
+Australia has mammals
+That only live right there.
+While in nearby New Zealand, there once were no mammals on land.
+Except bats.
+
+Australia is someplace
+I'd really like to be.
+There's so much to see there—koalas and dingoes and emus.
+Shall we go?`,
+    excerpt: `Australia has water
+On every single side.
+If you looked on a globe you would think it was maybe an island.
+But it's not.`
+  },
+  {
+    id: "the-crimson-balloon",
+    title: "The Crimson Balloon",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `O the man in the moon
+Loved a sweet red balloon
+Who lived on the shore by the sea.
+"Do come nigh! Oh, come near,"
+Wooed the moon. "Crimson dear,
+Loose your string now and come marry me."
+
+"Oh balloon red and sweet,"
+Cried the clams at her feet,
+"Take care, for you weren't meant to fly."
+But the crimson balloon
+Loved the man in the moon
+And raced off through the star-sprinkled sky.
+
+"I'm untied now. I'm free,
+And I'll soon marry thee,"
+Cried sweet Crimson as faster she leapt.
+But her love and the height
+Burst her heart in mid-flight.
+The moon gathered her fragments and wept.
+
+O the man in the moon
+Loves his sweet red balloon.
+He sings songs to the sun of her light.
+And in autumn, the moon,
+Longing for his balloon,
+Hovers low and burns red in the night.`,
+    excerpt: `O the man in the moon
+Loved a sweet red balloon
+Who lived on the shore by the sea.
+"Do come nigh! Oh, come near,"
+Wooed the moon. "Crimson dear,
+Loose your string now and come marry me."`
+  },
+  {
+    id: "the-vegetable-polka",
+    title: "The Vegetable Polka",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `An artichoke and a Brussels sprout
+Decided that they'd both go out
+To dance in the moonlight round about
+In the vegetable garden
+
+O the carrot led with celery
+The onion hopped with the broccoli
+The moonlight shone as they danced with glee
+The vegetable polka
+
+A rabbit chanced to happen by
+The dancing veggies caught his eye
+Decided he would make a pie
+Of the vegetable garden
+
+He sidled up to the crispy kale
+But a radish grabbed him by the tail
+He spend the night in a leaky pail
+In the vegetable garden
+
+Next time you're ripe for a veggie stew
+And you're headed out back, here's what to do
+Just pick those plants while the moon is new
+So you won't get caught
+In an old stew pot
+In the vegetable garden`,
+    excerpt: `An artichoke and a Brussels sprout
+Decided that they'd both go out
+To dance in the moonlight round about
+In the vegetable garden`
+  },
+  {
+    id: "to-be-a-fair-princess",
+    title: "To Be a Fair Princess",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `To be a fair princess
+Dear ladies and gents,
+Requires some wisdom,
+Requires some sense.
+A princess of fairness
+Brings joy to the land,
+And her presence at court
+Is in highest demand.
+
+To be a good princess,
+Or better than fair,
+A wit that is quick
+Must live under her hair.
+A princess that's good
+Has some wisdom and loves
+To turn dark warring knights
+Into tender white doves.
+
+To be the best princess,
+The best princess ever,
+Demands that the royal one
+Be more than clever.
+She needs more than kindness.
+She needs to be trusted,
+For lying, in rulers,
+Makes people disgusted.
+
+The worth of a princess
+Is not in her looks,
+Her castle, her parents,
+Her hundreds of books.
+The worth of a princess
+Is there from the start.
+It comes from the goodness
+That lives in her heart.`,
+    excerpt: `To be a fair princess
+Dear ladies and gents,
+Requires some wisdom,
+Requires some sense.
+A princess of fairness
+Brings joy to the land,
+And her presence at court
+Is in highest demand.`
+  },
+  {
+    id: "trio",
+    title: "Trio",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `At the top of the steps
+In a snow-white house
+Lived a beautiful snow-white door.
+Its glass was all etched
+With white tree limbs and snowflakes.
+Its glossy white paint reached the floor.
+
+Though the steps were of marble,
+The sill, solid oak,
+All felt that the door was the best.
+It opened. It closed.
+Light poured through the etchings
+To welcome each road-weary guest.
+
+One day, small Renee,
+The young child of the house,
+Got carried away with her ball.
+She whipped it and whacked it.
+She popped it and smacked it
+At lightning speed through the front hall.
+
+When all of a sudden,
+The door gave a moan
+As the ball hit the etching full tilt,
+And snowflakes and tree limbs
+In splinters of glass
+Caused the door to lean forward and wilt.
+
+"My friend," called the sill
+To the stair steps below,
+"Please pray that I hold up the door."
+And the marble soon started
+Its own marble chant
+That sent strength to the sill through the floor.
+
+The family took
+The door out for repairs.
+And when she returned, good as new,
+She gave a slight bow
+To the sill and the stairs and said,
+"Friends, if it were not for you,
+
+"My wood and my brass
+Would have shattered as well.
+I thank you with all of my heart.
+For a door cannot do
+All the work she must do
+Without others so doing their part."
+
+The sill shimmered and gave
+The white door a small hug.
+The stairs gave the door a small kiss.
+And to this very day
+As you climb to the door
+You can sense their support and their bliss.
+
+"We welcome you here."
+So whispers the door
+At the top of the snow-white abode.
+"And the sill and the stair—
+Such a beautiful pair—
+Also wish you sweet rest from the road."`,
+    excerpt: `At the top of the steps
+In a snow-white house
+Lived a beautiful snow-white door.
+Its glass was all etched
+With white tree limbs and snowflakes.
+Its glossy white paint reached the floor.`
+  },
+  {
+    id: "wild-wild-wally-and-the-magic-loom",
+    title: "Wild, Wild Wally and the Magic Loom",
+    category: "friends",
+    audioUrl: "",
+    copyright: "By Susan Engle, Copyright 2021",
+    content: `In the dark, dark land of the dukedom of Mmadd
+Lived big creatures all stringy and hairy.
+And the loudest and largest and maddest of all
+Was old wild, wild Wally D. Clarey.
+
+Old Wally was quite in the habit, you see,
+(As were all of his Mmadd fellow creatures)
+Of yelling and whining and hard'ning his heart.
+Shades of anger marked all of his features.
+
+Gentle folk from outside of his kingdom so dark
+Sometimes strayed by mistake 'cross the borders.
+But they didn't stay long. Or were ne'er seen again
+By their mothers, their sons, dads, or daughters.
+
+One Wednesday, Wild Wally was walking along
+Through a typical afternoon shower
+When he noticed a hut hidden back in the leaves
+By a rosebush just starting to flower.
+
+"I ain't never nohow seen that hut in the trees,"
+Thought Wild Wally. "It shouldn't be here."
+With wild earsplitting shouts, he galumphed toward the door
+When a magical song reached his ear.
+
+Now that song wasn't loud. But it somehow stretched out
+To Wild Wally beneath his loud roars.
+And his heart, which was almost as solid as granite,
+Was pulled, very gently, indoors.
+
+The room that he entered was soothingly dim.
+There was just enough twilight to see
+A few bodies as stringy and tall as his own
+Sitting, standing, or on bended knee.
+
+All the Mmaddites were watching and humming along
+To a rhythm embracing the room.
+This soft beat was produced by a plump little creature
+Who worked without pause at her loom.
+
+Wild, Wild Wally had kept his new anger inside
+From surprise at the most odd surroundings.
+Now, all of a sudden, his heart creaked and groaned,
+And his strong hairy arms began pounding.
+
+But just as he bellowed his best angry roar,
+All the threads in the loom started glowing.
+Wally's pounding was stilled by the sight of the weft
+From which sparkles and star trails were flowing.
+
+"I am weaving," began the sweet voice at the loom,
+"Bonds of friendship and love with each heart."
+The room shone with the light of her words and her work.
+Wild, Wild Wally felt happiness start.
+
+And the happiness warmed him. It grew and it grew
+Until Wally's face cracked with a grin.
+And you wouldn't have known Wild, Wild Wally D. Clarey
+If you'd been his kith or his kin.
+
+Thus the creatures stayed on, warmed and tamed by the light,
+And absorbed all the love that did shower
+From the loom of the lady whose actions and song
+Helped each stony heart soften and flower.
+
+One by one, every creature in Mmadd made his way
+To that magical house in the gloom.
+And as years passed, the dukedom of Mmadd changed its name
+To the Land of the Love of the Loom.
+
+And Wild Wally? "What happened to him?" you might ask.
+"Is he really not angry and mean?"
+Well, he married the woman who weaves and who loves,
+And their home is at peace and serene.`,
+    excerpt: `In the dark, dark land of the dukedom of Mmadd
+Lived big creatures all stringy and hairy.
+And the loudest and largest and maddest of all
+Was old wild, wild Wally D. Clarey.`
+  }
+];

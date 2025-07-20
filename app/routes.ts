@@ -6,6 +6,7 @@ export default [
   route("/poems/friends", "routes/poems/friends.tsx"),
   route("/poems/family", "routes/poems/family.tsx"),
   route("/poems/faith", "routes/poems/faith.tsx"),
+  route("/poems/:poemId", "routes/poems.$poemId.tsx"),
   route("/tiny-books", "routes/tiny-books.tsx"),
   route("/about", "routes/about.tsx"),
   route("/contact", "routes/contact.tsx"),

@@ -1,11 +1,100 @@
 import type { Route } from "./+types/home";
 import { Link } from "react-router";
+import { usePopularPoems } from "~/hooks/usePopularPoems";
+import { PoemCard } from "~/components/poems/PoemCard";
+import { Eye, TrendingUp } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Iambic Nana - Poetry by Susan Engle" },
     { name: "description", content: "Welcome to Iambic Nana - Poetry and writings by Susan Engle" },
   ];
+}
+
+function MostReadPoems() {
+  const { poems, isLoading, error } = usePopularPoems(6);
+
+  if (error || poems.length === 0) {
+    return null; // Don't show the section if there's an error or no poems
+  }
+
+  // Convert popular poems to Poem interface for PoemCard
+  const poemCards = poems.map(popularPoem => ({
+    id: popularPoem.id,
+    title: popularPoem.title,
+    category: popularPoem.category,
+    audioUrl: "", // We don't have audio URL in popular poems response
+    copyright: "By Susan Engle, Copyright 2021", // Default copyright
+    content: "", // We don't need full content for cards
+    excerpt: popularPoem.excerpt
+  }));
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="text-center mb-8">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <TrendingUp className="h-6 w-6 text-primary" />
+          <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-gray-100">
+            Most Read Poems
+          </h2>
+        </div>
+        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Discover the most beloved poems from our collection, chosen by readers like you.
+        </p>
+      </div>
+
+      {isLoading ? (
+        // Loading skeleton
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 animate-pulse">
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-md w-3/4 mb-4"></div>
+              <div className="space-y-2 mb-4">
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-md w-5/6"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-md w-4/6"></div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-full w-20"></div>
+                <div className="flex items-center gap-1">
+                  <Eye className="h-4 w-4 text-gray-300" />
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-12"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {poemCards.map((poem, index) => {
+            const popularPoem = poems[index];
+            return (
+              <div key={poem.id} className="relative">
+                <PoemCard poem={poem} />
+                {popularPoem.views > 0 && (
+                  <div className="absolute top-3 right-3 bg-primary/90 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                    <Eye className="h-3 w-3" />
+                    {popularPoem.views.toLocaleString()}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="text-center mt-8">
+        <Link 
+          to="/poems" 
+          viewTransition
+          className="inline-flex items-center px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors duration-200 font-medium"
+          style={{ backgroundColor: 'var(--color-primary)' }}
+        >
+          Explore All Poems
+        </Link>
+      </div>
+    </section>
+  );
 }
 
 export default function Home() {
@@ -42,6 +131,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Most Read Poems Section */}
+        <MostReadPoems />
 
         {/* Navigation Test Section */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

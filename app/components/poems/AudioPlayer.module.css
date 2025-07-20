@@ -1,0 +1,96 @@
+/* Audio Player Styles */
+.audioPlayerContainer {
+  width: 100%;
+  max-width: 600px;
+}
+
+.audioPlayerWrapper {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.audioPlayerWrapper:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Purple theme customization */
+.audioPlayerWrapper :global(.rhap-custom) {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.audioPlayerWrapper :global(.rhap_container) {
+  --rhap-theme-color: #a88bdd !important;
+  --rhap-bar-color: #a88bdd !important;
+  --rhap-time-color: hsl(var(--foreground)) !important;
+  background-color: transparent;
+}
+
+/* Progress bar styling */
+.audioPlayerWrapper :global(.rhap_progress-indicator),
+.audioPlayerWrapper :global(.rhap_progress-filled) {
+  background-color: #a88bdd;
+}
+
+.audioPlayerWrapper :global(.rhap_progress-bar) {
+  background-color: hsl(var(--muted));
+}
+
+/* Volume bar styling */
+.audioPlayerWrapper :global(.rhap_volume-indicator) {
+  background-color: #a88bdd;
+}
+
+.audioPlayerWrapper :global(.rhap_volume-bar) {
+  background-color: hsl(var(--muted));
+}
+
+/* Button styling */
+.audioPlayerWrapper :global(.rhap_button-clear) {
+  color: #a88bdd;
+}
+
+.audioPlayerWrapper :global(.rhap_button-clear:hover) {
+  color: #8a6bc5;
+}
+
+.audioPlayerWrapper :global(.rhap_button-clear:active) {
+  color: #6c4bad;
+}
+
+/* Time display styling */
+.audioPlayerWrapper :global(.rhap_time) {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .audioPlayerWrapper {
+    padding: 0.75rem;
+  }
+  
+  .audioPlayerWrapper :global(.rhap_controls-section) {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Dark mode support */
+:global(.dark) .audioPlayerWrapper {
+  background-color: hsl(var(--card));
+  border-color: hsl(var(--border));
+}
+
+:global(.dark) .audioPlayerWrapper :global(.rhap_progress-bar),
+:global(.dark) .audioPlayerWrapper :global(.rhap_volume-bar) {
+  background-color: hsl(var(--muted));
+}
+
+:global(.dark) .audioPlayerWrapper :global(.rhap_time) {
+  color: hsl(var(--muted-foreground));
+}
