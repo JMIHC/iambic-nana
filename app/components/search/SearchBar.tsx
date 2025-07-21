@@ -25,7 +25,7 @@ interface SearchBarProps {
 
 export function SearchBar({ 
   className, 
-  placeholder = "Search poems and books...",
+  placeholder = "Search poems and tiny books...",
   variant = 'default' 
 }: SearchBarProps) {
   const navigate = useNavigate();
@@ -405,7 +405,7 @@ function SearchDialog({
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
       <CommandInput
-        placeholder="Search poems and books..."
+        placeholder="Search poems and tiny books..."
         value={query}
         onValueChange={handleSearchChange}
       />

@@ -1,5 +1,5 @@
 import { Redis } from '@upstash/redis';
-import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
+import type { Handler, HandlerEvent } from '@netlify/functions';
 import { friendsPoems, type Poem } from '../../app/data/friends-poems';
 
 // Initialize Redis client
@@ -38,35 +38,55 @@ interface PopularPoem {
   views: number;
 }
 
-// Generate Redis key for poem views
-const getViewKey = (poemId: string) => `poem:views:${poemId}`;
 
 // Get popular poems based on view counts
 const getPopularPoems = async (limit: number = 6): Promise<PopularPoem[]> => {
   try {
-    // Get all poem IDs from our poems data
-    const allPoemIds = friendsPoems.map(poem => poem.id);
+    // Get all poem view keys using pattern matching
+    const viewKeys = await redis.keys('poem:views:*');
     
-    // Create an array of Redis keys to fetch
-    const viewKeys = allPoemIds.map(id => getViewKey(id));
-    
-    // Batch fetch all view counts using mget
-    const viewCounts = await redis.mget(...viewKeys);
-    
-    // Create array of poems with their view counts
-    const poemsWithViews: PopularPoem[] = friendsPoems
-      .map((poem, index) => ({
+    if (viewKeys.length === 0) {
+      // No views recorded yet, return fallback
+      return friendsPoems.slice(0, limit).map(poem => ({
         id: poem.id,
         title: poem.title,
         category: poem.category,
         excerpt: poem.excerpt,
-        views: Number(viewCounts[index]) || 0
-      }))
-      .filter(poem => poem.views > 0) // Only include poems that have been viewed
+        views: 0
+      }));
+    }
+    
+    // Batch fetch all view counts using mget
+    const viewCounts = await redis.mget(...viewKeys);
+    
+    // Extract poem IDs from keys and create poems with view counts
+    const poemsWithViews: { id: string; views: number }[] = viewKeys
+      .map((key, index) => {
+        // Extract poem ID from key format 'poem:views:poemId'
+        const poemId = key.replace('poem:views:', '');
+        const views = Number(viewCounts[index]) || 0;
+        return { id: poemId, views };
+      })
+      .filter(item => item.views > 0) // Only include poems that have been viewed
       .sort((a, b) => b.views - a.views) // Sort by views descending
       .slice(0, limit); // Take top N poems
     
-    return poemsWithViews;
+    // Map to full poem data with view counts
+    const popularPoems: PopularPoem[] = poemsWithViews
+      .map(({ id, views }) => {
+        const poem = friendsPoems.find(p => p.id === id);
+        if (!poem) return null;
+        return {
+          id: poem.id,
+          title: poem.title,
+          category: poem.category,
+          excerpt: poem.excerpt,
+          views
+        };
+      })
+      .filter((poem): poem is PopularPoem => poem !== null);
+    
+    return popularPoems;
   } catch (error) {
     console.error('Error fetching popular poems:', error);
     // Return fallback popular poems (first few poems) if Redis fails
@@ -81,7 +101,7 @@ const getPopularPoems = async (limit: number = 6): Promise<PopularPoem[]> => {
 };
 
 // Main handler function
-export const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
+export const handler: Handler = async (event: HandlerEvent) => {
   console.log('Get popular poems function called:', {
     httpMethod: event.httpMethod,
     path: event.path,

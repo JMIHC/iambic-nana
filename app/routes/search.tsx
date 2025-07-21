@@ -121,7 +121,7 @@ export default function SearchPage() {
           <h1 className="text-2xl font-bold mb-4">Search Results</h1>
           <SearchBar 
             className="max-w-2xl" 
-            placeholder={query || "Search poems and books..."}
+            placeholder={query || "Search poems and tiny books..."}
           />
         </div>
       </div>

@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
+import { friendsPoems, type Poem } from '../data/friends-poems';
 
-// Types
+// Extended Poem type with view count
+interface PoemWithViews extends Poem {
+  views: number;
+}
+
+// API response type
 interface PopularPoem {
   id: string;
   title: string;
@@ -19,7 +25,7 @@ interface PopularPoemsResponse {
 }
 
 interface UsePopularPoemsReturn {
-  poems: PopularPoem[];
+  poems: PoemWithViews[];
   isLoading: boolean;
   error: Error | null;
   refetch: () => void;
@@ -42,7 +48,7 @@ const getApiEndpoint = () => {
 
 // Custom hook for fetching popular poems
 export function usePopularPoems(limit: number = 6): UsePopularPoemsReturn {
-  const [poems, setPoems] = useState<PopularPoem[]>([]);
+  const [poems, setPoems] = useState<PoemWithViews[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -67,7 +73,26 @@ export function usePopularPoems(limit: number = 6): UsePopularPoemsReturn {
 
       const data: PopularPoemsResponse = await response.json();
       
-      setPoems(data.poems);
+      // Match API poem IDs with full poem data from friends-poems.ts
+      const popularPoemsWithData: PoemWithViews[] = data.poems
+        .map((popularPoem) => {
+          // Find matching poem in our data
+          const fullPoem = friendsPoems.find(poem => poem.id === popularPoem.id);
+          if (!fullPoem) {
+            // Handle case where poem ID doesn't match (data sync issues)
+            console.warn(`Popular poem ID "${popularPoem.id}" not found in poem data`);
+            return null;
+          }
+          return {
+            ...fullPoem,
+            views: popularPoem.views
+          };
+        })
+        .filter((poem): poem is PoemWithViews => poem !== null)
+        // Sort by view count descending to maintain order from API
+        .sort((a, b) => b.views - a.views);
+      
+      setPoems(popularPoemsWithData);
       
       // Log if we're using fallback data
       if (!data.success && data.error) {

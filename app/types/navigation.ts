@@ -16,10 +16,6 @@ export interface MobileMenuState {
 // Navigation items constant
 export const NAVIGATION_ITEMS: NavItem[] = [
   {
-    label: 'Home',
-    href: '/',
-  },
-  {
     label: 'Poems',
     href: '/poems',
     children: [

@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  Link,
 } from "react-router";
 import { useState, useEffect } from "react";
 
@@ -96,9 +97,13 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100">
+              <Link 
+                to="/" 
+                viewTransition
+                className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-300 transition-colors duration-200"
+              >
                 Iambic Nana
-              </h1>
+              </Link>
             </div>
             
             {/* Search Bar - Hidden on mobile */}
@@ -138,10 +143,6 @@ export default function App() {
                 )}
               </button>
               
-              {/* Debug indicator - remove this later */}
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                {isDarkMode ? 'Dark' : 'Light'}
-              </span>
             </div>
           </div>
         </div>

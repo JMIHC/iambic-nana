@@ -11,7 +11,7 @@ interface SimpleSearchBarProps {
 
 export function SimpleSearchBar({ 
   className = '', 
-  placeholder = "Search poems and books..."
+  placeholder = "Search poems and tiny books..."
 }: SimpleSearchBarProps) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -71,7 +71,7 @@ export function CompactSimpleSearchBar({ className = '' }: { className?: string 
               <X className="h-5 w-5" />
             </button>
           </div>
-          <SimpleSearchBar placeholder="Search poems and books..." />
+          <SimpleSearchBar placeholder="Search poems and tiny books..." />
         </div>
       </div>
     );
