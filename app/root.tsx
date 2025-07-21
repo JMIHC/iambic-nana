@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import type { Route } from "./+types/root";
 import Navigation from "./components/Navigation";
 import { SimpleSearchBar, CompactSimpleSearchBar } from "./components/search/SimpleSearchBar";
+import { CartProvider } from "./contexts/CartContext";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -89,8 +90,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-100 dark:bg-gray-900">
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+    <CartProvider>
+      <div className="min-h-screen bg-cream-100 dark:bg-gray-900">
+        <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -148,6 +150,7 @@ export default function App() {
         <Outlet />
       </main>
     </div>
+    </CartProvider>
   );
 }
 

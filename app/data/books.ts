@@ -1,51 +1,37 @@
-export interface Book {
-  id: string;
-  title: string;
-  description: string;
-  excerpt: string;
-  price: number;
-  isbn?: string;
-  publishedDate?: string;
-  pageCount?: number;
-  category: string;
-}
+import type { Book } from '~/types/book';
 
-// Placeholder book data - can be expanded later
 export const books: Book[] = [
   {
-    id: "tiny-verses-friendship",
-    title: "Tiny Verses: Friendship",
-    description: "A miniature collection of poems celebrating the bonds of friendship and connection.",
-    excerpt: "A pocket-sized treasure filled with heartwarming verses about the joy of friendship, the comfort of companionship, and the beauty of human connection.",
-    price: 12.99,
-    category: "friendship",
-    pageCount: 24,
+    id: 'bahai-faith-english',
+    title: 'The Bahá\'í Faith: A Tiny Introduction',
+    description: 'A concise introduction to the Bahá\'í Faith in English',
+    image: '/images/books/bahai-faith-english.jpg'
   },
   {
-    id: "miniature-meditations",
-    title: "Miniature Meditations",
-    description: "Small spiritual reflections and faith-inspired poetry for daily contemplation.",
-    excerpt: "Portable spiritual poetry perfect for moments of quiet reflection. Each page offers a gentle meditation on faith, hope, and divine love.",
-    price: 9.99,
-    category: "faith",
-    pageCount: 18,
+    id: 'bahai-faith-spanish',
+    title: 'La Fe Bahá\'í: Una pequeña introducción',
+    description: 'Una introducción concisa a la Fe Bahá\'í en español',
+    image: '/images/books/bahai-faith-spanish.jpg'
   },
   {
-    id: "pocket-family-poems",
-    title: "Pocket Family Poems",
-    description: "Intimate verses about family bonds, childhood memories, and generational love.",
-    excerpt: "A sweet collection of family-centered poetry exploring the tender moments that bind families together across generations.",
-    price: 11.99,
-    category: "family",
-    pageCount: 20,
+    id: 'tiny-book-prayers',
+    title: 'A Tiny Book of Prayers',
+    description: 'A collection of prayers for daily reflection and meditation',
+    image: '/images/books/tiny-book-prayers.jpg'
   },
   {
-    id: "whispered-words",
-    title: "Whispered Words",
-    description: "A delicate collection of quiet observations and gentle musings in verse.",
-    excerpt: "Soft-spoken poetry that captures life's quieter moments with grace and sensitivity. Perfect for peaceful reading.",
-    price: 14.99,
-    category: "general",
-    pageCount: 32,
-  },
+    id: 'soul-is-forever',
+    title: 'A Soul Is Forever: A Tiny Book of Comfort',
+    description: 'Comforting words and reflections on the eternal nature of the soul',
+    image: '/images/books/soul-is-forever.jpg'
+  }
 ];
+
+export const BUNDLE_DEAL = {
+  id: 'community-stimulus-bundle',
+  title: 'Community-Building Stimulus Package',
+  description: 'All 4 tiny books bundled together',
+  price: 7.00,
+  stripePriceId: 'price_bundle_deal',
+  bookIds: ['bahai-faith-english', 'bahai-faith-spanish', 'tiny-book-prayers', 'soul-is-forever']
+};

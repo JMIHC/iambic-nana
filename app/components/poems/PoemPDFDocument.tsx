@@ -39,13 +39,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#333333',
   },
-  category: {
-    fontSize: 12,
-    fontFamily: 'Times-Italic',
-    color: '#666666',
-    textTransform: 'capitalize',
-    marginBottom: 5,
-  },
   author: {
     fontSize: 14,
     fontFamily: 'Times-Italic',
@@ -86,12 +79,6 @@ const styles = StyleSheet.create({
     color: '#888888',
     marginTop: 5,
   },
-  ornament: {
-    fontSize: 16,
-    color: '#cccccc',
-    textAlign: 'center',
-    marginVertical: 10,
-  },
 });
 
 export function PoemPDFDocument({ poem }: PoemPDFDocumentProps) {
@@ -106,9 +93,7 @@ export function PoemPDFDocument({ poem }: PoemPDFDocumentProps) {
           
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.category}>{poem.category} poem</Text>
             <Text style={styles.title}>{poem.title}</Text>
-            <Text style={styles.ornament}>❦</Text>
           </View>
 
           {/* Content */}
@@ -124,8 +109,6 @@ export function PoemPDFDocument({ poem }: PoemPDFDocumentProps) {
             ))}
           </View>
 
-          {/* Decorative ornament */}
-          <Text style={styles.ornament}>❦ ❦ ❦</Text>
 
           {/* Footer */}
           <View style={styles.footer}>
