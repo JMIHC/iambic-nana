@@ -1,3 +1,4 @@
+import React from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { PoemPDFDocument } from '~/components/poems/PoemPDFDocument';
 import type { BasePoem } from '~/types/poem';
@@ -26,7 +27,7 @@ export async function generatePoemPDF(poem: BasePoem): Promise<void> {
   
   try {
     // Create PDF instance with the poem document
-    const pdfInstance = pdf(<PoemPDFDocument poem={poem} />);
+    const pdfInstance = pdf(React.createElement(PoemPDFDocument, { poem }));
     
     // Convert to blob
     const blob = await pdfInstance.toBlob();
@@ -67,7 +68,7 @@ export async function generatePoemPDF(poem: BasePoem): Promise<void> {
  */
 export async function generatePoemPDFBlob(poem: BasePoem): Promise<Blob> {
   try {
-    const pdfInstance = pdf(<PoemPDFDocument poem={poem} />);
+    const pdfInstance = pdf(React.createElement(PoemPDFDocument, { poem }));
     return await pdfInstance.toBlob();
   } catch (error) {
     console.error('Failed to generate PDF blob:', error);

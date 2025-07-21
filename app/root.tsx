@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 
 import type { Route } from "./+types/root";
 import Navigation from "./components/Navigation";
+import { SimpleSearchBar, CompactSimpleSearchBar } from "./components/search/SimpleSearchBar";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -98,7 +99,17 @@ export default function App() {
               </h1>
             </div>
             
+            {/* Search Bar - Hidden on mobile */}
+            <div className="hidden md:block flex-1 max-w-xl mx-8">
+              <SimpleSearchBar />
+            </div>
+            
             <div className="flex items-center space-x-4">
+              {/* Compact Search for Mobile */}
+              <div className="md:hidden">
+                <CompactSimpleSearchBar />
+              </div>
+              
               <Navigation />
               
               {/* Dark Mode Toggle */}
