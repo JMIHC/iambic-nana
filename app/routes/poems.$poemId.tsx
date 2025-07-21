@@ -7,6 +7,7 @@ import { familyPoems } from "~/data/family-poems";
 import { faithPoems } from "~/data/faith-poems";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
+import { DownloadPdfButton } from "~/components/poems/DownloadPdfButton";
 import type { BasePoem } from "~/types/poem";
 
 // Combine all poems into a single array
@@ -150,16 +151,22 @@ export default function PoemDetail() {
               </div>
             )}
 
-            {poem.audioUrl && (
-              <div className="mt-8 pt-8 border-t">
-                <div className="flex items-center justify-center">
+            {/* Actions Section */}
+            <div className="mt-8 pt-8 border-t">
+              <div className="flex items-center justify-center gap-4 flex-wrap">
+                {poem.audioUrl && (
                   <Button variant="outline" size="lg">
                     <Volume2 className="mr-2 h-5 w-5" />
                     Play Audio
                   </Button>
-                </div>
+                )}
+                <DownloadPdfButton 
+                  poem={poem} 
+                  variant="outline" 
+                  size="lg"
+                />
               </div>
-            )}
+            </div>
           </CardContent>
         </Card>
 
