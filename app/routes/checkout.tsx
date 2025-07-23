@@ -272,8 +272,8 @@ export default function Checkout() {
       {/* Additional Info */}
       <div className="mt-8 text-sm text-gray-600 text-center">
         <p>Questions? Email me at{" "}
-          <a href="susengle@gmail.com" className="text-purple-600 underline">
-            susengle@gmail.com
+          <a href="mytinybooks919@gmail.com" className="text-purple-600 underline">
+            mytinybooks919@gmail.com
           </a>
         </p>
       </div>

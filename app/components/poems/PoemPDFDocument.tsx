@@ -12,25 +12,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Times-Roman',
   },
   container: {
-    border: '2px solid #333333',
-    borderRadius: 8,
     padding: 40,
     minHeight: '80%',
     position: 'relative',
   },
-  decorativeBorder: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 10,
-    bottom: 10,
-    border: '1px solid #cccccc',
-    borderRadius: 4,
-  },
   header: {
     marginBottom: 30,
     textAlign: 'center',
-    borderBottom: '1px solid #eeeeee',
     paddingBottom: 20,
   },
   title: {
@@ -65,7 +53,6 @@ const styles = StyleSheet.create({
     left: 40,
     right: 40,
     textAlign: 'center',
-    borderTop: '1px solid #eeeeee',
     paddingTop: 15,
   },
   website: {
@@ -89,7 +76,6 @@ export function PoemPDFDocument({ poem }: PoemPDFDocumentProps) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
-          <View style={styles.decorativeBorder} />
           
           {/* Header */}
           <View style={styles.header}>

@@ -2,6 +2,7 @@ import type { Route } from "./+types/home";
 import { Link } from "react-router";
 import { PopularPoems } from "~/components/home/PopularPoems";
 import iambicMushroomsImage from "~/assets/iambicmushrooms.png";
+import fullMushroomImage from "~/assets/fullmushroom.webp";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -61,48 +62,20 @@ export default function Home() {
           <PopularPoems />
         </section>
 
-        {/* Navigation Test Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-          {/* Featured Content Preview */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow duration-200">
-              <h4 className="font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                Poetry Collections
-              </h4>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                Explore poems organized by theme - friends, family, and faith.
-              </p>
-              <Link to="/poems" viewTransition className="text-primary hover:text-primary-600 font-medium text-sm">
-                Browse Poems →
-              </Link>
-            </div>
-            
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow duration-200">
-              <h4 className="font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                Tiny Books
-              </h4>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                Discover miniature poetry collections and chapbooks.
-              </p>
-              <Link to="/tiny-books" viewTransition className="text-primary hover:text-primary-600 font-medium text-sm">
-                View Collection →
-              </Link>
-            </div>
-            
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow duration-200">
-              <h4 className="font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                About the Poet
-              </h4>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                Learn about Susan Engle and her journey in poetry.
-              </p>
-              <Link to="/about" viewTransition className="text-primary hover:text-primary-600 font-medium text-sm">
-                Read More →
-              </Link>
-            </div>
+        {/* Mushroom Art Section */}
+        <section className="py-12">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <img 
+              src={fullMushroomImage} 
+              alt="Mushroom fabric art" 
+              className="w-full max-w-2xl mx-auto rounded-lg shadow-lg"
+            />
+            <p className="mt-4 text-sm text-gray-600 dark:text-gray-400 italic">
+              Photo and Fabric Art by Elaine Phillips
+            </p>
           </div>
         </section>
+
       </div>
     </div>
   );

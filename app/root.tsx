@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import type { Route } from "./+types/root";
 import Navigation from "./components/Navigation";
 import { SimpleSearchBar, CompactSimpleSearchBar } from "./components/search/SimpleSearchBar";
+import { Footer } from "./components/Footer";
 import { CartProvider } from "./contexts/CartContext";
 import "./app.css";
 
@@ -150,6 +151,7 @@ export default function App() {
       <main>
         <Outlet />
       </main>
+      <Footer />
     </div>
     </CartProvider>
   );

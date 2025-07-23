@@ -47,7 +47,7 @@ export function ShareButtons({ url, title, excerpt, className }: ShareButtonsPro
         </div>
 
         <div title="Share via Email" className="transition-transform hover:scale-110">
-          <EmailShareButton url={url} subject={title} body={`${excerpt}\n\nRead more at: ${url}`}>
+          <EmailShareButton url={url} subject={title} body={excerpt}>
             <EmailIcon size={36} round className="md:block hidden" />
             <EmailIcon size={32} round className="md:hidden" />
           </EmailShareButton>

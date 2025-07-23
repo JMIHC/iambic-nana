@@ -294,8 +294,8 @@ export default function TinyBooks() {
       <div className="text-center text-sm text-gray-500 dark:text-gray-400">
         <p>All prices are in USD. Shipping calculated at checkout.</p>
         <p>Questions? Email me at{" "}
-          <a href="susengle@gmail.com" className="text-purple-600 dark:text-purple-400 underline">
-            susengle@gmail.com
+          <a href="mytinybooks919@gmail.com" className="text-purple-600 underline">
+            mytinybooks919@gmail.com
           </a>
         </p>
       </div>

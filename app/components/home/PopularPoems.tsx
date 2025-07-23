@@ -1,4 +1,4 @@
-import { Flame, TrendingUp } from "lucide-react";
+import { Heart, TrendingUp } from "lucide-react";
 import { PoemCard } from "~/components/poems/PoemCard";
 import { usePopularPoems } from "~/hooks/usePopularPoems";
 import { friendsPoems } from "~/data/friends-poems";
@@ -72,7 +72,7 @@ export function PopularPoems({ className }: PopularPoemsProps) {
       <div className="container mx-auto px-4">
         {/* Section Title */}
         <div className="flex items-center gap-3 mb-8">
-          <Flame className="h-8 w-8 text-orange-500" />
+          <Heart className="h-8 w-8 text-red-500" />
           <h2 className="text-3xl font-serif font-bold text-gray-900 dark:text-gray-100">
             Most Read Poems
           </h2>
