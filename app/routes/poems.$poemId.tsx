@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useLocation } from "react-router";
 import { ChevronRight, Volume2, ArrowLeft } from "lucide-react";
 import type { Route } from "./+types/$poemId";
 import { friendsPoems } from "~/data/friends-poems";
@@ -8,6 +8,8 @@ import { faithPoems } from "~/data/faith-poems";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { DownloadPdfButton } from "~/components/poems/DownloadPdfButton";
+import { ShareButtons } from "~/components/poems/ShareButtons";
+import { ShareDropdown } from "~/components/poems/ShareDropdown";
 import type { BasePoem } from "~/types/poem";
 
 // Combine all poems into a single array
@@ -17,11 +19,35 @@ const allPoems: BasePoem[] = [
   ...faithPoems,
 ];
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta({ params, location }: Route.MetaArgs) {
   const poem = allPoems.find(p => p.id === params.poemId);
+  const canonicalUrl = `https://iambicnana.com${location.pathname}`;
+  
+  if (!poem) {
+    return [
+      { title: "Poem Not Found - Iambic Nana" },
+      { name: "description", content: "Poem not found" },
+    ];
+  }
+
   return [
-    { title: poem ? `${poem.title} - Iambic Nana` : "Poem Not Found - Iambic Nana" },
-    { name: "description", content: poem ? poem.excerpt : "Poem not found" },
+    { title: `${poem.title} - Iambic Nana` },
+    { name: "description", content: poem.excerpt },
+    
+    // Open Graph tags
+    { property: "og:title", content: poem.title },
+    { property: "og:description", content: poem.excerpt },
+    { property: "og:type", content: "article" },
+    { property: "og:site_name", content: "Iambic Nana" },
+    { property: "og:url", content: canonicalUrl },
+    
+    // Twitter Card tags
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:title", content: poem.title },
+    { name: "twitter:description", content: poem.excerpt },
+    
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: canonicalUrl },
   ];
 }
 
@@ -69,8 +95,17 @@ const getCategoryGradient = (category: string) => {
 
 export default function PoemDetail() {
   const { poemId } = useParams();
+  const location = useLocation();
   const [poem, setPoem] = useState<BasePoem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [shareUrl, setShareUrl] = useState('');
+
+  useEffect(() => {
+    // Set share URL on client side
+    if (typeof window !== 'undefined') {
+      setShareUrl(`${window.location.origin}${location.pathname}`);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     // Simulate loading
@@ -153,18 +188,42 @@ export default function PoemDetail() {
 
             {/* Actions Section */}
             <div className="mt-8 pt-8 border-t">
-              <div className="flex items-center justify-center gap-4 flex-wrap">
-                {poem.audioUrl && (
-                  <Button variant="outline" size="lg">
-                    <Volume2 className="mr-2 h-5 w-5" />
-                    Play Audio
-                  </Button>
+              <div className="flex flex-col items-center gap-6">
+                {/* Main actions */}
+                <div className="flex items-center justify-center gap-4 flex-wrap">
+                  {poem.audioUrl && (
+                    <Button variant="outline" size="lg">
+                      <Volume2 className="mr-2 h-5 w-5" />
+                      Play Audio
+                    </Button>
+                  )}
+                  <DownloadPdfButton 
+                    poem={poem} 
+                    variant="outline" 
+                    size="lg"
+                  />
+                </div>
+                
+                {/* Share section */}
+                {shareUrl && (
+                  <div className="flex flex-col items-center gap-2">
+                    <p className="text-sm text-muted-foreground">Share this poem</p>
+                    <div className="flex items-center justify-center">
+                      <ShareButtons
+                        url={shareUrl}
+                        title={poem.title}
+                        excerpt={poem.excerpt}
+                        className="hidden md:flex"
+                      />
+                      <ShareDropdown
+                        url={shareUrl}
+                        title={poem.title}
+                        excerpt={poem.excerpt}
+                        className="flex md:hidden"
+                      />
+                    </div>
+                  </div>
                 )}
-                <DownloadPdfButton 
-                  poem={poem} 
-                  variant="outline" 
-                  size="lg"
-                />
               </div>
             </div>
           </CardContent>

@@ -10,5 +10,4 @@ export default [
   route("/poems/:poemId", "routes/poems.$poemId.tsx"),
   route("/tiny-books", "routes/tiny-books.tsx"),
   route("/about", "routes/about.tsx"),
-  route("/contact", "routes/contact.tsx"),
 ] satisfies RouteConfig;

@@ -41,8 +41,4 @@ export const NAVIGATION_ITEMS: NavItem[] = [
     label: 'About Susan Engle',
     href: '/about',
   },
-  {
-    label: 'Contact',
-    href: '/contact',
-  },
 ];
