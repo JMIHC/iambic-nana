@@ -1,18 +1,20 @@
-# Welcome to React Router!
+# Iambic Nana
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+A poetry and tiny books website by Susan Engle, built with React Router v7, TypeScript, and Tailwind CSS.
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
+- 🚀 Server-side rendering with React Router v7
+- ⚡️ Hot Module Replacement (HMR) 
+- 📦 Asset bundling and optimization with Vite
 - 🔄 Data loading and mutations
 - 🔒 TypeScript by default
 - 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- 📚 Tiny books e-commerce with Stripe payments
+- 📊 Poem view tracking with Upstash Redis
+- 🔍 Full-text search functionality
+- 📱 Responsive design
+- 🌙 Dark mode support
 
 ## Getting Started
 
@@ -34,63 +36,102 @@ npm run dev
 
 Your application will be available at `http://localhost:5173`.
 
+For local testing with Netlify functions:
+
+```bash
+npm run netlify
+```
+
 ## Environment Setup
 
-### Upstash Redis Configuration
-
-This application uses Upstash Redis for poem view tracking. You'll need to set up a free Upstash Redis account to enable view counting functionality.
-
-#### 1. Create an Upstash Account
-
-1. Go to [Upstash Console](https://console.upstash.com/redis)
-2. Sign up for a free account (no credit card required)
-3. The free tier includes:
-   - 10,000 requests per day
-   - 256 MB storage
-   - Perfect for view tracking needs
-
-#### 2. Create a Redis Database
-
-1. Click "Create Database" in the Upstash dashboard
-2. Choose a name (e.g., "iambic-nana-views")
-3. Select a region close to your users
-4. Choose "Free" tier
-5. Click "Create"
-
-#### 3. Get Your Credentials
-
-1. Click on your newly created database
-2. Copy the following values:
-   - **UPSTASH_REDIS_REST_URL**: Found in the "REST API" section
-   - **UPSTASH_REDIS_REST_TOKEN**: Found in the "REST API" section
-
-#### 4. Configure Environment Variables
-
-Create a `.env.local` file in the project root:
+This application requires several environment variables for full functionality. Copy the `.env` file to `.env.local` and configure the following services:
 
 ```bash
-cp .env.example .env.local
+cp .env .env.local
 ```
 
-Edit `.env.local` and replace the placeholder values with your actual Upstash credentials:
+### Required Environment Variables
 
-```bash
-UPSTASH_REDIS_REST_URL=https://your-actual-redis-url.upstash.io
-UPSTASH_REDIS_REST_TOKEN=your-actual-redis-token
-```
+| Variable | Required For | Description |
+|----------|-------------|-------------|
+| `UPSTASH_REDIS_REST_URL` | Runtime | Redis database URL for view tracking |
+| `UPSTASH_REDIS_REST_TOKEN` | Runtime | Redis database token |
+| `VITE_STRIPE_PUBLIC_KEY` | Build + Runtime | Stripe publishable key (embedded in client) |
+| `STRIPE_SECRET_KEY` | Runtime | Stripe secret key (functions only) |
 
-#### 5. Production Deployment (Netlify)
+### 1. Upstash Redis Setup (View Tracking)
 
-For production deployment on Netlify:
+Used for tracking poem views and generating popular poems lists.
 
-1. Go to your Netlify dashboard
-2. Navigate to Site settings → Environment variables
-3. Add the following environment variables:
-   - `UPSTASH_REDIS_REST_URL`: Your Upstash Redis REST URL
-   - `UPSTASH_REDIS_REST_TOKEN`: Your Upstash Redis REST Token
-4. Redeploy your site for the changes to take effect
+1. **Create Account**: Go to [Upstash Console](https://console.upstash.com/redis)
+2. **Create Database**: 
+   - Name: `iambic-nana-views`
+   - Region: Choose closest to your users
+   - Tier: Free (10K requests/day, 256MB storage)
+3. **Get Credentials**: From database details page, copy:
+   - REST URL → `UPSTASH_REDIS_REST_URL`
+   - REST Token → `UPSTASH_REDIS_REST_TOKEN`
 
-**Note**: The view tracking feature will gracefully degrade if Redis is not configured - poems will still display but without view counts.
+### 2. Stripe Setup (Payments)
+
+Used for tiny books e-commerce functionality.
+
+1. **Create Account**: Go to [Stripe Dashboard](https://dashboard.stripe.com/)
+2. **Get API Keys**: From Developers → API keys:
+   - **For Development**: Use test keys (start with `pk_test_` and `sk_test_`)
+   - **For Production**: Use live keys (start with `pk_live_` and `sk_live_`)
+3. **Configure Variables**:
+   - Publishable key → `VITE_STRIPE_PUBLIC_KEY`
+   - Secret key → `STRIPE_SECRET_KEY`
+
+**⚠️ Security Note**: Never commit your actual API keys to version control. The `VITE_` prefix exposes variables to the client, so only use publishable keys there.
+
+### 3. Local Development Setup
+
+1. Copy environment template:
+   ```bash
+   cp .env .env.local
+   ```
+
+2. Edit `.env.local` with your actual values:
+   ```bash
+   UPSTASH_REDIS_REST_URL=https://your-redis-url.upstash.io
+   UPSTASH_REDIS_REST_TOKEN=your-redis-token
+   VITE_STRIPE_PUBLIC_KEY=pk_test_your-public-key
+   STRIPE_SECRET_KEY=sk_test_your-secret-key
+   ```
+
+3. Install dependencies and start development:
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+### 4. Production Deployment (Netlify)
+
+1. **Set Environment Variables** in Netlify dashboard:
+   - Site settings → Environment variables
+   - Add all four variables with production values
+   
+2. **Deploy Configuration**: 
+   - Build command: `npm run build` (configured in `netlify.toml`)
+   - Publish directory: `build/client`
+   - Functions directory: `netlify/functions`
+
+### Build vs Runtime Requirements
+
+**Build Time** (needed during `npm run build`):
+- `VITE_STRIPE_PUBLIC_KEY` - Embedded into client bundle
+
+**Runtime** (needed when app is running):
+- `UPSTASH_REDIS_REST_URL` - View tracking
+- `UPSTASH_REDIS_REST_TOKEN` - View tracking  
+- `STRIPE_SECRET_KEY` - Payment processing (functions only)
+- `VITE_STRIPE_PUBLIC_KEY` - Client-side Stripe integration
+
+**Graceful Degradation**: The app will work without these services but with reduced functionality:
+- Without Redis: No view tracking or popular poems
+- Without Stripe: Tiny books display but no purchasing
 
 ## Building for Production
 
@@ -100,37 +141,47 @@ Create a production build:
 npm run build
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
+Preview the production build locally:
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+npm run preview
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+## Deployment
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+### Netlify (Recommended)
 
-### DIY Deployment
+This project is optimized for Netlify deployment with the included `netlify.toml` configuration.
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+1. **Connect Repository**: Link your GitHub repository to Netlify
+2. **Configure Environment Variables**: Add all required environment variables in Site settings
+3. **Deploy**: Netlify will automatically build and deploy using the configuration in `netlify.toml`
 
-Make sure to deploy the output of `npm run build`
+Build settings (automatically configured):
+- Build command: `npm run build`
+- Publish directory: `build/client`
+- Functions directory: `netlify/functions`
+
+### Other Deployment Options
+
+#### Docker Deployment
+
+```bash
+docker build -t iambic-nana .
+docker run -p 3000:3000 iambic-nana
+```
+
+#### Static Hosting
+
+For static hosting platforms, use the `build/client` directory after running `npm run build`. Note that server-side features (functions) won't work on static hosting.
+
+#### Self-Hosted
+
+Deploy the full build output including server files:
 
 ```
 ├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
+├── package-lock.json
 ├── build/
 │   ├── client/    # Static assets
 │   └── server/    # Server-side code

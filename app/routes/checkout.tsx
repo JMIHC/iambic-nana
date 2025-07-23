@@ -15,7 +15,6 @@ export function meta({}: Route.MetaArgs) {
 export default function Checkout() {
   const navigate = useNavigate();
   const { items, getCartSummary } = useCart();
-  const [needs100Plus, setNeeds100Plus] = useState(false);
   const [orderNotes, setOrderNotes] = useState("");
   const [isInternational, setIsInternational] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -33,7 +32,7 @@ export default function Checkout() {
     };
   });
 
-  const canProcessWithStripe = summary.totalQuantity < 100 && !needs100Plus;
+  const canProcessWithStripe = summary.totalQuantity < 100;
 
   const handleCheckout = async () => {
     setError("");
@@ -46,9 +45,8 @@ export default function Checkout() {
     }
 
     try {
-      // For now, since we're in a client-side environment, we'll need to call a server endpoint
-      // This is a placeholder - you'll need to set up an API route
-      const response = await fetch('/api/create-checkout-session', {
+      // Call our Netlify function to create the Stripe checkout session
+      const response = await fetch('/.netlify/functions/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +55,6 @@ export default function Checkout() {
           items,
           totalQuantity: summary.totalQuantity,
           orderNotes,
-          needs100Plus,
           isInternational
         }),
       });
@@ -141,38 +138,12 @@ export default function Checkout() {
           </div>
         </div>
 
-        {/* Pricing Tier Info */}
-        {summary.currentTier && summary.totalQuantity > 1 && (
-          <div className="mt-4 p-3 bg-green-50 rounded-lg">
-            <p className="text-green-700 font-semibold">
-              ✓ You're getting the {summary.currentTier.minQty}-{summary.currentTier.maxQty || '500+'} 
-              books pricing tier!
-            </p>
-          </div>
-        )}
       </div>
 
       {/* Order Options */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <h2 className="text-xl font-bold mb-4">Order Options</h2>
         
-        {/* 100+ Books Checkbox */}
-        <div className="mb-4">
-          <label className="flex items-start gap-3">
-            <input
-              type="checkbox"
-              checked={needs100Plus}
-              onChange={(e) => setNeeds100Plus(e.target.checked)}
-              className="mt-1"
-            />
-            <div>
-              <span className="font-semibold">I need 100+ books</span>
-              <p className="text-sm text-gray-600">
-                We'll contact you with custom pricing and invoice options
-              </p>
-            </div>
-          </label>
-        </div>
 
         {/* International Shipping */}
         <div className="mb-4">
@@ -209,15 +180,15 @@ export default function Checkout() {
       </div>
 
       {/* Warnings/Messages */}
-      {(needs100Plus || summary.totalQuantity >= 100) && (
+      {summary.totalQuantity >= 100 && (
         <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mb-6">
           <p className="text-yellow-800 font-semibold">
             📧 Custom Invoice Required
           </p>
           <p className="text-yellow-700 mt-1">
             For orders of 100+ books, please contact us at{" "}
-            <a href="mailto:orders@iambic.nana" className="underline">
-              orders@iambic.nana
+            <a href="mailto:mytinybooks919@gmail.com" className="underline">
+              mytinybooks919@gmail.com
             </a>{" "}
             for custom pricing and invoice options.
           </p>
@@ -248,13 +219,13 @@ export default function Checkout() {
           <button
             onClick={handleCheckout}
             disabled={isProcessing}
-            className="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg font-bold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-purple-600 text-white py-3 px-6 rounded-lg font-bold hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isProcessing ? "Processing..." : "Proceed to Payment"}
           </button>
         ) : (
           <a
-            href={`mailto:orders@iambic.nana?subject=Bulk Order Request&body=I would like to order ${summary.totalQuantity} books.${orderNotes ? ' Notes: ' + orderNotes : ''}`}
+            href={`mailto:mytinybooks919@gmail.com?subject=Bulk Order Request&body=I would like to order ${summary.totalQuantity} books.${orderNotes ? ' Notes: ' + orderNotes : ''}`}
             className="flex-1 bg-coral-600 text-white py-3 px-6 rounded-lg font-bold text-center hover:bg-coral-700 transition-colors"
           >
             Contact for Quote

@@ -1,42 +1,45 @@
-import { useState, useEffect } from "react";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData, Link } from "@remix-run/react";
+import { useState } from "react";
+import { Link, useParams } from "react-router";
+import type { Route } from "./+types/books.$bookId";
 import { books } from "~/data/books";
 import { useCart } from "~/contexts/CartContext";
 import { 
   calculateBookPrice, 
-  calculateTotalPrice,
   getCurrentTier,
 } from "~/lib/priceCalculator";
 import { PRICING_TIERS } from "~/types/book";
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
+export function meta({ params }: Route.MetaArgs) {
   const book = books.find(b => b.id === params.bookId);
   
   if (!book) {
-    throw new Response("Book not found", { status: 404 });
-  }
-  
-  return json({ book });
-};
-
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  if (!data?.book) {
     return [{ title: "Book not found" }];
   }
   
   return [
-    { title: `${data.book.title} - Iambic.Nana` },
-    { name: "description", content: data.book.description },
+    { title: `${book.title} - Iambic Nana` },
+    { name: "description", content: book.description },
   ];
-};
+}
 
 export default function BookDetail() {
-  const { book } = useLoaderData<typeof loader>();
+  const params = useParams();
   const { addToCart, getTotalQuantity, getItemQuantity } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
+  
+  const book = books.find(b => b.id === params.bookId);
+  
+  if (!book) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl text-center">
+        <h1 className="text-3xl font-bold mb-4">Book not found</h1>
+        <Link to="/tiny-books" className="text-purple-600 hover:underline">
+          ← Back to all books
+        </Link>
+      </div>
+    );
+  }
   
   const currentCartQuantity = getTotalQuantity();
   const itemQuantityInCart = getItemQuantity(book.id);
@@ -59,13 +62,9 @@ export default function BookDetail() {
     setQuantity(qty);
   };
 
-  useEffect(() => {
-    // Update price when cart changes
-  }, [currentCartQuantity]);
-
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <Link to="/books" className="text-purple-600 hover:underline mb-4 inline-block">
+      <Link to="/tiny-books" className="text-purple-600 hover:underline mb-4 inline-block">
         ← Back to all books
       </Link>
       
@@ -133,7 +132,7 @@ export default function BookDetail() {
                   <button
                     key={qty}
                     onClick={() => handleQuickAdd(qty)}
-                    className="px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                    className="px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-50 transition-colors cursor-pointer"
                   >
                     {qty}
                   </button>
@@ -150,7 +149,7 @@ export default function BookDetail() {
               
               <button
                 onClick={handleAddToCart}
-                className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-bold hover:bg-purple-700 transition-colors"
+                className="w-full bg-purple-600 text-white py-3 px-6 rounded-lg font-bold hover:bg-purple-700 transition-colors cursor-pointer"
               >
                 Add to Cart
               </button>
@@ -188,7 +187,7 @@ export default function BookDetail() {
               <p className="font-semibold text-lg">Ordering 100+ books?</p>
               <p className="mb-3">Contact us for a custom invoice.</p>
               <a 
-                href="mailto:orders@iambic.nana?subject=Bulk Order Inquiry"
+                href="mailto:mytinybooks919@gmail.com?subject=Bulk Order Inquiry"
                 className="inline-block bg-coral-600 text-white px-6 py-2 rounded-lg hover:bg-coral-700 transition-colors"
               >
                 Contact for Bulk Orders

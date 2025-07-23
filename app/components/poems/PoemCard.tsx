@@ -42,7 +42,7 @@ export function PoemCard({ poem, className }: PoemCardProps) {
     <Link to={`/poems/${poem.id}`} className="block">
       <Card 
         className={cn(
-          "h-full transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer",
+          "h-full transition-all duration-200 hover:shadow-lg cursor-pointer",
           className
         )}
       >

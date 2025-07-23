@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import { ChevronRight } from "lucide-react";
 import type { Route } from "./+types/friends";
@@ -35,19 +35,10 @@ function Breadcrumb() {
 }
 
 export default function Friends() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [poems, setPoems] = useState<Poem[]>([]);
-
-  useEffect(() => {
-    // Simulate loading state
-    const timer = setTimeout(() => {
-      const filteredPoems = friendsPoems.filter(poem => poem.category === 'friends');
-      setPoems(filteredPoems);
-      setIsLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const isLoading = false;
+  const [poems] = useState<Poem[]>(() => {
+    return friendsPoems.filter(poem => poem.category === 'friends');
+  });
 
   return (
     <div className="min-h-screen">

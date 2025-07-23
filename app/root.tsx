@@ -52,42 +52,29 @@ export default function App() {
 
   // Initialize dark mode from localStorage and system preference
   useEffect(() => {
-    console.log('Initializing dark mode...');
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    console.log('Saved theme:', savedTheme);
-    console.log('System prefers dark:', systemPrefersDark);
-    
     const shouldBeDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
-    console.log('Should be dark:', shouldBeDark);
     setIsDarkMode(shouldBeDark);
     
     if (shouldBeDark) {
       document.documentElement.classList.add('dark');
-      console.log('Added dark class on init');
     } else {
       document.documentElement.classList.remove('dark');
-      console.log('Removed dark class on init');
     }
   }, []);
 
   const toggleDarkMode = () => {
-    console.log('Dark mode toggle clicked, current state:', isDarkMode);
     const newDarkMode = !isDarkMode;
-    console.log('Setting new dark mode state to:', newDarkMode);
     setIsDarkMode(newDarkMode);
     
     if (newDarkMode) {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
-      console.log('Added dark class and saved dark theme');
-      console.log('Document classes:', document.documentElement.className);
     } else {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
-      console.log('Removed dark class and saved light theme');
-      console.log('Document classes:', document.documentElement.className);
     }
   };
 
@@ -125,7 +112,6 @@ export default function App() {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  console.log('Button clicked!');
                   toggleDarkMode();
                 }}
                 className="p-2 rounded-md text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"

@@ -1,0 +1,87 @@
+# Netlify configuration for React Router v7 + Vite
+# 
+# Required Environment Variables:
+# - NODE_VERSION: Set to 18 (configured below)
+# - Add any additional environment variables needed for your app in Netlify dashboard
+#   Examples:
+#   - STRIPE_PUBLIC_KEY: Your Stripe publishable key
+#   - DATABASE_URL: Your database connection string
+#   - API_BASE_URL: Your API endpoint base URL
+
+[build]
+  command = "npm run build"
+  publish = "build/client"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 5173
+  autoLaunch = false
+
+# SPA routing - redirect all requests to index.html for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Netlify Functions configuration
+[functions]
+  directory = "netlify/functions"
+
+# Cache control headers for static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.woff"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.ttf"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache control for images (shorter cache time in case they change)
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

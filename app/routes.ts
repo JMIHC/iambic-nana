@@ -9,5 +9,8 @@ export default [
   route("/poems/faith", "routes/poems/faith.tsx"),
   route("/poems/:poemId", "routes/poems.$poemId.tsx"),
   route("/tiny-books", "routes/tiny-books.tsx"),
+  route("/checkout", "routes/checkout.tsx"),
+  route("/books/:bookId", "routes/books.$bookId.tsx"),
+  route("/books/success", "routes/books.success.tsx"),
   route("/about", "routes/about.tsx"),
 ] satisfies RouteConfig;
