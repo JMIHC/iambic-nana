@@ -18,15 +18,15 @@ function BookCard({ book }: { book: Book }) {
   const [quantity, setQuantity] = useState(1);
   const [showAdded, setShowAdded] = useState(false);
   
-  // Generate different gradient backgrounds for each book
-  const gradients = {
-    'bahai-faith-english': 'from-purple-400 to-blue-500',
-    'bahai-faith-spanish': 'from-coral-400 to-pink-500',
-    'tiny-book-prayers': 'from-emerald-400 to-teal-500',
-    'soul-is-forever': 'from-amber-400 to-orange-500'
+  // Use different visual styles for each book
+  const bookStyles = {
+    'bahai-faith-english': { bg: 'from-purple-400 to-blue-500', icon: '📖' },
+    'bahai-faith-spanish': { bg: 'from-coral-400 to-pink-500', icon: '📚' },
+    'tiny-book-prayers': { bg: 'from-emerald-400 to-teal-500', icon: '🙏' },
+    'soul-is-forever': { bg: 'from-amber-400 to-orange-500', icon: '✨' }
   };
   
-  const gradient = gradients[book.id as keyof typeof gradients] || 'from-gray-400 to-gray-500';
+  const style = bookStyles[book.id as keyof typeof bookStyles] || { bg: 'from-gray-400 to-gray-500', icon: '📓' };
   
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -38,18 +38,14 @@ function BookCard({ book }: { book: Book }) {
   
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all flex flex-col h-full">
-      <Link to={`/books/${book.id}`} className="block">
-        <div className={`aspect-[3/4] bg-gradient-to-br ${gradient} relative flex items-center justify-center`}>
-          <div className="text-white text-center p-4">
-            <div className="text-6xl mb-2">📚</div>
-            <div className="text-sm font-medium opacity-90">Tiny Book</div>
-          </div>
+      <div className={`aspect-[3/4] bg-gradient-to-br ${style.bg} relative flex items-center justify-center`}>
+        <div className="text-white text-center p-4">
+          <div className="text-6xl mb-2">{style.icon}</div>
+          <div className="text-sm font-medium opacity-90">Tiny Book</div>
         </div>
-      </Link>
+      </div>
       <div className="p-4 flex flex-col flex-1">
-        <Link to={`/books/${book.id}`}>
-          <h3 className="font-bold text-lg mb-2 line-clamp-2 text-gray-900 dark:text-gray-100 hover:text-purple-600 dark:hover:text-purple-400">{book.title}</h3>
-        </Link>
+        <h3 className="font-bold text-lg mb-2 line-clamp-2 text-gray-900 dark:text-gray-100">{book.title}</h3>
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2 flex-1">{book.description}</p>
         <div className="space-y-3 mt-auto">
           <div className="flex items-center justify-between">
@@ -69,7 +65,7 @@ function BookCard({ book }: { book: Book }) {
             />
             <button
               onClick={handleAddToCart}
-              className="flex-1 bg-purple-600 dark:bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors text-sm font-medium"
+              className="flex-1 bg-purple-600 dark:bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors text-sm font-medium cursor-pointer"
             >
               {showAdded ? "Added!" : "Add to Cart"}
             </button>
@@ -94,6 +90,55 @@ export default function TinyBooks() {
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <h1 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">Tiny Books</h1>
       
+      {/* Hero Collection Images */}
+      <div className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Three Book Collection */}
+        <div className="text-center">
+          <div 
+            className="relative overflow-hidden rounded-xl shadow-lg mb-4 cursor-pointer hover:shadow-xl transition-shadow"
+            onClick={() => document.getElementById('available-books')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            <img 
+              src="/three-tiny-book-collection.jpg" 
+              alt="Three Tiny Book Collection"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Three Book Collection</h3>
+          <p className="text-gray-600 dark:text-gray-300 text-sm">Three tiny books together</p>
+          
+          {/* Soul is Forever individual book */}
+          <div 
+            className="relative overflow-hidden rounded-xl shadow-lg mb-4 mt-6 max-w-xs mx-auto cursor-pointer hover:shadow-xl transition-shadow"
+            onClick={() => document.getElementById('available-books')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            <img 
+              src="/soul-is-forever.png" 
+              alt="A Soul is Forever Tiny Book"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+          <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">A Soul is Forever</h4>
+          <p className="text-gray-500 dark:text-gray-400 text-xs">One of our most popular tiny books</p>
+        </div>
+        
+        {/* Soul is Forever Detail */}
+        <div className="text-center">
+          <div 
+            className="relative overflow-hidden rounded-xl shadow-lg mb-4 cursor-pointer hover:shadow-xl transition-shadow"
+            onClick={() => document.getElementById('available-books')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            <img 
+              src="/soul-is-forever-outside-inside.jpg" 
+              alt="Soul is Forever - Inside and Outside View"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Inside & Outside View</h3>
+          <p className="text-gray-600 dark:text-gray-300 text-sm">The inside of our A Soul is Forever cover</p>
+        </div>
+      </div>
+      
       {/* Floating Cart Summary */}
       {totalQuantity > 0 && (
         <div className={`fixed bottom-4 right-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 transition-all duration-300 ${
@@ -103,7 +148,7 @@ export default function TinyBooks() {
           <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
             <button
               onClick={() => setIsCartMinimized(!isCartMinimized)}
-              className="flex items-center gap-2 text-left text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+              className="flex items-center gap-2 text-left text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors cursor-pointer"
               aria-label={isCartMinimized ? "Expand cart" : "Minimize cart"}
             >
               <h3 className="font-bold text-lg">
@@ -127,7 +172,7 @@ export default function TinyBooks() {
               <span className="text-xl font-bold text-purple-600 dark:text-purple-400">${summary.subtotal.toFixed(2)}</span>
               <Link
                 to="/checkout"
-                className="bg-purple-600 dark:bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors text-sm font-medium"
+                className="bg-purple-600 dark:bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors text-sm font-medium cursor-pointer"
               >
                 Checkout
               </Link>
@@ -149,7 +194,7 @@ export default function TinyBooks() {
                     </div>
                     <button
                       onClick={() => removeFromCart(item.bookId)}
-                      className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-1"
+                      className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 p-1 cursor-pointer"
                       aria-label="Remove item"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,7 +206,7 @@ export default function TinyBooks() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => updateQuantity(item.bookId, Math.max(1, item.quantity - 1))}
-                        className="w-6 h-6 flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-500 text-sm transition-colors"
+                        className="w-6 h-6 flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-500 text-sm transition-colors cursor-pointer"
                         disabled={item.quantity <= 1}
                       >
                         -
@@ -179,7 +224,7 @@ export default function TinyBooks() {
                       />
                       <button
                         onClick={() => updateQuantity(item.bookId, item.quantity + 1)}
-                        className="w-6 h-6 flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-500 text-sm transition-colors"
+                        className="w-6 h-6 flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-500 text-sm transition-colors cursor-pointer"
                       >
                         +
                       </button>
@@ -219,7 +264,7 @@ export default function TinyBooks() {
           
           <Link
             to="/checkout"
-            className="block w-full bg-purple-600 dark:bg-purple-700 text-white text-center py-2 rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors mt-4 font-medium"
+            className="block w-full bg-purple-600 dark:bg-purple-700 text-white text-center py-2 rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors mt-4 font-medium cursor-pointer"
           >
             Proceed to Checkout
           </Link>
@@ -228,17 +273,38 @@ export default function TinyBooks() {
         </div>
       )}
       
-      {/* Bundle Deal Banner */}
+      {/* Bundle Deal Banner with Three Book Collection Image */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl p-6 mb-12 shadow-lg">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">🎉 Community-Building Stimulus Package</h2>
-          <p className="text-xl mb-4">Get all 4 tiny books for just $7.00!</p>
-          <button
-            onClick={handleAddBundle}
-            className="bg-white text-purple-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors"
-          >
-            Add All 4 Books to Cart
-          </button>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+          <div className="text-center lg:text-left order-2 lg:order-1">
+            <h2 className="text-2xl font-bold mb-2">🎉 Community-Building Stimulus Package</h2>
+            <p className="text-xl mb-4">Get all 4 tiny books for just $7.00!</p>
+            <button
+              onClick={handleAddBundle}
+              className="bg-white text-purple-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              Add All 4 Books to Cart
+            </button>
+          </div>
+          <div className="order-1 lg:order-2">
+            <div className="relative overflow-hidden rounded-lg shadow-lg">
+              <img 
+                src="/fourtinybookcollection.jpg" 
+                alt="Four Tiny Book Collection"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Books Grid */}
+      <div className="mb-12" id="available-books">
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Available Books</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {books.map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
         </div>
       </div>
 
@@ -265,16 +331,6 @@ export default function TinyBooks() {
                 </div>
               )}
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Books Grid */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Available Books</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {books.map((book) => (
-            <BookCard key={book.id} book={book} />
           ))}
         </div>
       </div>

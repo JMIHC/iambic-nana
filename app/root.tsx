@@ -93,7 +93,7 @@ export default function App() {
 
   return (
     <CartProvider>
-      <div className="min-h-screen bg-cream-100 dark:bg-gray-900">
+      <div className="min-h-screen bg-cream-100 dark:bg-gray-900 flex flex-col">
         <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -148,7 +148,7 @@ export default function App() {
           </div>
         </div>
       </header>
-      <main>
+      <main className="flex-1">
         <Outlet />
       </main>
       <Footer />

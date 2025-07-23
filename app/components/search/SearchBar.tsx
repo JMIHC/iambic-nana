@@ -60,6 +60,15 @@ export function SearchBar({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeout.current) {
+        clearTimeout(searchTimeout.current);
+      }
+    };
+  }, []);
+
   // Perform search with debounce
   const performSearch = useCallback((searchQuery: string) => {
     if (searchTimeout.current) {
@@ -357,6 +366,15 @@ function SearchDialog({
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const searchTimeout = useRef<NodeJS.Timeout>();
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (searchTimeout.current) {
+        clearTimeout(searchTimeout.current);
+      }
+    };
+  }, []);
 
   // Perform search
   const performSearch = useCallback((searchQuery: string) => {
