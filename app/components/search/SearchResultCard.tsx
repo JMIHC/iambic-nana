@@ -42,7 +42,7 @@ export function SearchResultCard({
 }: SearchResultCardProps) {
   const isPoem = result.type === 'poem';
   const Icon = isPoem ? FileText : BookOpen;
-  const link = isPoem ? `/poems/${result.id}` : `/books/${result.id}`;
+  const link = result.url;
   
   return (
     <Link to={link} className="block group">
@@ -168,7 +168,7 @@ export function CompactSearchResultCard({
 }) {
   const isPoem = result.type === 'poem';
   const Icon = isPoem ? FileText : BookOpen;
-  const link = isPoem ? `/poems/${result.id}` : `/books/${result.id}`;
+  const link = result.url;
   
   return (
     <Link to={link} className="block group">
@@ -210,7 +210,7 @@ export function GridSearchResultCard({
 }) {
   const isPoem = result.type === 'poem';
   const Icon = isPoem ? FileText : BookOpen;
-  const link = isPoem ? `/poems/${result.id}` : `/books/${result.id}`;
+  const link = result.url;
   
   return (
     <Link to={link} className="block group h-full">

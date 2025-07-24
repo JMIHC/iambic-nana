@@ -184,7 +184,7 @@ export default function BookSuccess() {
           to="/tiny-books"
           className="inline-block bg-purple-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-purple-700 transition-colors"
         >
-          Order More Books
+          Back to tiny books
         </Link>
         
         <p className="mt-4 text-sm text-gray-600">

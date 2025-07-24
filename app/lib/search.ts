@@ -243,7 +243,7 @@ function searchBooks(query: string): SearchResult[] {
         excerpt: highlightMatches(excerpt, query),
         category: book.category,
         price: book.price,
-        url: `/tiny-books/${book.id}`,
+        url: `/tiny-books`,
       });
     }
   }

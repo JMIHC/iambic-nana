@@ -18,16 +18,6 @@ function BookCard({ book }: { book: Book }) {
   const [quantity, setQuantity] = useState(1);
   const [showAdded, setShowAdded] = useState(false);
   
-  // Use different visual styles for each book
-  const bookStyles = {
-    'bahai-faith-english': { bg: 'from-purple-400 to-blue-500', icon: '📖' },
-    'bahai-faith-spanish': { bg: 'from-coral-400 to-pink-500', icon: '📚' },
-    'tiny-book-prayers': { bg: 'from-emerald-400 to-teal-500', icon: '🙏' },
-    'soul-is-forever': { bg: 'from-amber-400 to-orange-500', icon: '✨' }
-  };
-  
-  const style = bookStyles[book.id as keyof typeof bookStyles] || { bg: 'from-gray-400 to-gray-500', icon: '📓' };
-  
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     addToCart(book.id, quantity);
@@ -38,20 +28,14 @@ function BookCard({ book }: { book: Book }) {
   
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all flex flex-col h-full">
-      <div className={`aspect-[3/4] bg-gradient-to-br ${style.bg} relative flex items-center justify-center`}>
-        <div className="text-white text-center p-4">
-          <div className="text-6xl mb-2">{style.icon}</div>
-          <div className="text-sm font-medium opacity-90">Tiny Book</div>
-        </div>
-      </div>
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-bold text-lg mb-2 line-clamp-2 text-gray-900 dark:text-gray-100">{book.title}</h3>
-        <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2 flex-1">{book.description}</p>
+        <h3 className="font-serif font-semibold text-lg mb-2 line-clamp-2 text-gray-900 dark:text-gray-100">{book.title}</h3>
+        <p className="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-2 flex-1">{book.description}</p>
         <div className="space-y-3 mt-auto">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">$2.00</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Base price</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">Base price</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -88,7 +72,7 @@ export default function TinyBooks() {
   
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <h1 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">Tiny Books</h1>
+      <h1 className="text-4xl font-serif font-bold text-center mb-8 text-gray-900 dark:text-gray-100">Tiny Books</h1>
       
       {/* Hero Collection Images */}
       <div className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -104,8 +88,8 @@ export default function TinyBooks() {
               className="w-full h-auto object-cover"
             />
           </div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Three Book Collection</h3>
-          <p className="text-gray-600 dark:text-gray-300 text-sm">Three tiny books together</p>
+          <h3 className="text-xl font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">Three Book Collection</h3>
+          <p className="text-gray-700 dark:text-gray-300 text-sm">Three tiny books together</p>
           
           {/* Soul is Forever individual book */}
           <div 
@@ -118,8 +102,8 @@ export default function TinyBooks() {
               className="w-full h-auto object-cover"
             />
           </div>
-          <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">A Soul is Forever</h4>
-          <p className="text-gray-500 dark:text-gray-400 text-xs">One of our most popular tiny books</p>
+          <h4 className="text-lg font-serif font-medium text-gray-900 dark:text-gray-100 mb-1">A Soul is Forever</h4>
+          <p className="text-gray-600 dark:text-gray-400 text-xs">One of our most popular tiny books</p>
         </div>
         
         {/* Soul is Forever Detail */}
@@ -134,8 +118,8 @@ export default function TinyBooks() {
               className="w-full h-auto object-cover"
             />
           </div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Inside & Outside View</h3>
-          <p className="text-gray-600 dark:text-gray-300 text-sm">The inside of our A Soul is Forever cover</p>
+          <h3 className="text-xl font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">Inside & Outside View</h3>
+          <p className="text-gray-700 dark:text-gray-300 text-sm">The inside of our A Soul is Forever cover</p>
         </div>
       </div>
       
@@ -277,7 +261,7 @@ export default function TinyBooks() {
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl p-6 mb-12 shadow-lg">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
           <div className="text-center lg:text-left order-2 lg:order-1">
-            <h2 className="text-2xl font-bold mb-2">🎉 Community-Building Stimulus Package</h2>
+            <h2 className="text-2xl font-serif font-bold mb-2">🎉 Community-Building Stimulus Package</h2>
             <p className="text-xl mb-4">Get all 4 tiny books for just $7.00!</p>
             <button
               onClick={handleAddBundle}
@@ -300,7 +284,7 @@ export default function TinyBooks() {
 
       {/* Books Grid */}
       <div className="mb-12" id="available-books">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">Available Books</h2>
+        <h2 className="text-2xl font-serif font-semibold mb-6 text-gray-800 dark:text-gray-200">Available Books</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {books.map((book) => (
             <BookCard key={book.id} book={book} />
@@ -324,7 +308,7 @@ export default function TinyBooks() {
               <div className="text-2xl font-bold text-coral-600 dark:text-coral-400">
                 ${tier.pricePerUnit.toFixed(2)}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">per book</div>
+              <div className="text-sm text-gray-700 dark:text-gray-300">per book</div>
               {index > 0 && (
                 <div className="text-xs font-semibold text-purple-600 dark:text-purple-400 mt-2">
                   Save ${(PRICING_TIERS[0].pricePerUnit - tier.pricePerUnit).toFixed(2)} each!
@@ -338,7 +322,7 @@ export default function TinyBooks() {
       {/* Order Information */}
       <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 mb-8">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+          <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
             <p>
               <strong>International Shipping:</strong> We ship worldwide! International shipping rates will be calculated at checkout.
             </p>

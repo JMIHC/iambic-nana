@@ -115,7 +115,7 @@ export default function App() {
                   e.stopPropagation();
                   toggleDarkMode();
                 }}
-                className="p-2 rounded-md text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                className="p-2 rounded-md text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
                 aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
                 title={`Currently ${isDarkMode ? 'dark' : 'light'} mode - click to toggle`}
                 type="button"
