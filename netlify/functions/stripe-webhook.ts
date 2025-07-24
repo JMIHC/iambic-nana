@@ -20,22 +20,61 @@ const handleOptions = () => ({
   body: '',
 });
 
-// Send email notification (you can replace this with your preferred email service)
+// Send order notification via Netlify Forms
 const sendOrderNotification = async (orderData: any) => {
-  // For now, just log the order data
-  // You can integrate with services like SendGrid, Mailgun, or Netlify Forms
   console.log('=== NEW ORDER RECEIVED ===');
   console.log('Order Details:', JSON.stringify(orderData, null, 2));
   console.log('========================');
   
-  // TODO: Replace with actual email sending logic
-  // Example services:
-  // - SendGrid API
-  // - Mailgun API  
-  // - Netlify Forms
-  // - Resend API
-  
-  return true;
+  try {
+    // Format order details for the form
+    const orderDetails = orderData.lineItems.length > 0 
+      ? orderData.lineItems.map((item: any) => `${item.productName}: ${item.quantity} x $${item.unitAmount} = $${item.totalAmount}`).join(' | ')
+      : 'No line items available';
+    
+    // Format shipping address
+    const shippingAddress = orderData.shippingAddress 
+      ? `${orderData.shippingAddress.line1 || ''}${orderData.shippingAddress.line2 ? ', ' + orderData.shippingAddress.line2 : ''}, ${orderData.shippingAddress.city || ''}, ${orderData.shippingAddress.state || ''} ${orderData.shippingAddress.postal_code || ''}, ${orderData.shippingAddress.country || ''}`
+      : 'No shipping address provided';
+
+    // Prepare form data for Netlify Forms
+    const formData = new URLSearchParams({
+      'form-name': 'order-notifications',
+      'customerName': orderData.customerName || 'Not provided',
+      'customerEmail': orderData.customerEmail || 'Not provided',
+      'customerPhone': orderData.customerPhone || 'Not provided',
+      'orderTotal': `$${orderData.amountTotal}`,
+      'totalQuantity': orderData.totalQuantity.toString(),
+      'pricePerUnit': `$${orderData.pricePerUnit}`,
+      'orderDetails': orderDetails,
+      'shippingAddress': shippingAddress,
+      'orderNotes': orderData.orderNotes || 'No notes provided',
+      'sessionId': orderData.sessionId,
+      'orderDate': orderData.createdAt
+    });
+
+    console.log('Submitting form to Netlify:', formData.toString());
+
+    // Submit to Netlify Forms
+    const response = await fetch('https://iambic-nana.netlify.app/', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData.toString()
+    });
+
+    if (response.ok) {
+      console.log('Order notification submitted to Netlify Forms successfully');
+      return true;
+    } else {
+      console.error('Failed to submit to Netlify Forms:', response.status, await response.text());
+      return false;
+    }
+  } catch (error) {
+    console.error('Error submitting order notification:', error);
+    return false;
+  }
 };
 
 export const handler = async (event: HandlerEvent, context: HandlerContext) => {

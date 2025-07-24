@@ -139,8 +139,28 @@ export default function App() {
         <Outlet />
       </main>
       <Footer />
+      <HiddenOrderForm />
     </div>
     </CartProvider>
+  );
+}
+
+{/* Hidden Netlify Form for order notifications */}
+export function HiddenOrderForm() {
+  return (
+    <form name="order-notifications" data-netlify="true" hidden style={{ display: 'none' }}>
+      <input type="text" name="customerName" />
+      <input type="email" name="customerEmail" />
+      <input type="text" name="customerPhone" />
+      <input type="text" name="orderTotal" />
+      <input type="text" name="totalQuantity" />
+      <input type="text" name="pricePerUnit" />
+      <input type="text" name="orderDetails" />
+      <input type="text" name="shippingAddress" />
+      <input type="text" name="orderNotes" />
+      <input type="text" name="sessionId" />
+      <input type="text" name="orderDate" />
+    </form>
   );
 }
 
