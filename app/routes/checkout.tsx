@@ -198,10 +198,14 @@ export default function Checkout() {
       {isInternational && (
         <div className="bg-blue-50 border border-blue-300 rounded-lg p-4 mb-6">
           <p className="text-blue-800 font-semibold">
-            🌍 International Shipping
+            🌍 International Shipping Required
           </p>
           <p className="text-blue-700 mt-1">
-            We'll contact you with a shipping quote after you submit your order.
+            For international orders, please contact us directly for a shipping quote. 
+            We ship worldwide and will provide accurate shipping costs based on your location.
+          </p>
+          <p className="text-blue-600 mt-2 font-medium">
+            Click "Get International Quote" below to send us your order details.
           </p>
         </div>
       )}
@@ -225,10 +229,10 @@ export default function Checkout() {
           </button>
         ) : (
           <a
-            href={`mailto:mytinybooks919@gmail.com?subject=Bulk Order Request&body=I would like to order ${summary.totalQuantity} books.${orderNotes ? ' Notes: ' + orderNotes : ''}`}
-            className="flex-1 bg-coral-600 text-white py-3 px-6 rounded-lg font-bold text-center hover:bg-coral-700 transition-colors"
+            href={`mailto:mytinybooks919@gmail.com?subject=${isInternational ? 'International Shipping Quote Request' : 'Bulk Order Request'}&body=I would like to order ${summary.totalQuantity} books.${isInternational ? '%0A%0AShipping Country: [Please specify your country]%0AShipping Address: [Please provide your full shipping address]' : ''}${orderNotes ? '%0A%0AOrder Notes: ' + encodeURIComponent(orderNotes) : ''}%0A%0AOrder Details:%0A${cartItemsWithDetails.map(item => `- ${item.book.title}: ${item.quantity} copies`).join('%0A')}`}
+            className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-bold text-center hover:bg-blue-700 transition-colors"
           >
-            Contact for Quote
+            {isInternational ? '🌍 Get International Quote' : '📧 Contact for Quote'}
           </a>
         )}
         
