@@ -8,12 +8,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 // Book pricing tiers (should match your frontend)
 const PRICING_TIERS = [
-  { minQty: 1, maxQty: 1, pricePerUnit: 2.00 },
-  { minQty: 2, maxQty: 3, pricePerUnit: 1.75 },
-  { minQty: 4, maxQty: 4, pricePerUnit: 1.75 }, // Special 4-book bundle
-  { minQty: 5, maxQty: 24, pricePerUnit: 1.50 },
-  { minQty: 25, maxQty: 99, pricePerUnit: 1.25 },
-  { minQty: 100, maxQty: null, pricePerUnit: 1.00 }
+  { minQty: 1, maxQty: 99, pricePerUnit: 2.00 },
+  { minQty: 100, maxQty: 299, pricePerUnit: 1.75 },
+  { minQty: 300, maxQty: 499, pricePerUnit: 1.50 },
+  { minQty: 500, maxQty: null, pricePerUnit: 1.10 }
 ];
 
 // Book details (should match your frontend)
@@ -59,18 +57,21 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
     // Calculate total quantity
     const totalQuantity = items.reduce((sum: number, item: any) => sum + item.quantity, 0);
 
-    // Don't process large orders or international through Stripe
-    if (totalQuantity >= 100 || needs100Plus || isInternational) {
+    // Don't process international orders through Stripe
+    if (isInternational) {
       return {
         statusCode: 400,
         body: JSON.stringify({ 
-          error: "Large orders and international shipping require manual processing. Please contact us directly." 
+          error: "International shipping requires manual processing. Please contact us directly." 
         }),
       };
     }
 
-    // Calculate pricing
-    const pricing = calculatePricing(totalQuantity);
+    // Calculate pricing (check for bundle deal first)
+    const isBundle = totalQuantity === 4;
+    const pricing = isBundle 
+      ? { pricePerUnit: 1.75, subtotal: 7.00, currentTier: { minQty: 4, maxQty: 4, pricePerUnit: 1.75 } }
+      : calculatePricing(totalQuantity);
 
     // Create line items for Stripe
     const lineItems = items.map((item: any) => {
@@ -86,7 +87,7 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
             name: book.title,
             description: book.description,
           },
-          unit_amount: Math.round(pricing.pricePerUnit * 100), // Convert to cents
+          unit_amount: Math.round(pricing.pricePerUnit * 100), // Apply tier pricing consistently
         },
         quantity: item.quantity,
       };

@@ -32,7 +32,7 @@ export default function Checkout() {
     };
   });
 
-  const canProcessWithStripe = summary.totalQuantity < 100;
+  const canProcessWithStripe = true; // All quantities can now be processed
 
   const handleCheckout = async () => {
     setError("");
@@ -179,21 +179,6 @@ export default function Checkout() {
         </div>
       </div>
 
-      {/* Warnings/Messages */}
-      {summary.totalQuantity >= 100 && (
-        <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mb-6">
-          <p className="text-yellow-800 font-semibold">
-            📧 Custom Invoice Required
-          </p>
-          <p className="text-yellow-700 mt-1">
-            For orders of 100+ books, please contact us at{" "}
-            <a href="mailto:mytinybooks919@gmail.com" className="underline">
-              mytinybooks919@gmail.com
-            </a>{" "}
-            for custom pricing and invoice options.
-          </p>
-        </div>
-      )}
 
       {isInternational && (
         <div className="bg-blue-50 border border-blue-300 rounded-lg p-4 mb-6">
