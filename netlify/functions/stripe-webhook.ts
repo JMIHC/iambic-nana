@@ -141,9 +141,20 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
 
     // Handle the checkout.session.completed event
     if (stripeEvent.type === 'checkout.session.completed') {
-      const session = stripeEvent.data.object as Stripe.Checkout.Session;
+      const sessionFromWebhook = stripeEvent.data.object as Stripe.Checkout.Session;
       
-      console.log('Checkout session completed:', session.id);
+      console.log('Checkout session completed:', sessionFromWebhook.id);
+      
+      // Retrieve the full session with expanded fields
+      const session = await stripe.checkout.sessions.retrieve(
+        sessionFromWebhook.id,
+        {
+          expand: ['shipping_details', 'customer_details', 'line_items', 'line_items.data.price.product']
+        }
+      );
+      
+      console.log('Full session shipping_details:', JSON.stringify(session.shipping_details, null, 2));
+      console.log('Full session customer_details:', JSON.stringify(session.customer_details, null, 2));
 
       // Extract order information
       const orderData = {
@@ -152,30 +163,29 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
         customerEmail: session.customer_details?.email,
         customerName: session.customer_details?.name,
         customerPhone: session.customer_details?.phone,
-        shippingAddress: session.shipping_details?.address,
+        shippingAddress: session.shipping_details?.address || session.customer_details?.address,
         amountTotal: session.amount_total ? session.amount_total / 100 : 0, // Convert from cents
         currency: session.currency,
         orderNotes: session.metadata?.orderNotes || '',
         totalQuantity: session.metadata?.totalQuantity || '',
         pricePerUnit: session.metadata?.pricePerUnit || '',
         createdAt: new Date(session.created * 1000).toISOString(),
-        lineItems: [], // We'll populate this next
+        lineItems: [] as Array<{
+          productName: string;
+          quantity: number | null;
+          unitAmount: number;
+          totalAmount: number;
+        }>,
       };
 
-      // Get the line items to see what was ordered
-      try {
-        const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
-          expand: ['data.price.product']
-        });
-        
-        orderData.lineItems = lineItems.data.map(item => ({
+      // Process the line items (already expanded)
+      if (session.line_items && 'data' in session.line_items) {
+        orderData.lineItems = session.line_items.data.map(item => ({
           productName: (item.price?.product as Stripe.Product)?.name || 'Unknown Product',
           quantity: item.quantity,
           unitAmount: item.price?.unit_amount ? item.price.unit_amount / 100 : 0,
           totalAmount: item.amount_total ? item.amount_total / 100 : 0,
         }));
-      } catch (err) {
-        console.error('Failed to fetch line items:', err);
       }
 
       // Send notification email
