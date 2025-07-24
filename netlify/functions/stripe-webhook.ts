@@ -149,7 +149,7 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
       const session = await stripe.checkout.sessions.retrieve(
         sessionFromWebhook.id,
         {
-          expand: ['shipping_details', 'customer_details', 'line_items', 'line_items.data.price.product']
+          expand: ['line_items', 'line_items.data.price.product']
         }
       );
       
