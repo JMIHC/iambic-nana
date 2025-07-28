@@ -65,15 +65,27 @@ const sendOrderNotification = async (orderData: any) => {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': 'Netlify Function'
       },
       body: formData.toString()
     });
 
+    console.log('Netlify Forms response status:', response.status);
+    console.log('Netlify Forms response headers:', Object.fromEntries(response.headers));
+    
     if (response.ok) {
       console.log('Order notification submitted to Netlify Forms successfully');
+      const responseText = await response.text();
+      console.log('Response body:', responseText);
       return true;
     } else {
-      console.error('Failed to submit to Netlify Forms:', response.status, await response.text());
+      const errorText = await response.text();
+      console.error('Failed to submit to Netlify Forms:', {
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers),
+        body: errorText
+      });
       return false;
     }
   } catch (error) {

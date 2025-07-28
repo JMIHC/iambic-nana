@@ -166,9 +166,7 @@ export default function BookSuccess() {
       <div className="bg-coral-50 rounded-lg p-6 mb-6">
         <h2 className="text-xl font-bold mb-4 text-coral-700">What's Next?</h2>
         <ul className="space-y-2 text-coral-700">
-          <li>• You'll receive an order confirmation email at {data.customerEmail}</li>
-          <li>• Your books will be printed and shipped within 5-7 business days</li>
-          <li>• You'll receive tracking information once your order ships</li>
+          <li>• Your books will be shipped within 5-7 business days</li>
           <li>• Questions? Email us at <a href="mailto:mytinybooks919@gmail.com" className="underline">mytinybooks919@gmail.com</a></li>
         </ul>
       </div>

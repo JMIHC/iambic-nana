@@ -52,6 +52,11 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
       };
     }
 
+    // Calculate pricePerUnit from metadata
+    const totalQuantity = parseInt(paymentIntent.metadata?.totalQuantity || '1');
+    const subtotalAmount = parseFloat(paymentIntent.metadata?.subtotal || '0');
+    const pricePerUnit = totalQuantity > 0 && subtotalAmount > 0 ? (subtotalAmount / totalQuantity).toFixed(2) : '0.00';
+
     // Format the response to match the checkout session format
     const orderData = {
       customerEmail: paymentIntent.metadata?.customerEmail || '',
@@ -62,6 +67,7 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
       totalAmount: paymentIntent.amount / 100, // Convert from cents
       currency: paymentIntent.currency,
       totalQuantity: paymentIntent.metadata?.totalQuantity || '',
+      pricePerUnit: pricePerUnit,
       subtotal: paymentIntent.metadata?.subtotal || '',
       shippingCarrier: paymentIntent.metadata?.shippingCarrier || '',
       shippingService: paymentIntent.metadata?.shippingService || '',
@@ -75,12 +81,16 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
         JSON.parse(paymentIntent.metadata.items) : [],
       // Format line items from the items metadata
       lineItems: paymentIntent.metadata?.items ? 
-        JSON.parse(paymentIntent.metadata.items).map((item: any) => ({
-          productName: `Book ID: ${item.bookId}`,
-          quantity: item.quantity,
-          unitAmount: 0, // Will be calculated from subtotal
-          totalAmount: 0,
-        })) : [],
+        JSON.parse(paymentIntent.metadata.items).map((item: any) => {
+          const itemQuantity = item.quantity || 1;
+          const unitPrice = parseFloat(pricePerUnit);
+          const itemTotal = unitPrice * itemQuantity;
+          return {
+            description: `Book ID: ${item.bookId}`,
+            quantity: itemQuantity,
+            amount_total: Math.round(itemTotal * 100), // Convert to cents for display consistency
+          };
+        }) : [],
     };
 
     return {
