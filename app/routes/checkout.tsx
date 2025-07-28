@@ -11,14 +11,18 @@ import { useCart } from '~/contexts/CartContext';
 import { books } from '~/data/books';
 import { calculateBookPrice, getCurrentTier, getBundleDeals } from '~/lib/priceCalculator';
 
-// Get Stripe key from environment
-const stripePublishableKey = import.meta.env.STRIPE_PUBLIC_KEY || '';
-
-if (!stripePublishableKey) {
-  console.error('Stripe publishable key is not set. Please set STRIPE_PUBLIC_KEY in your .env file');
+// Initialize Stripe with the publishable key (same pattern as secret key in functions)
+declare global {
+  interface Window {
+    ENV?: {
+      STRIPE_PUBLIC_KEY: string;
+    };
+  }
 }
 
-const stripePromise = loadStripe(stripePublishableKey);
+// For now, use the key directly (since it's safe to expose publishable keys)
+const stripePublishableKey = 'pk_test_51RoB8T9HBJe7pfHmTzw1v06Ci9eur1nLx2Gf6L6pL7cvyL41d49ekcjIrkKvYSRbqdKUo7McVTLuPjsfMHJcj7lt00rFb60Tii';
+const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
 
 type CheckoutStep = 'shipping' | 'shipping-method' | 'payment';
 
@@ -492,13 +496,13 @@ export default function CheckoutPage() {
     }
   }, [items, navigate]);
 
-  if (!stripePublishableKey) {
+  if (!stripePublishableKey || !stripePromise) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center max-w-md">
           <h2 className="text-2xl font-bold text-destructive mb-2">Configuration Error</h2>
           <p className="text-muted-foreground mb-4">
-            Stripe is not configured. Please ensure  is set in your environment variables.
+            Stripe is not configured properly. Please ensure STRIPE_PUBLIC_KEY is set.
           </p>
           <button
             onClick={() => navigate('/checkout-cart')}
