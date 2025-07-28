@@ -1,5 +1,6 @@
 import type { HandlerEvent, HandlerContext } from "@netlify/functions";
 import Stripe from "stripe";
+import { calculateShippingRates } from "../../app/lib/easypost.server";
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -138,6 +139,98 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
     }
 
     console.log('Webhook event type:', stripeEvent.type);
+
+    // Handle shipping rate calculation
+    if (stripeEvent.type === 'checkout.session.async_payment_intent_created') {
+      const session = stripeEvent.data.object as Stripe.Checkout.Session;
+      
+      if (session.shipping_details?.address) {
+        try {
+          // Get quantity from metadata
+          const totalQuantity = parseInt(session.metadata?.totalQuantity || '1');
+          
+          // Calculate shipping rates using EasyPost
+          const rates = await calculateShippingRates(
+            {
+              street1: session.shipping_details.address.line1!,
+              street2: session.shipping_details.address.line2 || undefined,
+              city: session.shipping_details.address.city!,
+              state: session.shipping_details.address.state!,
+              zip: session.shipping_details.address.postal_code!,
+              country: session.shipping_details.address.country!,
+            },
+            totalQuantity
+          );
+
+          // Convert EasyPost rates to Stripe shipping options
+          const shippingOptions = rates.map(rate => ({
+            shipping_rate_data: {
+              type: 'fixed_amount' as const,
+              fixed_amount: {
+                amount: rate.rate,
+                currency: 'usd',
+              },
+              display_name: `${rate.carrier} ${rate.service}`,
+              delivery_estimate: rate.deliveryDays ? {
+                minimum: {
+                  unit: 'business_day' as const,
+                  value: rate.deliveryDays,
+                },
+                maximum: {
+                  unit: 'business_day' as const,
+                  value: rate.deliveryDays + 2,
+                },
+              } : undefined,
+              metadata: {
+                carrier: rate.carrier,
+                service: rate.service,
+                easypost_rate_id: rate.id,
+              },
+            },
+          }));
+
+          // Update the checkout session with shipping options
+          await stripe.checkout.sessions.update(session.id, {
+            shipping_options: shippingOptions,
+          });
+
+          console.log('Shipping rates calculated and updated successfully');
+        } catch (error) {
+          console.error('Error calculating shipping rates:', error);
+          // Use fallback rates if something goes wrong
+          await stripe.checkout.sessions.update(session.id, {
+            shipping_options: [
+              {
+                shipping_rate_data: {
+                  type: 'fixed_amount',
+                  fixed_amount: {
+                    amount: 799,
+                    currency: 'usd',
+                  },
+                  display_name: 'Standard Shipping (5-7 business days)',
+                },
+              },
+              {
+                shipping_rate_data: {
+                  type: 'fixed_amount',
+                  fixed_amount: {
+                    amount: 1500,
+                    currency: 'usd',
+                  },
+                  display_name: 'Express Shipping (2-3 business days)',
+                },
+              },
+            ],
+          });
+        }
+      }
+
+      return {
+        statusCode: 200,
+        headers: corsHeaders,
+        body: JSON.stringify({ received: true }),
+      };
+    }
 
     // Handle the checkout.session.completed event
     if (stripeEvent.type === 'checkout.session.completed') {

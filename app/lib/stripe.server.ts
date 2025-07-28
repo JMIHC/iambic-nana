@@ -85,48 +85,27 @@ export async function createCheckoutSession(
     shipping_address_collection: {
       allowed_countries: ['US', 'CA', 'GB', 'AU', 'NZ'], // Add more as needed
     },
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: 'fixed_amount',
-          fixed_amount: {
-            amount: 0,
-            currency: 'usd',
-          },
-          display_name: 'Free shipping (5-7 business days)',
-          delivery_estimate: {
-            minimum: {
-              unit: 'business_day',
-              value: 5,
-            },
-            maximum: {
-              unit: 'business_day',
-              value: 7,
-            },
-          },
+    // Enable dynamic shipping rate calculation
+    shipping_options: [{
+      shipping_rate_data: {
+        type: 'fixed_amount',
+        fixed_amount: {
+          amount: 0,
+          currency: 'usd',
+        },
+        display_name: 'Calculating shipping rates...',
+      },
+    }],
+    async_workflows: {
+      inputs: {
+        tax_calculation: {
+          enabled: false,
+        },
+        shipping_cost: {
+          enabled: true,
         },
       },
-      {
-        shipping_rate_data: {
-          type: 'fixed_amount',
-          fixed_amount: {
-            amount: 1500, // $15.00
-            currency: 'usd',
-          },
-          display_name: 'Express shipping (2-3 business days)',
-          delivery_estimate: {
-            minimum: {
-              unit: 'business_day',
-              value: 2,
-            },
-            maximum: {
-              unit: 'business_day',
-              value: 3,
-            },
-          },
-        },
-      },
-    ],
+    },
   });
 
   return session;
