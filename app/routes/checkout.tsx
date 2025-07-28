@@ -254,7 +254,7 @@ function CheckoutForm() {
               <input
                 type="text"
                 required
-                autoComplete="shipping name"
+                autoComplete="name"
                 value={shippingAddress.name}
                 onChange={(e) => setShippingAddress({ ...shippingAddress, name: e.target.value })}
                 className="w-full px-3 py-2 border rounded-md"
@@ -332,7 +332,6 @@ function CheckoutForm() {
                 value={shippingAddress.state}
                 onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value.toUpperCase() })}
                 className="w-full px-3 py-2 border rounded-md"
-                placeholder="CA"
               />
             </div>
             

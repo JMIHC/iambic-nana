@@ -102,10 +102,11 @@ export async function calculateShippingRates(
     
     if (!hasMediaMail) {
       // Add our own Media Mail option at the beginning
+      // Media Mail scales very well - minimal per-item increase
       const mediaMailRate = {
         carrier: 'USPS',
         service: 'Media Mail',
-        rate: Math.round(320 + (quantity > 1 ? (quantity - 1) * 10 : 0)),
+        rate: Math.round(320 + (quantity > 1 ? (quantity - 1) * 5 : 0)), // Only 5¢ per additional book
         deliveryDays: 8,
         deliveryDate: null,
         id: 'custom-media-mail',
@@ -128,17 +129,17 @@ function getFallbackRates(quantity: number = 1) {
   const totalWeight = PACKAGING.packagingWeight + (PACKAGING.bookWeight * quantity);
   const weightInOz = Math.max(totalWeight, 1);
   
-  // USPS Media Mail rates based on weight (very lightweight packages)
-  // For under 1 oz packages, these are approximate base rates
-  const mediaMailBase = weightInOz <= 1 ? 320 : 350; // $3.20-$3.50 for tiny packages
-  const groundBase = weightInOz <= 1 ? 420 : 480; // $4.20-$4.80 for tiny packages  
-  const priorityBase = weightInOz <= 1 ? 520 : 580; // $5.20-$5.80 for tiny packages
+  // Media Mail scales much better than other services for books
+  // It's designed for educational materials and has very low per-item costs
+  const mediaMailRate = 320 + (quantity > 1 ? (quantity - 1) * 3 : 0); // 3¢ per additional book
+  const firstClassRate = 420 + (quantity > 1 ? (quantity - 1) * 25 : 0); // 25¢ per additional  
+  const priorityRate = 520 + (quantity > 1 ? (quantity - 1) * 35 : 0); // 35¢ per additional
   
   return [
     {
       carrier: 'USPS',
       service: 'Media Mail',
-      rate: Math.round(mediaMailBase + (quantity > 1 ? (quantity - 1) * 10 : 0)), // Minimal increment
+      rate: Math.round(mediaMailRate),
       deliveryDays: 8, // Media Mail is slower but much cheaper
       deliveryDate: null,
       id: 'fallback-media-mail',
@@ -147,7 +148,7 @@ function getFallbackRates(quantity: number = 1) {
     {
       carrier: 'USPS',
       service: 'First-Class Mail',
-      rate: Math.round(groundBase + (quantity > 1 ? (quantity - 1) * 20 : 0)),
+      rate: Math.round(firstClassRate),
       deliveryDays: 3,
       deliveryDate: null,
       id: 'fallback-first-class',
@@ -156,7 +157,7 @@ function getFallbackRates(quantity: number = 1) {
     {
       carrier: 'USPS',
       service: 'Priority Mail',
-      rate: Math.round(priorityBase + (quantity > 1 ? (quantity - 1) * 30 : 0)),
+      rate: Math.round(priorityRate),
       deliveryDays: 3,
       deliveryDate: null,
       id: 'fallback-priority',
