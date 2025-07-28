@@ -108,50 +108,19 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
         pricePerUnit: pricing.pricePerUnit.toString(),
       },
       shipping_address_collection: {
-        allowed_countries: ["US"], // Domestic shipping only through Stripe
+        allowed_countries: ['US', 'CA', 'GB', 'AU', 'NZ'], // Add more as needed
       },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: {
-              amount: 500, // $5.00 shipping
-              currency: "usd",
-            },
-            display_name: "Standard Shipping",
-            delivery_estimate: {
-              minimum: {
-                unit: "business_day",
-                value: 5,
-              },
-              maximum: {
-                unit: "business_day",
-                value: 7,
-              },
-            },
+      // No shipping_options - they'll be dynamically calculated via webhook
+      async_workflows: {
+        inputs: {
+          tax_calculation: {
+            enabled: false,
+          },
+          shipping_cost: {
+            enabled: true,
           },
         },
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: {
-              amount: 1500, // $15.00 expedited shipping
-              currency: "usd",
-            },
-            display_name: "Expedited Shipping",
-            delivery_estimate: {
-              minimum: {
-                unit: "business_day",
-                value: 2,
-              },
-              maximum: {
-                unit: "business_day",
-                value: 3,
-              },
-            },
-          },
-        },
-      ],
+      },
       customer_creation: "always",
       payment_intent_data: {
         metadata: {
