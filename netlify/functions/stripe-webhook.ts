@@ -140,8 +140,9 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
 
     console.log('Webhook event type:', stripeEvent.type);
 
-    // Handle shipping rate calculation
-    if (stripeEvent.type === 'checkout.session.async_payment_intent_created') {
+    // Handle shipping address collection
+    if (stripeEvent.type === 'checkout.session.shipping_address_collected' || 
+        stripeEvent.type === 'customer.updated') {
       const session = stripeEvent.data.object as Stripe.Checkout.Session;
       
       if (session.shipping_details?.address) {

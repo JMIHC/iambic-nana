@@ -44,7 +44,7 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
   }
 
   try {
-    const { items, orderNotes, needs100Plus, isInternational } = JSON.parse(event.body || "{}");
+    const { items, orderNotes, needs100Plus, isInternational, mode } = JSON.parse(event.body || "{}");
 
     // Validate request
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -96,39 +96,102 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
     // Get the site URL for redirects
     const siteUrl = process.env.URL || "http://localhost:8888";
 
-    // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
+    // Create checkout session config
+    const sessionConfig: any = {
       mode: "payment",
       line_items: lineItems,
       success_url: `${siteUrl}/books/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl}/checkout`,
+      cancel_url: `${siteUrl}/checkout-cart`,
       metadata: {
         orderNotes: orderNotes || "",
         totalQuantity: totalQuantity.toString(),
         pricePerUnit: pricing.pricePerUnit.toString(),
       },
       shipping_address_collection: {
-        allowed_countries: ['US', 'CA', 'GB', 'AU', 'NZ'], // Add more as needed
+        allowed_countries: ['US', 'CA', 'GB', 'AU', 'NZ'],
       },
-      // No shipping_options - they'll be dynamically calculated via webhook
-      async_workflows: {
-        inputs: {
-          tax_calculation: {
-            enabled: false,
-          },
-          shipping_cost: {
-            enabled: true,
+    };
+
+    // Configure for embedded or hosted mode
+    if (mode === 'embedded') {
+      // For embedded mode, start with minimal shipping to be updated dynamically
+      sessionConfig.ui_mode = 'embedded';
+      sessionConfig.return_url = `${siteUrl}/books/success?session_id={CHECKOUT_SESSION_ID}`;
+      sessionConfig.shipping_options = [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 0,
+              currency: "usd",
+            },
+            display_name: "Calculating shipping...",
           },
         },
-      },
-      customer_creation: "always",
-      payment_intent_data: {
-        metadata: {
-          orderNotes: orderNotes || "",
-          totalQuantity: totalQuantity.toString(),
+      ];
+      // Enable server-side shipping updates
+      sessionConfig.permissions = {
+        update: {
+          shipping_details: 'server',
         },
+      };
+    } else {
+      // Standard hosted checkout with fixed rates
+      sessionConfig.shipping_options = [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 799, // $7.99
+              currency: "usd",
+            },
+            display_name: "Standard Shipping (5-7 business days)",
+            delivery_estimate: {
+              minimum: {
+                unit: "business_day",
+                value: 5,
+              },
+              maximum: {
+                unit: "business_day",
+                value: 7,
+              },
+            },
+          },
+        },
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 1500, // $15.00
+              currency: "usd",
+            },
+            display_name: "Express Shipping (2-3 business days)",
+            delivery_estimate: {
+              minimum: {
+                unit: "business_day",
+                value: 2,
+              },
+              maximum: {
+                unit: "business_day",
+                value: 3,
+              },
+            },
+          },
+        },
+      ];
+    }
+
+    // Add additional config
+    sessionConfig.customer_creation = "always";
+    sessionConfig.payment_intent_data = {
+      metadata: {
+        orderNotes: orderNotes || "",
+        totalQuantity: totalQuantity.toString(),
       },
-    });
+    };
+
+    // Create Stripe checkout session
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return {
       statusCode: 200,
@@ -138,6 +201,7 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
       body: JSON.stringify({
         url: session.url,
         sessionId: session.id,
+        client_secret: mode === 'embedded' ? session.client_secret : undefined,
       }),
     };
   } catch (error) {

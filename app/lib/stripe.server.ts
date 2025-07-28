@@ -74,7 +74,7 @@ export async function createCheckoutSession(
     line_items: lineItems,
     mode: 'payment',
     success_url: `${process.env.APP_URL}/books/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.APP_URL}/checkout`,
+    cancel_url: `${process.env.APP_URL}/checkout-cart`,
     metadata: {
       orderNotes: orderNotes || '',
       items: JSON.stringify(items),
@@ -85,17 +85,49 @@ export async function createCheckoutSession(
     shipping_address_collection: {
       allowed_countries: ['US', 'CA', 'GB', 'AU', 'NZ'], // Add more as needed
     },
-    // No shipping_options - they'll be dynamically calculated
-    async_workflows: {
-      inputs: {
-        tax_calculation: {
-          enabled: false,
-        },
-        shipping_cost: {
-          enabled: true,
+    // Fixed shipping options for now
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: {
+            amount: 799, // $7.99
+            currency: 'usd',
+          },
+          display_name: 'Standard Shipping (5-7 business days)',
+          delivery_estimate: {
+            minimum: {
+              unit: 'business_day',
+              value: 5,
+            },
+            maximum: {
+              unit: 'business_day',
+              value: 7,
+            },
+          },
         },
       },
-    },
+      {
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: {
+            amount: 1500, // $15.00
+            currency: 'usd',
+          },
+          display_name: 'Express Shipping (2-3 business days)',
+          delivery_estimate: {
+            minimum: {
+              unit: 'business_day',
+              value: 2,
+            },
+            maximum: {
+              unit: 'business_day',
+              value: 3,
+            },
+          },
+        },
+      },
+    ],
   });
 
   return session;
