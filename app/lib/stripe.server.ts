@@ -85,17 +85,7 @@ export async function createCheckoutSession(
     shipping_address_collection: {
       allowed_countries: ['US', 'CA', 'GB', 'AU', 'NZ'], // Add more as needed
     },
-    // Enable dynamic shipping rate calculation
-    shipping_options: [{
-      shipping_rate_data: {
-        type: 'fixed_amount',
-        fixed_amount: {
-          amount: 0,
-          currency: 'usd',
-        },
-        display_name: 'Calculating shipping rates...',
-      },
-    }],
+    // No shipping_options - they'll be dynamically calculated
     async_workflows: {
       inputs: {
         tax_calculation: {
