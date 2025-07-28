@@ -4,8 +4,8 @@ import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe
 import { useNavigate } from 'react-router';
 import { useCart } from '~/contexts/CartContext';
 
-// TODO: Replace with your actual Stripe publishable key
-const stripePublishableKey = 'pk_test_YOUR_PUBLISHABLE_KEY';
+// Get Stripe publishable key from Vite environment
+const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY || '';
 
 // Initialize Stripe
 const stripePromise = loadStripe(stripePublishableKey);
