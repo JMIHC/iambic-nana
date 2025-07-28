@@ -233,7 +233,55 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
       };
     }
 
-    // Handle the checkout.session.completed event
+    // Handle payment intent succeeded (for Elements checkout)
+    if (stripeEvent.type === 'payment_intent.succeeded') {
+      const paymentIntent = stripeEvent.data.object as Stripe.PaymentIntent;
+      
+      console.log('Payment intent succeeded:', paymentIntent.id);
+      
+      // Extract order information from metadata
+      const orderData = {
+        paymentIntentId: paymentIntent.id,
+        paymentStatus: paymentIntent.status,
+        customerEmail: paymentIntent.metadata?.customerEmail,
+        customerName: paymentIntent.metadata?.customerName,
+        customerPhone: paymentIntent.metadata?.customerPhone,
+        shippingAddress: paymentIntent.metadata?.shippingAddress ? 
+          JSON.parse(paymentIntent.metadata.shippingAddress) : null,
+        amountTotal: paymentIntent.amount / 100, // Convert from cents
+        currency: paymentIntent.currency,
+        orderNotes: paymentIntent.metadata?.orderNotes || '',
+        totalQuantity: paymentIntent.metadata?.totalQuantity || '',
+        subtotal: paymentIntent.metadata?.subtotal || '',
+        shippingCarrier: paymentIntent.metadata?.shippingCarrier || '',
+        shippingService: paymentIntent.metadata?.shippingService || '',
+        shippingRate: paymentIntent.metadata?.shippingRate || '',
+        easypostRateId: paymentIntent.metadata?.easypostRateId || '',
+        createdAt: new Date(paymentIntent.created * 1000).toISOString(),
+        items: paymentIntent.metadata?.items ? 
+          JSON.parse(paymentIntent.metadata.items) : [],
+      };
+
+      // Send notification email
+      await sendOrderNotification({
+        ...orderData,
+        sessionId: paymentIntent.id, // Use payment intent ID as session ID
+        lineItems: orderData.items.map((item: any) => ({
+          productName: `Book ID: ${item.bookId}`,
+          quantity: item.quantity,
+          unitAmount: 0, // Will be calculated from subtotal
+          totalAmount: 0,
+        })),
+      });
+
+      return {
+        statusCode: 200,
+        headers: corsHeaders,
+        body: JSON.stringify({ received: true }),
+      };
+    }
+
+    // Handle the checkout.session.completed event (for hosted checkout)
     if (stripeEvent.type === 'checkout.session.completed') {
       const sessionFromWebhook = stripeEvent.data.object as Stripe.Checkout.Session;
       

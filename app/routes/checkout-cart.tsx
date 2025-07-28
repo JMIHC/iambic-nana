@@ -34,8 +34,6 @@ export default function CheckoutCart() {
 
   const canProcessWithStripe = true; // All quantities can now be processed
 
-  const navigate = useNavigate();
-
   const handleCheckout = async () => {
     // Save order notes to session storage
     if (orderNotes) {

@@ -129,12 +129,8 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
           },
         },
       ];
-      // Enable server-side shipping updates
-      sessionConfig.permissions = {
-        update: {
-          shipping_details: 'server',
-        },
-      };
+      // Note: permissions field may not be supported in current API version
+      // Will rely on webhook for shipping updates instead
     } else {
       // Standard hosted checkout with fixed rates
       sessionConfig.shipping_options = [

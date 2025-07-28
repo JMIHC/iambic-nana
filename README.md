@@ -5,7 +5,7 @@ A poetry and tiny books website by Susan Engle, built with React Router v7, Type
 ## Features
 
 - 🚀 Server-side rendering with React Router v7
-- ⚡️ Hot Module Replacement (HMR) 
+- ⚡️ Hot Module Replacement (HMR)
 - 📦 Asset bundling and optimization with Vite
 - 🔄 Data loading and mutations
 - 🔒 TypeScript by default
@@ -52,19 +52,19 @@ cp .env .env.local
 
 ### Required Environment Variables
 
-| Variable | Required For | Description |
-|----------|-------------|-------------|
-| `UPSTASH_REDIS_REST_URL` | Runtime | Redis database URL for view tracking |
-| `UPSTASH_REDIS_REST_TOKEN` | Runtime | Redis database token |
-| `VITE_STRIPE_PUBLIC_KEY` | Build + Runtime | Stripe publishable key (embedded in client) |
-| `STRIPE_SECRET_KEY` | Runtime | Stripe secret key (functions only) |
+| Variable                   | Required For    | Description                                 |
+| -------------------------- | --------------- | ------------------------------------------- |
+| `UPSTASH_REDIS_REST_URL`   | Runtime         | Redis database URL for view tracking        |
+| `UPSTASH_REDIS_REST_TOKEN` | Runtime         | Redis database token                        |
+| `STRIPE_PUBLIC_KEY`        | Build + Runtime | Stripe publishable key (embedded in client) |
+| `STRIPE_SECRET_KEY`        | Runtime         | Stripe secret key (functions only)          |
 
 ### 1. Upstash Redis Setup (View Tracking)
 
 Used for tracking poem views and generating popular poems lists.
 
 1. **Create Account**: Go to [Upstash Console](https://console.upstash.com/redis)
-2. **Create Database**: 
+2. **Create Database**:
    - Name: `iambic-nana-views`
    - Region: Choose closest to your users
    - Tier: Free (10K requests/day, 256MB storage)
@@ -81,7 +81,7 @@ Used for tiny books e-commerce functionality.
    - **For Development**: Use test keys (start with `pk_test_` and `sk_test_`)
    - **For Production**: Use live keys (start with `pk_live_` and `sk_live_`)
 3. **Configure Variables**:
-   - Publishable key → `VITE_STRIPE_PUBLIC_KEY`
+   - Publishable key → `STRIPE_PUBLIC_KEY`
    - Secret key → `STRIPE_SECRET_KEY`
 
 **⚠️ Security Note**: Never commit your actual API keys to version control. The `VITE_` prefix exposes variables to the client, so only use publishable keys there.
@@ -89,15 +89,17 @@ Used for tiny books e-commerce functionality.
 ### 3. Local Development Setup
 
 1. Copy environment template:
+
    ```bash
    cp .env .env.local
    ```
 
 2. Edit `.env.local` with your actual values:
+
    ```bash
    UPSTASH_REDIS_REST_URL=https://your-redis-url.upstash.io
    UPSTASH_REDIS_REST_TOKEN=your-redis-token
-   VITE_STRIPE_PUBLIC_KEY=pk_test_your-public-key
+   STRIPE_PUBLIC_KEY=pk_test_your-public-key
    STRIPE_SECRET_KEY=sk_test_your-secret-key
    ```
 
@@ -112,8 +114,7 @@ Used for tiny books e-commerce functionality.
 1. **Set Environment Variables** in Netlify dashboard:
    - Site settings → Environment variables
    - Add all four variables with production values
-   
-2. **Deploy Configuration**: 
+2. **Deploy Configuration**:
    - Build command: `npm run build` (configured in `netlify.toml`)
    - Publish directory: `build/client`
    - Functions directory: `netlify/functions`
@@ -121,15 +122,18 @@ Used for tiny books e-commerce functionality.
 ### Build vs Runtime Requirements
 
 **Build Time** (needed during `npm run build`):
-- `VITE_STRIPE_PUBLIC_KEY` - Embedded into client bundle
+
+- `STRIPE_PUBLIC_KEY` - Embedded into client bundle
 
 **Runtime** (needed when app is running):
+
 - `UPSTASH_REDIS_REST_URL` - View tracking
-- `UPSTASH_REDIS_REST_TOKEN` - View tracking  
+- `UPSTASH_REDIS_REST_TOKEN` - View tracking
 - `STRIPE_SECRET_KEY` - Payment processing (functions only)
-- `VITE_STRIPE_PUBLIC_KEY` - Client-side Stripe integration
+- `STRIPE_PUBLIC_KEY` - Client-side Stripe integration
 
 **Graceful Degradation**: The app will work without these services but with reduced functionality:
+
 - Without Redis: No view tracking or popular poems
 - Without Stripe: Tiny books display but no purchasing
 
@@ -158,6 +162,7 @@ This project is optimized for Netlify deployment with the included `netlify.toml
 3. **Deploy**: Netlify will automatically build and deploy using the configuration in `netlify.toml`
 
 Build settings (automatically configured):
+
 - Build command: `npm run build`
 - Publish directory: `build/client`
 - Functions directory: `netlify/functions`
