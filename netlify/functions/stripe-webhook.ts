@@ -51,7 +51,11 @@ const sendOrderNotification = async (orderData: any) => {
       'shippingAddress': shippingAddress,
       'orderNotes': orderData.orderNotes || 'No notes provided',
       'sessionId': orderData.sessionId,
-      'orderDate': orderData.createdAt
+      'orderDate': orderData.createdAt,
+      'subtotal': orderData.subtotal || 'Not provided',
+      'shippingCarrier': orderData.shippingCarrier || 'Not provided',
+      'shippingService': orderData.shippingService || 'Not provided',
+      'shippingRate': orderData.shippingRate || 'Not provided'
     });
 
     console.log('Submitting form to Netlify:', formData.toString());
@@ -240,6 +244,10 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
       console.log('Payment intent succeeded:', paymentIntent.id);
       
       // Extract order information from metadata
+      const totalQuantity = parseInt(paymentIntent.metadata?.totalQuantity || '1');
+      const subtotalAmount = parseFloat(paymentIntent.metadata?.subtotal || '0');
+      const pricePerUnit = totalQuantity > 0 ? (subtotalAmount / totalQuantity).toFixed(2) : '0.00';
+      
       const orderData = {
         paymentIntentId: paymentIntent.id,
         paymentStatus: paymentIntent.status,
@@ -251,7 +259,8 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
         amountTotal: paymentIntent.amount / 100, // Convert from cents
         currency: paymentIntent.currency,
         orderNotes: paymentIntent.metadata?.orderNotes || '',
-        totalQuantity: paymentIntent.metadata?.totalQuantity || '',
+        totalQuantity: totalQuantity,
+        pricePerUnit: pricePerUnit,
         subtotal: paymentIntent.metadata?.subtotal || '',
         shippingCarrier: paymentIntent.metadata?.shippingCarrier || '',
         shippingService: paymentIntent.metadata?.shippingService || '',

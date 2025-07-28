@@ -206,8 +206,7 @@ function CheckoutForm() {
       if (result.error) {
         setError(result.error.message || 'Payment failed');
       } else {
-        // Payment successful
-        clearCart();
+        // Payment successful - don't clear cart here to avoid redirect
         window.sessionStorage.removeItem('orderNotes');
         navigate(`/books/success?payment_intent=${result.paymentIntent.id}`);
       }
@@ -279,7 +278,7 @@ function CheckoutForm() {
             <input
               type="tel"
               required
-              autoComplete="shipping tel"
+              autoComplete="tel"
               value={shippingAddress.phone}
               onChange={(e) => setShippingAddress({ ...shippingAddress, phone: e.target.value })}
               className="w-full px-3 py-2 border rounded-md"
@@ -291,7 +290,7 @@ function CheckoutForm() {
             <input
               type="text"
               required
-              autoComplete="shipping address-line1"
+              autoComplete="address-line1"
               value={shippingAddress.line1}
               onChange={(e) => setShippingAddress({ ...shippingAddress, line1: e.target.value })}
               className="w-full px-3 py-2 border rounded-md"
@@ -302,7 +301,7 @@ function CheckoutForm() {
             <label className="block text-sm font-medium mb-1">Apartment, Suite, etc. (optional)</label>
             <input
               type="text"
-              autoComplete="shipping address-line2"
+              autoComplete="address-line2"
               value={shippingAddress.line2}
               onChange={(e) => setShippingAddress({ ...shippingAddress, line2: e.target.value })}
               className="w-full px-3 py-2 border rounded-md"
@@ -315,7 +314,7 @@ function CheckoutForm() {
               <input
                 type="text"
                 required
-                autoComplete="shipping address-level2"
+                autoComplete="address-level2"
                 value={shippingAddress.city}
                 onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
                 className="w-full px-3 py-2 border rounded-md"
@@ -327,7 +326,7 @@ function CheckoutForm() {
               <input
                 type="text"
                 required
-                autoComplete="shipping address-level1"
+                autoComplete="address-level1"
                 maxLength={2}
                 value={shippingAddress.state}
                 onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value.toUpperCase() })}
@@ -340,7 +339,7 @@ function CheckoutForm() {
               <input
                 type="text"
                 required
-                autoComplete="shipping postal-code"
+                autoComplete="postal-code"
                 value={shippingAddress.postalCode}
                 onChange={(e) => setShippingAddress({ ...shippingAddress, postalCode: e.target.value })}
                 className="w-full px-3 py-2 border rounded-md"
@@ -351,7 +350,7 @@ function CheckoutForm() {
           <div>
             <label className="block text-sm font-medium mb-1">Country</label>
             <select
-              autoComplete="shipping country"
+              autoComplete="country"
               value={shippingAddress.country}
               onChange={(e) => setShippingAddress({ ...shippingAddress, country: e.target.value })}
               className="w-full px-3 py-2 border rounded-md"

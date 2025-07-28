@@ -160,6 +160,10 @@ export function HiddenOrderForm() {
       <input type="text" name="orderNotes" />
       <input type="text" name="sessionId" />
       <input type="text" name="orderDate" />
+      <input type="text" name="subtotal" />
+      <input type="text" name="shippingCarrier" />
+      <input type="text" name="shippingService" />
+      <input type="text" name="shippingRate" />
     </form>
   );
 }
