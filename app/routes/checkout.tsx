@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 import { useCart } from '~/contexts/CartContext';
 
 // Get Stripe publishable key from Vite environment
-const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY || '';
+const stripePublishableKey = process.env.VITE_STRIPE_PUBLIC_KEY!
 
 // Initialize Stripe
 const stripePromise = loadStripe(stripePublishableKey);
