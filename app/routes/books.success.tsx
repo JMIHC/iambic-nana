@@ -32,20 +32,24 @@ export default function BookSuccess() {
   const [error, setError] = useState<string | null>(null);
   
   const sessionId = searchParams.get("session_id");
+  const paymentIntentId = searchParams.get("payment_intent");
 
   // Fetch order data and clear cart on successful order
   useEffect(() => {
     const fetchOrderData = async () => {
-      if (!sessionId) {
-        setError("Missing session ID");
+      if (!sessionId && !paymentIntentId) {
+        setError("Missing order ID");
         setLoading(false);
         return;
       }
 
       try {
-        const response = await fetch(
-          `/.netlify/functions/get-checkout-session?session_id=${sessionId}`
-        );
+        // Use different endpoint based on checkout type
+        const endpoint = sessionId 
+          ? `/.netlify/functions/get-checkout-session?session_id=${sessionId}`
+          : `/.netlify/functions/get-payment-intent?payment_intent_id=${paymentIntentId}`;
+          
+        const response = await fetch(endpoint);
         
         if (!response.ok) {
           throw new Error("Failed to retrieve order details");
@@ -63,7 +67,7 @@ export default function BookSuccess() {
     };
 
     fetchOrderData();
-  }, [sessionId, clearCart]);
+  }, [sessionId, paymentIntentId, clearCart]);
 
   if (loading) {
     return (

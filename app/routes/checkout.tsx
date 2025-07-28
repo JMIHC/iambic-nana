@@ -500,7 +500,7 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (items.length === 0) {
-      navigate('/checkout-cart');
+      navigate('/tiny-books');
     }
   }, [items, navigate]);
 
