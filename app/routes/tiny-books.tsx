@@ -319,17 +319,6 @@ export default function TinyBooks() {
         </div>
       </div>
 
-      {/* Order Information */}
-      <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 mb-8">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-            <p>
-              <strong>International Shipping:</strong> We ship worldwide! International shipping rates will be calculated at checkout.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Additional Information */}
       <div className="text-center text-sm text-gray-500 dark:text-gray-400">
         <p>All prices are in USD. Shipping calculated at checkout.</p>

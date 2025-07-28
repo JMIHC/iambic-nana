@@ -1,5 +1,6 @@
 import type { HandlerEvent, HandlerContext } from "@netlify/functions";
 import Stripe from "stripe";
+import { books } from "../../app/data/books";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-12-18.acacia",
@@ -85,8 +86,12 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
           const itemQuantity = item.quantity || 1;
           const unitPrice = parseFloat(pricePerUnit);
           const itemTotal = unitPrice * itemQuantity;
+          // Find the book name from the bookId
+          const book = books.find(b => b.id === item.bookId);
+          const bookName = book ? book.title : `${item.bookId}`;
+          
           return {
-            description: `Book ID: ${item.bookId}`,
+            description: bookName,
             quantity: itemQuantity,
             amount_total: Math.round(itemTotal * 100), // Convert to cents for display consistency
           };

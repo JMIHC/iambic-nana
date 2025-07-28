@@ -366,7 +366,7 @@ function CheckoutForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50"
+            className="w-full bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
           >
             {loading ? 'Calculating Shipping...' : 'Continue to Delivery'}
           </button>
@@ -411,14 +411,14 @@ function CheckoutForm() {
             <button
               type="button"
               onClick={() => setStep('shipping')}
-              className="flex-1 border border-gray-300 py-3 rounded-md hover:bg-gray-50"
+              className="flex-1 border border-gray-300 py-3 rounded-md hover:bg-gray-50 cursor-pointer"
             >
               Back
             </button>
             <button
               type="submit"
               disabled={loading || !selectedShippingRate}
-              className="flex-1 bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50"
+              className="flex-1 bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
             >
               {loading ? 'Processing...' : 'Continue to Payment'}
             </button>
@@ -475,14 +475,14 @@ function CheckoutForm() {
             <button
               type="button"
               onClick={() => setStep('shipping-method')}
-              className="flex-1 border border-gray-300 py-3 rounded-md hover:bg-gray-50"
+              className="flex-1 border border-gray-300 py-3 rounded-md hover:bg-gray-50 cursor-pointer"
             >
               Back
             </button>
             <button
               type="submit"
               disabled={loading || !stripe}
-              className="flex-1 bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50"
+              className="flex-1 bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
             >
               {loading ? 'Processing...' : `Pay $${total.toFixed(2)}`}
             </button>
@@ -513,7 +513,7 @@ export default function CheckoutPage() {
           </p>
           <button
             onClick={() => navigate('/checkout-cart')}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 cursor-pointer"
           >
             Return to Cart
           </button>
