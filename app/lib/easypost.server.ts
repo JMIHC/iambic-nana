@@ -72,6 +72,12 @@ export async function calculateShippingRates(
     // Get rates
     const rates = shipment.rates || [];
     
+    console.log('EasyPost returned rates:', rates.map(r => ({ 
+      carrier: r.carrier, 
+      service: r.service, 
+      rate: r.rate 
+    })));
+    
     // Filter and sort rates - prioritize Media Mail for books
     const formattedRates = rates
       .map(rate => ({
@@ -81,7 +87,7 @@ export async function calculateShippingRates(
         deliveryDays: rate.delivery_days,
         deliveryDate: rate.delivery_date,
         id: rate.id,
-        isMediaMail: rate.service?.toLowerCase().includes('media') || rate.service?.toLowerCase().includes('book'),
+        isMediaMail: rate.service?.toLowerCase().includes('media'),
       }))
       .sort((a, b) => {
         // Sort Media Mail first, then by price
@@ -90,8 +96,26 @@ export async function calculateShippingRates(
         return a.rate - b.rate;
       });
 
-    // If we have rates, return them, otherwise return fallback with Media Mail
-    return formattedRates.length > 0 ? formattedRates : getFallbackRates(quantity);
+    // Always include fallback Media Mail if EasyPost doesn't provide it
+    const hasMediaMail = formattedRates.some(rate => rate.isMediaMail);
+    const finalRates = [...formattedRates];
+    
+    if (!hasMediaMail) {
+      // Add our own Media Mail option at the beginning
+      const mediaMailRate = {
+        carrier: 'USPS',
+        service: 'Media Mail',
+        rate: Math.round(320 + (quantity > 1 ? (quantity - 1) * 10 : 0)),
+        deliveryDays: 8,
+        deliveryDate: null,
+        id: 'custom-media-mail',
+        isMediaMail: true,
+      };
+      finalRates.unshift(mediaMailRate);
+    }
+
+    // If we have any rates, return them, otherwise return full fallback
+    return finalRates.length > 0 ? finalRates : getFallbackRates(quantity);
   } catch (error) {
     console.error('Error calculating shipping rates:', error);
     // Return fallback rates if EasyPost fails
@@ -122,11 +146,11 @@ function getFallbackRates(quantity: number = 1) {
     },
     {
       carrier: 'USPS',
-      service: 'Ground Advantage',
+      service: 'First-Class Mail',
       rate: Math.round(groundBase + (quantity > 1 ? (quantity - 1) * 20 : 0)),
-      deliveryDays: 5,
+      deliveryDays: 3,
       deliveryDate: null,
-      id: 'fallback-ground',
+      id: 'fallback-first-class',
       isMediaMail: false,
     },
     {
