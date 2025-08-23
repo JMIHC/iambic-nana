@@ -22,7 +22,7 @@ export const books: Book[] = [
   {
     id: 'soul-is-forever',
     title: 'A Soul Is Forever: A Tiny Book of Comfort',
-    description: 'Comforting words and reflections on the eternal nature of the soul',
+    description: 'Stories and reflections on life after death.',
     image: '/images/books/soul-is-forever.jpg'
   }
 ];

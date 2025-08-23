@@ -88,8 +88,8 @@ export default function TinyBooks() {
               className="w-full h-auto object-cover"
             />
           </div>
-          <h3 className="text-xl font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">Three Book Collection</h3>
-          <p className="text-gray-700 dark:text-gray-300 text-sm">Three tiny books together</p>
+          <h3 className="text-xl font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">First Tiny Books in the Series</h3>
+          <p className="text-gray-700 dark:text-gray-300 text-sm">Photo by Richard Doering</p>
           
           {/* Soul is Forever individual book */}
           <div 
@@ -98,11 +98,11 @@ export default function TinyBooks() {
           >
             <img 
               src="/soul-is-forever.png" 
-              alt="A Soul is Forever Tiny Book"
+              alt="A Soul Is Forever Tiny Book"
               className="w-full h-auto object-cover"
             />
           </div>
-          <h4 className="text-lg font-serif font-medium text-gray-900 dark:text-gray-100 mb-1">A Soul is Forever</h4>
+          <h4 className="text-lg font-serif font-medium text-gray-900 dark:text-gray-100 mb-1">A Soul Is Forever</h4>
           <p className="text-gray-600 dark:text-gray-400 text-xs">One of our most popular tiny books</p>
         </div>
         
@@ -119,7 +119,7 @@ export default function TinyBooks() {
             />
           </div>
           <h3 className="text-xl font-serif font-semibold text-gray-900 dark:text-gray-100 mb-2">Inside & Outside View</h3>
-          <p className="text-gray-700 dark:text-gray-300 text-sm">The inside of our A Soul is Forever cover</p>
+          <p className="text-gray-700 dark:text-gray-300 text-sm">“A Soul Is Forever” awarded a Readers’ Favorite Five-Star Review</p>
         </div>
       </div>
       

@@ -95,10 +95,19 @@ const sendOrderNotification = async (orderData: any) => {
 };
 
 export const handler = async (event: HandlerEvent, context: HandlerContext) => {
+  console.log('=== STRIPE WEBHOOK CALLED ===');
   console.log('Stripe webhook received:', {
     httpMethod: event.httpMethod,
-    headers: event.headers,
-    hasBody: !!event.body
+    url: event.path,
+    headers: Object.keys(event.headers || {}),
+    hasBody: !!event.body,
+    bodyLength: event.body?.length || 0
+  });
+  console.log('Environment check:', {
+    hasStripeSecret: !!process.env.STRIPE_SECRET_KEY,
+    hasWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
+    stripeSecretLength: process.env.STRIPE_SECRET_KEY?.length || 0,
+    webhookSecretLength: process.env.STRIPE_WEBHOOK_SECRET?.length || 0
   });
 
   // Handle preflight OPTIONS requests
@@ -106,7 +115,23 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
     return handleOptions();
   }
 
-  // Only allow POST requests
+  // Allow GET for testing
+  if (event.httpMethod === 'GET') {
+    return {
+      statusCode: 200,
+      headers: corsHeaders,
+      body: JSON.stringify({ 
+        message: 'Stripe webhook endpoint is working',
+        timestamp: new Date().toISOString(),
+        environment: {
+          hasStripeSecret: !!process.env.STRIPE_SECRET_KEY,
+          hasWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET
+        }
+      }),
+    };
+  }
+
+  // Only allow POST requests for actual webhooks
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,

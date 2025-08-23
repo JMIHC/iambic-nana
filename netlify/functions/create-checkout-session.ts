@@ -19,7 +19,7 @@ const BOOKS = {
   "bahai-faith-english": { title: "The Bahá'í Faith (English)", description: "An introduction to the Bahá'í Faith" },
   "bahai-faith-spanish": { title: "The Bahá'í Faith (Spanish)", description: "Una introducción a la Fe Bahá'í" },
   "tiny-book-prayers": { title: "Tiny Book of Prayers", description: "A collection of prayers and meditations" },
-  "soul-is-forever": { title: "A Soul is Forever", description: "Reflections on the eternal nature of the soul" }
+  "soul-is-forever": { title: "A Soul Is Forever", description: "Reflections on the eternal nature of the soul" }
 };
 
 function calculatePricing(totalQuantity: number) {

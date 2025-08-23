@@ -15,7 +15,7 @@ export function Footer() {
               Iambic Nana
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md">
-              Poetry and writings by Susan Engle. Explore themes of friendship, family, and faith.
+              Poetry and books by Susan Engle.
             </p>
             <p className="text-gray-500 dark:text-gray-500 text-sm">
               © {currentYear} Susan Engle. All rights reserved.

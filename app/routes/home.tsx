@@ -43,7 +43,15 @@ export default function Home() {
                 className="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors duration-200 font-medium"
                 style={{ backgroundColor: 'var(--color-primary)' }}
               >
-                Explore Poems
+                Poems to read
+              </Link>
+              <Link 
+                to="/poems" 
+                viewTransition
+                className="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors duration-200 font-medium"
+                style={{ backgroundColor: 'var(--color-primary)' }}
+              >
+                Poems to listen to
               </Link>
               <Link 
                 to="/tiny-books" 
@@ -51,7 +59,7 @@ export default function Home() {
                 className="px-6 py-3 bg-secondary text-white rounded-md hover:bg-secondary-600 transition-colors duration-200 font-medium"
                 style={{ backgroundColor: 'var(--color-secondary)' }}
               >
-                Tiny Books
+                Tiny books
               </Link>
             </div>
           </div>
