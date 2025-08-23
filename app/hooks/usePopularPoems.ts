@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { friendsPoems, type Poem } from '../data/friends-poems';
+import { familyPoems } from '../data/family-poems';
+import { faithPoems } from '../data/faith-poems';
 
 // Extended Poem type with view count
 interface PoemWithViews extends Poem {
@@ -46,6 +48,9 @@ const getApiEndpoint = () => {
   return 'http://localhost:8888/.netlify/functions/get-popular-poems';
 };
 
+// Combine all poem collections
+const allPoems = [...friendsPoems, ...familyPoems, ...faithPoems];
+
 // Custom hook for fetching popular poems
 export function usePopularPoems(limit: number = 6): UsePopularPoemsReturn {
   const [poems, setPoems] = useState<PoemWithViews[]>([]);
@@ -73,11 +78,11 @@ export function usePopularPoems(limit: number = 6): UsePopularPoemsReturn {
 
       const data: PopularPoemsResponse = await response.json();
       
-      // Match API poem IDs with full poem data from friends-poems.ts
+      // Match API poem IDs with full poem data from all collections
       const popularPoemsWithData: PoemWithViews[] = data.poems
         .map((popularPoem) => {
-          // Find matching poem in our data
-          const fullPoem = friendsPoems.find(poem => poem.id === popularPoem.id);
+          // Find matching poem in all collections
+          const fullPoem = allPoems.find(poem => poem.id === popularPoem.id);
           if (!fullPoem) {
             // Handle case where poem ID doesn't match (data sync issues)
             console.warn(`Popular poem ID "${popularPoem.id}" not found in poem data`);

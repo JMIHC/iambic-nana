@@ -1,6 +1,8 @@
 import { Redis } from '@upstash/redis';
 import type { Handler, HandlerEvent } from '@netlify/functions';
 import { friendsPoems, type Poem } from '../../app/data/friends-poems';
+import { familyPoems } from '../../app/data/family-poems';
+import { faithPoems } from '../../app/data/faith-poems';
 
 // Initialize Redis client
 const redis = new Redis({
@@ -39,6 +41,20 @@ interface PopularPoem {
 }
 
 
+// Combine all poem collections
+const allPoems = [...friendsPoems, ...familyPoems, ...faithPoems];
+
+// Featured titles to show when no view data exists
+const featuredTitles = [
+  "The Crimson Balloon",
+  "A Traveler's Tale", 
+  "Fire Chief O'My",
+  "Autumn Lullabye",
+  "Hooray for Skin",
+  "Night Walk",
+  "Feast at My House"
+];
+
 // Get popular poems based on view counts
 const getPopularPoems = async (limit: number = 6): Promise<PopularPoem[]> => {
   try {
@@ -46,14 +62,20 @@ const getPopularPoems = async (limit: number = 6): Promise<PopularPoem[]> => {
     const viewKeys = await redis.keys('poem:views:*');
     
     if (viewKeys.length === 0) {
-      // No views recorded yet, return fallback
-      return friendsPoems.slice(0, limit).map(poem => ({
-        id: poem.id,
-        title: poem.title,
-        category: poem.category,
-        excerpt: poem.excerpt,
-        views: 0
-      }));
+      // No views recorded yet, return featured poems
+      const featuredPoems = featuredTitles
+        .map(title => allPoems.find(poem => poem.title === title))
+        .filter(Boolean)
+        .slice(0, limit)
+        .map(poem => ({
+          id: poem!.id,
+          title: poem!.title,
+          category: poem!.category,
+          excerpt: poem!.excerpt,
+          views: 0
+        }));
+      
+      return featuredPoems;
     }
     
     // Batch fetch all view counts using mget
@@ -74,7 +96,7 @@ const getPopularPoems = async (limit: number = 6): Promise<PopularPoem[]> => {
     // Map to full poem data with view counts
     const popularPoems: PopularPoem[] = poemsWithViews
       .map(({ id, views }) => {
-        const poem = friendsPoems.find(p => p.id === id);
+        const poem = allPoems.find(p => p.id === id);
         if (!poem) return null;
         return {
           id: poem.id,
@@ -89,14 +111,20 @@ const getPopularPoems = async (limit: number = 6): Promise<PopularPoem[]> => {
     return popularPoems;
   } catch (error) {
     console.error('Error fetching popular poems:', error);
-    // Return fallback popular poems (first few poems) if Redis fails
-    return friendsPoems.slice(0, limit).map(poem => ({
-      id: poem.id,
-      title: poem.title,
-      category: poem.category,
-      excerpt: poem.excerpt,
-      views: 0
-    }));
+    // Return featured poems as fallback if Redis fails
+    const featuredPoems = featuredTitles
+      .map(title => allPoems.find(poem => poem.title === title))
+      .filter(Boolean)
+      .slice(0, limit)
+      .map(poem => ({
+        id: poem!.id,
+        title: poem!.title,
+        category: poem!.category,
+        excerpt: poem!.excerpt,
+        views: 0
+      }));
+    
+    return featuredPoems;
   }
 };
 
@@ -155,14 +183,18 @@ export const handler: Handler = async (event: HandlerEvent) => {
   } catch (error) {
     console.error('Unexpected error in get-popular-poems function:', error);
     
-    // Return fallback data in case of any error
-    const fallbackPoems = friendsPoems.slice(0, 6).map(poem => ({
-      id: poem.id,
-      title: poem.title,
-      category: poem.category,
-      excerpt: poem.excerpt,
-      views: 0
-    }));
+    // Return featured poems as fallback in case of any error
+    const fallbackPoems = featuredTitles
+      .slice(0, 6)
+      .map(title => allPoems.find(poem => poem.title === title))
+      .filter(Boolean)
+      .map(poem => ({
+        id: poem!.id,
+        title: poem!.title,
+        category: poem!.category,
+        excerpt: poem!.excerpt,
+        views: 0
+      }));
 
     return {
       statusCode: 200, // Return 200 with fallback data rather than error
