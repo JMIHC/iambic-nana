@@ -2,6 +2,8 @@ import { Heart, TrendingUp } from "lucide-react";
 import { PoemCard } from "~/components/poems/PoemCard";
 import { usePopularPoems } from "~/hooks/usePopularPoems";
 import { friendsPoems } from "~/data/friends-poems";
+import { familyPoems } from "~/data/family-poems";
+import { faithPoems } from "~/data/faith-poems";
 import { cn } from "~/lib/utils";
 
 interface PopularPoemsProps {
@@ -50,14 +52,33 @@ function PopularPoemCard({ poem, isTrending }: {
 }
 
 export function PopularPoems({ className }: PopularPoemsProps) {
-  const { poems, isLoading, error } = usePopularPoems(6);
+  const { poems, isLoading, error } = usePopularPoems(7);
   
   // Fallback to featured poems if error or no data
   const getFallbackPoems = () => {
-    return friendsPoems.slice(0, 6).map(poem => ({
-      ...poem,
-      views: 0
-    }));
+    const featuredTitles = [
+      "The Crimson Balloon",
+      "A Traveler's Tale", 
+      "Fire Chief O'My",
+      "Autumn Lullabye",
+      "Hooray for Skin",
+      "Night Walk",
+      "Feast at My House"
+    ];
+    
+    // Combine all poem collections
+    const allPoems = [...friendsPoems, ...familyPoems, ...faithPoems];
+    
+    const featuredPoems = featuredTitles
+      .map(title => allPoems.find(poem => poem.title === title))
+      .filter(Boolean)
+      .slice(0, 7)
+      .map(poem => ({
+        ...poem!,
+        views: 0
+      }));
+    
+    return featuredPoems;
   };
   
   const displayPoems = error || poems.length === 0 ? getFallbackPoems() : poems;
@@ -82,7 +103,7 @@ export function PopularPoems({ className }: PopularPoemsProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {isLoading ? (
             // Loading skeletons
-            Array.from({ length: 6 }).map((_, index) => (
+            Array.from({ length: 7 }).map((_, index) => (
               <PoemCardSkeleton key={index} />
             ))
           ) : (

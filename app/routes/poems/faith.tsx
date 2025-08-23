@@ -17,19 +17,19 @@ function Breadcrumb() {
     <nav className="flex items-center space-x-2 text-sm mb-6">
       <Link 
         to="/" 
-        className="text-muted-foreground hover:text-foreground transition-colors"
+        className="text-white/80 hover:text-white transition-colors"
       >
         Home
       </Link>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="h-4 w-4 text-white/60" />
       <Link 
         to="/poems" 
-        className="text-muted-foreground hover:text-foreground transition-colors"
+        className="text-white/80 hover:text-white transition-colors"
       >
         Poems
       </Link>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-      <span className="text-foreground font-medium">Faith</span>
+      <ChevronRight className="h-4 w-4 text-white/60" />
+      <span className="text-white font-medium">Faith</span>
     </nav>
   );
 }
@@ -50,8 +50,8 @@ export default function Faith() {
 
   return (
     <div className="min-h-screen">
-      {/* Header with gradient background */}
-      <div className="bg-gradient-to-r from-amber-500 to-amber-200 dark:from-amber-700 dark:to-amber-400">
+      {/* Header with solid background */}
+      <div className="bg-amber-500 dark:bg-amber-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Breadcrumb />
           <div className="text-center text-white">
