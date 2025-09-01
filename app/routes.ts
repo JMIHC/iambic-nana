@@ -13,4 +13,5 @@ export default [
   route("/books/:bookId", "routes/books.$bookId.tsx"),
   route("/books/success", "routes/books.success.tsx"),
   route("/about", "routes/about.tsx"),
+  route("/listen", "routes/listen.tsx")
 ] satisfies RouteConfig;

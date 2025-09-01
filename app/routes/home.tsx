@@ -46,7 +46,7 @@ export default function Home() {
                 Poems to read
               </Link>
               <Link 
-                to="/poems" 
+                to="/listen" 
                 viewTransition
                 className="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-600 transition-colors duration-200 font-medium"
                 style={{ backgroundColor: 'var(--color-primary)' }}

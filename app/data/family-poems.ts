@@ -539,6 +539,7 @@ That calls me out to walk at night.`,
     excerpt: "The house is quiet, O so still.\nThe moon shines on my windowsill\nAnd draws me out in silver light\nTo hear the language of the night.\n\nThe doves an",
     copyright: "By Susan Engle, Copyright 2021",
     category: 'family' as const,
+    audioUrl: "/audio/night-walk.m4a",
   },
   {
     id: "the-reluctant-seed",

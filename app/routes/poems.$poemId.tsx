@@ -10,6 +10,7 @@ import { Card, CardContent } from "~/components/ui/card";
 import { DownloadPdfButton } from "~/components/poems/DownloadPdfButton";
 import { ShareButtons } from "~/components/poems/ShareButtons";
 import { ShareDropdown } from "~/components/poems/ShareDropdown";
+import { AudioPlayer } from "~/components/poems/AudioPlayer";
 import type { BasePoem } from "~/types/poem";
 
 // Combine all poems into a single array
@@ -56,40 +57,40 @@ function Breadcrumb({ poem }: { poem: BasePoem }) {
     <nav className="flex items-center space-x-2 text-sm mb-6">
       <Link 
         to="/" 
-        className="text-muted-foreground hover:text-foreground transition-colors"
+        className="text-white/70 hover:text-white transition-colors"
       >
         Home
       </Link>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="h-4 w-4 text-white/50" />
       <Link 
         to="/poems" 
-        className="text-muted-foreground hover:text-foreground transition-colors"
+        className="text-white/70 hover:text-white transition-colors"
       >
         Poems
       </Link>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="h-4 w-4 text-white/50" />
       <Link 
         to={`/poems/${poem.category}`} 
-        className="text-muted-foreground hover:text-foreground transition-colors capitalize"
+        className="text-white/70 hover:text-white transition-colors capitalize"
       >
         {poem.category}
       </Link>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-      <span className="text-foreground font-medium">{poem.title}</span>
+      <ChevronRight className="h-4 w-4 text-white/50" />
+      <span className="text-white font-medium">{poem.title}</span>
     </nav>
   );
 }
 
-const getCategoryGradient = (category: string) => {
+const getCategoryColor = (category: string) => {
   switch (category) {
     case 'friends':
-      return 'from-purple-500 to-purple-200 dark:from-purple-700 dark:to-purple-400';
+      return 'bg-purple-600 dark:bg-purple-700';
     case 'family':
-      return 'from-blue-500 to-blue-200 dark:from-blue-700 dark:to-blue-400';
+      return 'bg-blue-600 dark:bg-blue-700';
     case 'faith':
-      return 'from-amber-500 to-amber-200 dark:from-amber-700 dark:to-amber-400';
+      return 'bg-amber-600 dark:bg-amber-700';
     default:
-      return 'from-gray-500 to-gray-200 dark:from-gray-700 dark:to-gray-400';
+      return 'bg-gray-600 dark:bg-gray-700';
   }
 };
 
@@ -150,8 +151,8 @@ export default function PoemDetail() {
 
   return (
     <div className="min-h-screen">
-      {/* Header with gradient background */}
-      <div className={`bg-gradient-to-r ${getCategoryGradient(poem.category)}`}>
+      {/* Header with solid background */}
+      <div className={getCategoryColor(poem.category)}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Breadcrumb poem={poem} />
           <div className="text-center text-white">
@@ -159,10 +160,13 @@ export default function PoemDetail() {
               {poem.title}
             </h1>
             {poem.audioUrl && (
-              <div className="flex items-center justify-center gap-2 text-white/80">
+              <Link 
+                to={`/listen?poem=${poem.id}`}
+                className="flex items-center justify-center gap-2 text-white/80 hover:text-white transition-colors"
+              >
                 <Volume2 className="h-5 w-5" />
-                <span>Audio available</span>
-              </div>
+                <span className="underline">Audio available</span>
+              </Link>
             )}
           </div>
         </div>
@@ -192,10 +196,9 @@ export default function PoemDetail() {
                 {/* Main actions */}
                 <div className="flex items-center justify-center gap-4 flex-wrap">
                   {poem.audioUrl && (
-                    <Button variant="outline" size="lg">
-                      <Volume2 className="mr-2 h-5 w-5" />
-                      Play Audio
-                    </Button>
+                    <div className="w-full max-w-2xl">
+                      <AudioPlayer audioUrl={poem.audioUrl} title={poem.title} />
+                    </div>
                   )}
                   <DownloadPdfButton 
                     poem={poem} 
