@@ -10,3 +10,9 @@
 .env
 # Local Netlify folder
 .netlify
+
+/scripts
+.mcp.json
+/docs
+stripe-diagnostic-report.json
+admin.orders.tsx
