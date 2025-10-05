@@ -1,7 +1,6 @@
 import Stripe from 'stripe';
-import { calculateBookPrice, getBundleDeals, getCurrentTier } from '~/lib/priceCalculator';
+import { calculateBookPrice, getBundleDeals, getCurrentTier, type CartItem } from '~/lib/priceCalculator';
 import { books, BUNDLE_DEAL } from '~/data/books';
-import type { CartItem } from '~/contexts/CartContext';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
@@ -13,7 +12,7 @@ export async function createCheckoutSession(
   orderNotes?: string
 ) {
   // Check if this qualifies for bundle deal
-  const bundleDeal = getBundleDeals(totalQuantity);
+  const bundleDeal = getBundleDeals(totalQuantity, items);
   const isBundle = totalQuantity === 4 && bundleDeal.available;
   
   // Get current pricing tier

@@ -81,7 +81,7 @@ function CheckoutForm() {
   // Calculate order total
   const totalQuantity = getTotalQuantity();
   const unitPrice = calculateBookPrice(totalQuantity);
-  const bundleDeal = getBundleDeals(totalQuantity);
+  const bundleDeal = getBundleDeals(totalQuantity, items);
   const isBundle = totalQuantity === 4 && bundleDeal.available;
   const subtotal = isBundle ? bundleDeal.price : unitPrice * totalQuantity;
 

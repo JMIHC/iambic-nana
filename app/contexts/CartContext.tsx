@@ -1,17 +1,13 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { Book } from '~/types/book';
-import { 
-  calculateBookPrice, 
-  calculateTotalPrice, 
-  getSavings, 
+import {
+  calculateBookPrice,
+  calculateTotalPrice,
+  getSavings,
   getBundleDeals,
-  getCurrentTier
+  getCurrentTier,
+  type CartItem
 } from '~/lib/priceCalculator';
-
-export interface CartItem {
-  bookId: string;
-  quantity: number;
-}
 
 interface CartSummary {
   totalQuantity: number;
@@ -62,11 +58,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const getCartSummary = useCallback((): CartSummary => {
     const totalQuantity = getTotalQuantity();
-    const subtotal = calculateTotalPrice(totalQuantity);
-    const savings = getSavings(totalQuantity);
-    const bundleDeal = getBundleDeals(totalQuantity);
+    const subtotal = calculateTotalPrice(totalQuantity, items);
+    const savings = getSavings(totalQuantity, items);
+    const bundleDeal = getBundleDeals(totalQuantity, items);
     const currentTier = getCurrentTier(totalQuantity);
-    
+
     // For display purposes, calculate effective price per unit
     const pricePerUnit = totalQuantity > 0 ? subtotal / totalQuantity : 0;
 
@@ -78,7 +74,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       bundleDeal,
       currentTier
     };
-  }, [getTotalQuantity]);
+  }, [getTotalQuantity, items]);
 
   const addToCart = useCallback((bookId: string, quantity: number) => {
     setItems(prevItems => {
