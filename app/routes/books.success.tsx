@@ -15,6 +15,12 @@ interface OrderData {
   customerEmail: string;
   customerName: string;
   shippingAddress: any;
+  shippingName?: string;
+  shippingCarrier?: string;
+  shippingService?: string;
+  shippingRate?: string;
+  shippingAmount?: number;
+  subtotalAmount?: number;
   totalAmount: number;
   totalQuantity: string;
   pricePerUnit: string;
@@ -134,12 +140,26 @@ export default function BookSuccess() {
             <span>Total Books:</span>
             <span className="font-semibold">{totalQuantity}</span>
           </div>
-          
+
           <div className="flex justify-between">
             <span>Price per Unit:</span>
             <span>${unitPrice.toFixed(2)}</span>
           </div>
-          
+
+          {data.subtotalAmount && (
+            <div className="flex justify-between">
+              <span>Subtotal:</span>
+              <span>${data.subtotalAmount.toFixed(2)}</span>
+            </div>
+          )}
+
+          {data.shippingAmount !== undefined && data.shippingAmount > 0 && (
+            <div className="flex justify-between">
+              <span>Shipping:</span>
+              <span>${data.shippingAmount.toFixed(2)}</span>
+            </div>
+          )}
+
           <div className="flex justify-between text-xl font-bold pt-2 border-t">
             <span>Total Paid:</span>
             <span className="text-purple-600">${data.totalAmount.toFixed(2)}</span>
@@ -151,14 +171,34 @@ export default function BookSuccess() {
       {data.shippingAddress && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-bold mb-4">Shipping Information</h2>
-          <div className="text-gray-600">
-            <p>{data.shippingAddress.line1}</p>
-            {data.shippingAddress.line2 && <p>{data.shippingAddress.line2}</p>}
-            <p>
-              {data.shippingAddress.city}, {data.shippingAddress.state} {data.shippingAddress.postal_code}
-            </p>
-            <p>{data.shippingAddress.country}</p>
+
+          {/* Shipping Address */}
+          <div className="mb-4">
+            <h3 className="font-semibold text-gray-700 mb-2">Shipping Address:</h3>
+            <div className="text-gray-600">
+              {data.shippingName && <p className="font-medium">{data.shippingName}</p>}
+              <p>{data.shippingAddress.line1}</p>
+              {data.shippingAddress.line2 && <p>{data.shippingAddress.line2}</p>}
+              <p>
+                {data.shippingAddress.city}, {data.shippingAddress.state} {data.shippingAddress.postal_code}
+              </p>
+              <p>{data.shippingAddress.country}</p>
+            </div>
           </div>
+
+          {/* Shipping Method */}
+          {(data.shippingCarrier || data.shippingService) && (
+            <div className="pt-4 border-t">
+              <h3 className="font-semibold text-gray-700 mb-2">Shipping Method:</h3>
+              <div className="text-gray-600">
+                {data.shippingCarrier && <p>{data.shippingCarrier}</p>}
+                {data.shippingService && !data.shippingCarrier && <p>{data.shippingService}</p>}
+                {data.shippingRate && (
+                  <p className="text-sm text-gray-500 mt-1">Rate: ${parseFloat(data.shippingRate).toFixed(2)}</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
