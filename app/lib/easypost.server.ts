@@ -51,12 +51,16 @@ export async function calculateShippingRates(
     // Calculate parcel dimensions and weight based on actual specifications
     const totalWeight = PACKAGING.packagingWeight + (PACKAGING.bookWeight * quantity);
     const totalHeight = PACKAGING.baseHeight + (PACKAGING.heightPerBook * quantity);
-    
+
+    // For Media Mail, USPS charges a minimum rate for packages under 1 lb (16 oz)
+    // So we round up to 16 oz to get accurate Media Mail pricing from EasyPost
+    const weightForRating = Math.max(totalWeight, 16);
+
     const parcel = await client.Parcel.create({
       length: PACKAGING.length,
       width: PACKAGING.width,
       height: Math.min(totalHeight, 12), // Cap height at 12 inches for USPS limits
-      weight: Math.max(totalWeight, 1), // Minimum 1 oz for shipping calculations
+      weight: weightForRating, // Use 1 lb minimum for accurate Media Mail pricing
     });
 
     // Create shipment with carrier accounts to ensure we get Media Mail
@@ -102,11 +106,12 @@ export async function calculateShippingRates(
     
     if (!hasMediaMail) {
       // Add our own Media Mail option at the beginning
-      // Media Mail scales very well - minimal per-item increase
+      // USPS Media Mail minimum is $4.13 for packages under 1 lb (as of 2025)
+      // Media Mail scales in 1 lb increments, but for small books we use the base rate
       const mediaMailRate = {
         carrier: 'USPS',
         service: 'Media Mail',
-        rate: Math.round(320 + (quantity > 1 ? (quantity - 1) * 5 : 0)), // Only 5¢ per additional book
+        rate: 413, // $4.13 - USPS minimum for under 1 lb
         deliveryDays: 8,
         deliveryDate: null,
         id: 'custom-media-mail',
@@ -127,20 +132,21 @@ export async function calculateShippingRates(
 function getFallbackRates(quantity: number = 1) {
   // Calculate actual package weight for fallback rate estimation
   const totalWeight = PACKAGING.packagingWeight + (PACKAGING.bookWeight * quantity);
-  const weightInOz = Math.max(totalWeight, 1);
-  
-  // Media Mail scales much better than other services for books
-  // It's designed for educational materials and has very low per-item costs
-  const mediaMailRate = 320 + (quantity > 1 ? (quantity - 1) * 3 : 0); // 3¢ per additional book
-  const firstClassRate = 420 + (quantity > 1 ? (quantity - 1) * 25 : 0); // 25¢ per additional  
+
+  // USPS Media Mail minimum is $4.13 for packages under 1 lb (as of 2025)
+  // Since our books are very light (1 oz each), we always use the base rate
+  const mediaMailRate = 413; // $4.13 - USPS minimum
+
+  // First-Class Mail and Priority Mail estimates for lightweight packages
+  const firstClassRate = 420 + (quantity > 1 ? (quantity - 1) * 25 : 0); // 25¢ per additional
   const priorityRate = 520 + (quantity > 1 ? (quantity - 1) * 35 : 0); // 35¢ per additional
-  
+
   return [
     {
       carrier: 'USPS',
       service: 'Media Mail',
-      rate: Math.round(mediaMailRate),
-      deliveryDays: 8, // Media Mail is slower but much cheaper
+      rate: mediaMailRate,
+      deliveryDays: 8, // Media Mail is slower but cheaper
       deliveryDate: null,
       id: 'fallback-media-mail',
       isMediaMail: true,
