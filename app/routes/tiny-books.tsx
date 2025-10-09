@@ -258,7 +258,7 @@ export default function TinyBooks() {
       )}
       
       {/* Bundle Deal Banner with Three Book Collection Image */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl p-6 mb-12 shadow-lg">
+      <div className="bg-purple-600 text-white rounded-xl p-6 mb-12 shadow-lg">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
           <div className="text-center lg:text-left order-2 lg:order-1">
             <h2 className="text-2xl font-serif font-bold mb-2">🎉 Community-Building Stimulus Package</h2>
