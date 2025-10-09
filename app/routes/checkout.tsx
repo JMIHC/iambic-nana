@@ -83,7 +83,7 @@ function CheckoutForm() {
   const unitPrice = calculateBookPrice(totalQuantity);
   const bundleDeal = getBundleDeals(totalQuantity, items);
   const isBundle = totalQuantity === 4 && bundleDeal.available;
-  const subtotal = isBundle ? bundleDeal.price : unitPrice * totalQuantity;
+  const subtotal = isBundle ? bundleDeal.bundlePrice : unitPrice * totalQuantity;
 
   // Handle shipping address submission
   const handleShippingSubmit = async (e: React.FormEvent) => {
