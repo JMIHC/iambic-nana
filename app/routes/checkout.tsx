@@ -366,7 +366,7 @@ function CheckoutForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+            className="w-full bg-purple-600 text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
           >
             {loading ? 'Calculating Shipping...' : 'Continue to Delivery'}
           </button>
@@ -418,7 +418,7 @@ function CheckoutForm() {
             <button
               type="submit"
               disabled={loading || !selectedShippingRate}
-              className="flex-1 bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+              className="flex-1 bg-purple-600 text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
             >
               {loading ? 'Processing...' : 'Continue to Payment'}
             </button>
