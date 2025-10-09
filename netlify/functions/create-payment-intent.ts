@@ -31,25 +31,77 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
   }
 
   try {
-    const { 
-      items, 
-      totalQuantity, 
-      orderNotes, 
-      shippingAddress, 
-      shippingRate, 
-      subtotal 
+    const {
+      items,
+      totalQuantity,
+      orderNotes,
+      shippingAddress,
+      shippingRate,
+      subtotal
     } = JSON.parse(event.body || '{}');
 
-    if (!items || !totalQuantity || !shippingAddress || !shippingRate) {
+    console.log('Received payment intent request:', {
+      items,
+      totalQuantity,
+      shippingAddress,
+      shippingRate,
+      subtotal
+    });
+
+    if (!items || !totalQuantity || !shippingAddress || !shippingRate || subtotal === undefined || subtotal === null) {
+      console.error('Missing required parameters:', {
+        hasItems: !!items,
+        hasTotalQuantity: !!totalQuantity,
+        hasShippingAddress: !!shippingAddress,
+        hasShippingRate: !!shippingRate,
+        hasSubtotal: subtotal !== undefined && subtotal !== null,
+        subtotalValue: subtotal
+      });
       return {
         statusCode: 400,
         headers: corsHeaders,
-        body: JSON.stringify({ error: 'Missing required parameters' }),
+        body: JSON.stringify({
+          error: 'Missing required parameters',
+          details: {
+            hasItems: !!items,
+            hasTotalQuantity: !!totalQuantity,
+            hasShippingAddress: !!shippingAddress,
+            hasShippingRate: !!shippingRate,
+            hasSubtotal: subtotal !== undefined && subtotal !== null
+          }
+        }),
       };
     }
 
     // Calculate total amount (subtotal + shipping) in cents
     const totalAmount = Math.round((subtotal + shippingRate.rate / 100) * 100);
+
+    console.log('Calculated total amount:', {
+      subtotal,
+      shippingRateCents: shippingRate.rate,
+      totalAmountCents: totalAmount
+    });
+
+    // Validate total amount
+    if (isNaN(totalAmount) || totalAmount < 50) {
+      console.error('Invalid total amount:', {
+        totalAmount,
+        subtotal,
+        shippingRate: shippingRate.rate
+      });
+      return {
+        statusCode: 400,
+        headers: corsHeaders,
+        body: JSON.stringify({
+          error: 'Invalid total amount',
+          details: {
+            totalAmount,
+            subtotal,
+            shippingRate: shippingRate.rate
+          }
+        }),
+      };
+    }
 
     // Create payment intent
     const paymentIntent = await stripe.paymentIntents.create({
@@ -106,6 +158,11 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
     };
   } catch (error) {
     console.error('Error creating payment intent:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      type: error instanceof Error ? error.constructor.name : typeof error
+    });
     return {
       statusCode: 500,
       headers: corsHeaders,
