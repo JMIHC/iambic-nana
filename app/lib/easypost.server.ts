@@ -52,15 +52,12 @@ export async function calculateShippingRates(
     const totalWeight = PACKAGING.packagingWeight + (PACKAGING.bookWeight * quantity);
     const totalHeight = PACKAGING.baseHeight + (PACKAGING.heightPerBook * quantity);
 
-    // For Media Mail, USPS charges a minimum rate for packages under 1 lb (16 oz)
-    // So we round up to 16 oz to get accurate Media Mail pricing from EasyPost
-    const weightForRating = Math.max(totalWeight, 16);
-
+    // Use actual weight for rating to get all available shipping options including First-Class
     const parcel = await client.Parcel.create({
       length: PACKAGING.length,
       width: PACKAGING.width,
       height: Math.min(totalHeight, 12), // Cap height at 12 inches for USPS limits
-      weight: weightForRating, // Use 1 lb minimum for accurate Media Mail pricing
+      weight: totalWeight,
     });
 
     // Create shipment with carrier accounts to ensure we get Media Mail
@@ -100,14 +97,17 @@ export async function calculateShippingRates(
         return a.rate - b.rate;
       });
 
-    // Always include fallback Media Mail if EasyPost doesn't provide it
+    // Always include fallback options if EasyPost doesn't provide them
     const hasMediaMail = formattedRates.some(rate => rate.isMediaMail);
+    const hasFirstClass = formattedRates.some(rate =>
+      rate.service?.toLowerCase().includes('first') ||
+      rate.service?.toLowerCase().includes('ground advantage')
+    );
     const finalRates = [...formattedRates];
-    
+
     if (!hasMediaMail) {
       // Add our own Media Mail option at the beginning
       // USPS Media Mail minimum is $4.13 for packages under 1 lb (as of 2025)
-      // Media Mail scales in 1 lb increments, but for small books we use the base rate
       const mediaMailRate = {
         carrier: 'USPS',
         service: 'Media Mail',
@@ -118,6 +118,30 @@ export async function calculateShippingRates(
         isMediaMail: true,
       };
       finalRates.unshift(mediaMailRate);
+    }
+
+    if (!hasFirstClass && totalWeight <= 13) {
+      console.log('Adding fallback First-Class Mail (not provided by EasyPost)');
+      // Add First-Class Mail option if package is under 13 oz
+      // USPS First-Class Mail for lightweight packages
+      const firstClassRate = {
+        carrier: 'USPS',
+        service: 'First-Class Mail',
+        rate: 420 + (quantity > 1 ? (quantity - 1) * 25 : 0),
+        deliveryDays: 3,
+        deliveryDate: null,
+        id: 'custom-first-class',
+        isMediaMail: false,
+      };
+      // Insert after Media Mail but before Priority/Express
+      const mediaMailIndex = finalRates.findIndex(r => r.isMediaMail);
+      if (mediaMailIndex >= 0) {
+        finalRates.splice(mediaMailIndex + 1, 0, firstClassRate);
+      } else {
+        finalRates.unshift(firstClassRate);
+      }
+    } else if (hasFirstClass) {
+      console.log('First-Class Mail provided by EasyPost');
     }
 
     // If we have any rates, return them, otherwise return full fallback
