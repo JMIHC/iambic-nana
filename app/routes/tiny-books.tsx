@@ -7,9 +7,14 @@ import type { Book } from "~/types/book";
 import { useCart } from "~/contexts/CartContext";
 
 export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/tiny-books";
+
   return [
     { title: "Tiny Books - Iambic Nana" },
     { name: "description", content: "Tiny book collection by Susan Engle - Order with bulk pricing discounts" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

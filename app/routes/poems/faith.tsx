@@ -6,9 +6,14 @@ import { faithPoems, type FaithPoem } from "~/data/faith-poems";
 import { PoemGrid } from "~/components/poems/PoemGrid";
 
 export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/poems/faith";
+
   return [
     { title: "Faith - Poems - Iambic Nana" },
     { name: "description", content: "Spiritual poems by Susan Engle" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

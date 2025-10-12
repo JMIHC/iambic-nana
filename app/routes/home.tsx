@@ -30,7 +30,10 @@ export function meta({}: Route.MetaArgs) {
 
     // Additional SEO
     { name: "author", content: "Susan Engle" },
-    { name: "keywords", content: "poetry, poems, Susan Engle, Iambic Nana, faith poetry, family poems, tiny books" },
+    { name: "keywords", content: "iambic nana, iambicnana, poetry, poems, Susan Engle, faith poetry, family poems, tiny books, poet" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

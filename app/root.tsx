@@ -35,6 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Iambic Nana",
+    "alternateName": ["IambicNana", "Iambic Nana Poetry"],
     "description": "Poetry and tiny books by Susan Engle",
     "url": "https://iambicnana.com",
     "author": {

@@ -4,9 +4,15 @@ import dizzyCover from "~/assets/dizzy-cover.webp";
 import robertAbbottCover from "~/assets/robert-abbott-cover.webp";
 
 export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/about";
+
   return [
     { title: "About Susan Engle - Iambic Nana" },
-    { name: "description", content: "Learn about poet Susan Engle" },
+    { name: "description", content: "Learn about poet Susan Engle, creator of Iambic Nana poetry and tiny books. Award-winning children's music and spiritual poetry." },
+    { name: "keywords", content: "Susan Engle, iambic nana, iambicnana, poet, poetry, tiny books, children's music, spiritual poetry" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

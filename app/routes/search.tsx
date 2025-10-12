@@ -12,10 +12,14 @@ import type { SearchResult } from '~/types/search';
 export function meta({ location }: Route.MetaArgs) {
   const params = new URLSearchParams(location.search);
   const query = params.get('q') || '';
-  
+  const url = `https://iambicnana.com/search${query ? `?q=${encodeURIComponent(query)}` : ''}`;
+
   return [
     { title: query ? `Search: ${query} - Iambic Nana` : 'Search - Iambic Nana' },
     { name: 'description', content: `Search results for "${query}" in poems and books` },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

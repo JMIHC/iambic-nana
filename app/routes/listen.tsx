@@ -6,6 +6,19 @@ import { friendsPoems } from "~/data/friends-poems";
 import { familyPoems } from "~/data/family-poems";
 import { faithPoems } from "~/data/faith-poems";
 import type { BasePoem } from "~/types/poem";
+import type { Route } from "./+types/listen";
+
+export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/listen";
+
+  return [
+    { title: "Listen to Poems - Iambic Nana" },
+    { name: "description", content: "Listen to audio recordings of poems by Susan Engle" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
+  ];
+}
 
 export default function Listen() {
   const [searchParams] = useSearchParams();

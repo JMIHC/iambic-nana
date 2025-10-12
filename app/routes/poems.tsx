@@ -2,9 +2,14 @@ import { Link } from "react-router";
 import type { Route } from "./+types/poems";
 
 export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/poems";
+
   return [
     { title: "Poems - Iambic Nana" },
     { name: "description", content: "Poetry collection by Susan Engle" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

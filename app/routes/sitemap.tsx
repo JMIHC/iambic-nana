@@ -3,9 +3,14 @@ import { Link } from "react-router";
 import { NAVIGATION_ITEMS } from "~/types/navigation";
 
 export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/sitemap";
+
   return [
     { title: "Sitemap - Iambic Nana" },
     { name: "description", content: "Complete sitemap of Iambic Nana - Poetry by Susan Engle" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

@@ -6,9 +6,14 @@ import { familyPoems, type FamilyPoem } from "~/data/family-poems";
 import { PoemGrid } from "~/components/poems/PoemGrid";
 
 export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/poems/family";
+
   return [
     { title: "Family - Poems - Iambic Nana" },
     { name: "description", content: "Poems about family by Susan Engle" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 

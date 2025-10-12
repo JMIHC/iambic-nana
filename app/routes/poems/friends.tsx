@@ -6,9 +6,14 @@ import { friendsPoems, type Poem } from "~/data/friends-poems";
 import { PoemGrid } from "~/components/poems/PoemGrid";
 
 export function meta({}: Route.MetaArgs) {
+  const url = "https://iambicnana.com/poems/friends";
+
   return [
     { title: "Friends - Poems - Iambic Nana" },
     { name: "description", content: "Poems about friendship by Susan Engle" },
+
+    // Canonical URL
+    { tagName: "link", rel: "canonical", href: url },
   ];
 }
 
