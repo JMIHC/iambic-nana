@@ -14,7 +14,5 @@ export default [
   route("/books/success", "routes/books.success.tsx"),
   route("/about", "routes/about.tsx"),
   route("/listen", "routes/listen.tsx"),
-  route("/sitemap", "routes/sitemap.tsx"),
-  route("/sitemap.xml", "routes/sitemap[.]xml.tsx"),
-  route("/robots.txt", "routes/robots[.]txt.tsx")
+  route("/sitemap", "routes/sitemap.tsx")
 ] satisfies RouteConfig;
