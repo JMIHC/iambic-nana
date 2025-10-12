@@ -384,8 +384,8 @@ function CheckoutForm() {
             {shippingRates.map((rate) => (
               <label
                 key={rate.id}
-                className={`block p-4 border rounded-lg cursor-pointer hover:bg-gray-50 ${
-                  selectedShippingRate?.id === rate.id ? 'border-primary bg-blue-50' : ''
+                className={`block p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 ${
+                  selectedShippingRate?.id === rate.id ? 'border-primary bg-blue-50 dark:bg-blue-950' : ''
                 }`}
               >
                 <input
@@ -398,12 +398,12 @@ function CheckoutForm() {
                 />
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="font-semibold">{rate.carrier} - {rate.service}</p>
+                    <p className="font-semibold text-gray-900 dark:text-gray-100">{rate.carrier} - {rate.service}</p>
                     <p className="text-sm text-muted-foreground">
                       {rate.deliveryDays ? `${rate.deliveryDays} business days` : 'Delivery time varies'}
                     </p>
                   </div>
-                  <p className="font-semibold">${(rate.rate / 100).toFixed(2)}</p>
+                  <p className="font-semibold text-gray-900 dark:text-gray-100">${(rate.rate / 100).toFixed(2)}</p>
                 </div>
               </label>
             ))}
@@ -434,9 +434,9 @@ function CheckoutForm() {
           <h2 className="text-2xl font-bold mb-4">Payment Information</h2>
           
           {/* Order Summary */}
-          <div className="bg-gray-50 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold mb-2">Order Summary</h3>
-            <div className="space-y-1 text-sm">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 mb-6">
+            <h3 className="font-semibold mb-2 text-gray-900 dark:text-gray-100">Order Summary</h3>
+            <div className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
               <div className="flex justify-between">
                 <span>Subtotal ({totalQuantity} books)</span>
                 <span>${subtotal.toFixed(2)}</span>
@@ -447,7 +447,7 @@ function CheckoutForm() {
                   <span>${(selectedShippingRate.rate / 100).toFixed(2)}</span>
                 </div>
               )}
-              <div className="flex justify-between font-semibold pt-2 border-t">
+              <div className="flex justify-between font-semibold pt-2 border-t border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100">
                 <span>Total</span>
                 <span>${total.toFixed(2)}</span>
               </div>
