@@ -5,9 +5,32 @@ import iambicMushroomsImage from "~/assets/iambicmushrooms.png";
 import fullMushroomImage from "~/assets/fullmushroom.webp";
 
 export function meta({}: Route.MetaArgs) {
+  const title = "Iambic Nana - Poetry by Susan Engle";
+  const description = "Welcome to Iambic Nana - Poetry and writings by Susan Engle. Explore faith, family, and friendship poems, plus tiny handcrafted poetry books.";
+  const url = "https://iambicnana.com";
+  const image = "https://iambicnana.com/og-image.png";
+
   return [
-    { title: "Iambic Nana - Poetry by Susan Engle" },
-    { name: "description", content: "Welcome to Iambic Nana - Poetry and writings by Susan Engle" },
+    { title },
+    { name: "description", content: description },
+
+    // Open Graph tags
+    { property: "og:title", content: title },
+    { property: "og:description", content: description },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: url },
+    { property: "og:image", content: image },
+    { property: "og:site_name", content: "Iambic Nana" },
+
+    // Twitter Card tags
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: title },
+    { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
+
+    // Additional SEO
+    { name: "author", content: "Susan Engle" },
+    { name: "keywords", content: "poetry, poems, Susan Engle, Iambic Nana, faith poetry, family poems, tiny books" },
   ];
 }
 
