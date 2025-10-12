@@ -12,6 +12,7 @@
 .netlify
 
 /scripts
+!/scripts/generate-sitemap.ts
 .mcp.json
 /docs
 stripe-diagnostic-report.json
