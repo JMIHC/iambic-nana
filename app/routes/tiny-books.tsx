@@ -102,7 +102,7 @@ export default function TinyBooks() {
               className="w-full h-auto object-cover"
             />
           </div>
-          <h4 className="text-lg font-serif font-medium text-gray-900 dark:text-gray-100 mb-1">A Soul Is Forever</h4>
+          <h4 className="text-xl font-serif font-semibold text-gray-900 dark:text-gray-100 mb-1">A Soul Is Forever</h4>
           <p className="text-gray-600 dark:text-gray-400 text-xs">One of our most popular tiny books</p>
         </div>
         
