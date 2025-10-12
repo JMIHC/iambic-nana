@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLoaderData } from 'react-router';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -8,23 +8,17 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { useCart } from '~/contexts/CartContext';
-import { books } from '~/data/books';
 import { calculateBookPrice, getCurrentTier, getBundleDeals } from '~/lib/priceCalculator';
+import type { Route } from './+types/checkout';
 
-// Initialize Stripe with the publishable key from environment variables
-declare global {
-  interface Window {
-    ENV?: {
-      STRIPE_PUBLIC_KEY: string;
-    };
-  }
+// Loader to provide Stripe public key from server
+export async function loader({ request }: Route.LoaderArgs) {
+  const stripePublicKey = process.env.STRIPE_PUBLIC_KEY || import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+
+  return {
+    stripePublicKey: stripePublicKey || null,
+  };
 }
-
-// Get the Stripe publishable key from environment variable
-// In production (Netlify), this will be injected via build-time env vars
-const stripePublishableKey = import.meta.env.STRIPE_PUBLIC_KEY
-
-const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
 
 type CheckoutStep = 'shipping' | 'shipping-method' | 'payment';
 
@@ -498,6 +492,12 @@ function CheckoutForm() {
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items } = useCart();
+  const { stripePublicKey } = useLoaderData<typeof loader>();
+
+  // Initialize Stripe with the key from loader
+  const [stripePromise] = useState(() =>
+    stripePublicKey ? loadStripe(stripePublicKey) : null
+  );
 
   useEffect(() => {
     if (items.length === 0) {
@@ -505,7 +505,7 @@ export default function CheckoutPage() {
     }
   }, [items, navigate]);
 
-  if (!stripePublishableKey || !stripePromise) {
+  if (!stripePublicKey || !stripePromise) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center max-w-md">
@@ -514,7 +514,7 @@ export default function CheckoutPage() {
             Stripe is not configured properly. Please ensure STRIPE_PUBLIC_KEY is set.
           </p>
           <button
-            onClick={() => navigate('/checkout-cart')}
+            onClick={() => navigate('/tiny-books')}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 cursor-pointer"
           >
             Return to Cart
@@ -528,7 +528,7 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
         <h1 className="text-3xl font-bold text-center mb-8">Checkout</h1>
-        
+
         <Elements stripe={stripePromise}>
           <CheckoutForm />
         </Elements>
