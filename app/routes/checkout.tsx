@@ -11,7 +11,7 @@ import { useCart } from '~/contexts/CartContext';
 import { books } from '~/data/books';
 import { calculateBookPrice, getCurrentTier, getBundleDeals } from '~/lib/priceCalculator';
 
-// Initialize Stripe with the publishable key (same pattern as secret key in functions)
+// Initialize Stripe with the publishable key from environment variables
 declare global {
   interface Window {
     ENV?: {
@@ -20,8 +20,10 @@ declare global {
   }
 }
 
-// For now, use the key directly (since it's safe to expose publishable keys)
-const stripePublishableKey = 'pk_test_51RoB8T9HBJe7pfHmTzw1v06Ci9eur1nLx2Gf6L6pL7cvyL41d49ekcjIrkKvYSRbqdKUo7McVTLuPjsfMHJcj7lt00rFb60Tii';
+// Get the Stripe publishable key from environment variable
+// In production (Netlify), this will be injected via build-time env vars
+const stripePublishableKey = import.meta.env.STRIPE_PUBLIC_KEY
+
 const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
 
 type CheckoutStep = 'shipping' | 'shipping-method' | 'payment';
