@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLoaderData } from 'react-router';
+import { useNavigate } from 'react-router';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -9,16 +9,6 @@ import {
 } from '@stripe/react-stripe-js';
 import { useCart } from '~/contexts/CartContext';
 import { calculateBookPrice, getCurrentTier, getBundleDeals } from '~/lib/priceCalculator';
-import type { Route } from './+types/checkout';
-
-// Loader to provide Stripe public key from server
-export async function loader({ request }: Route.LoaderArgs) {
-  const stripePublicKey = process.env.STRIPE_PUBLIC_KEY || import.meta.env.VITE_STRIPE_PUBLIC_KEY;
-
-  return {
-    stripePublicKey: stripePublicKey || null,
-  };
-}
 
 type CheckoutStep = 'shipping' | 'shipping-method' | 'payment';
 
@@ -492,9 +482,11 @@ function CheckoutForm() {
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { items } = useCart();
-  const { stripePublicKey } = useLoaderData<typeof loader>();
 
-  // Initialize Stripe with the key from loader
+  // Get Stripe public key from environment (client-side)
+  const stripePublicKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+
+  // Initialize Stripe with the key
   const [stripePromise] = useState(() =>
     stripePublicKey ? loadStripe(stripePublicKey) : null
   );
