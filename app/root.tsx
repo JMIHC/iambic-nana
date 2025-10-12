@@ -8,6 +8,7 @@ import {
   Link,
 } from "react-router";
 import { useState, useEffect } from "react";
+import { init } from "@plausible-analytics/tracker";
 
 import type { Route } from "./+types/root";
 import Navigation from "./components/Navigation";
@@ -51,14 +52,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  useEffect(() => {
+    init({
+      domain: 'iambicnana.com',
+    });
+  }, []);
+
   // Initialize dark mode from localStorage and system preference
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     const shouldBeDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark);
     setIsDarkMode(shouldBeDark);
-    
+
     if (shouldBeDark) {
       document.documentElement.classList.add('dark');
     } else {
