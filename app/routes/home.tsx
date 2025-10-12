@@ -6,7 +6,7 @@ import fullMushroomImage from "~/assets/fullmushroom.webp";
 
 export function meta({}: Route.MetaArgs) {
   const title = "Iambic Nana - Poetry by Susan Engle";
-  const description = "Welcome to Iambic Nana - Poetry and writings by Susan Engle. Explore faith, family, and friendship poems, plus tiny handcrafted poetry books.";
+  const description = "Welcome to Iambic Nana - Poetry by Susan Engle. Explore faith, family, and friendship poems, plus tiny books.";
   const url = "https://iambicnana.com";
   const image = "https://iambicnana.com/og-image.png";
 
