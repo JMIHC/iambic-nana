@@ -11,8 +11,11 @@
 # Local Netlify folder
 .netlify
 
-/scripts
-!/scripts/generate-sitemap.ts
+/scripts/fix-stripe-issues.ts
+/scripts/stripe-diagnostics.ts
+/scripts/stripe-mcp-admin.ts
+/scripts/test-netlify-form.ts
+
 .mcp.json
 /docs
 stripe-diagnostic-report.json
