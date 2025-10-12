@@ -148,19 +148,6 @@ export default function Sitemap() {
           </ul>
         </div>
       </div>
-
-      {/* SEO Benefits Section */}
-      <div className="mt-12 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
-          About This Sitemap
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-          This sitemap helps visitors and search engines understand the structure of Iambic Nana. 
-          It provides an organized overview of all poetry collections, individual poems, tiny books, 
-          and other content available on the site. Use this page to quickly navigate to any section 
-          or discover content you might have missed.
-        </p>
-      </div>
     </div>
   );
 }
