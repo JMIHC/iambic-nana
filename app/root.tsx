@@ -8,7 +8,6 @@ import {
   Link,
 } from "react-router";
 import { useState, useEffect } from "react";
-import { init } from "@plausible-analytics/tracker";
 
 import type { Route } from "./+types/root";
 import Navigation from "./components/Navigation";
@@ -53,8 +52,11 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    init({
-      domain: 'iambicnana.com',
+    // Only initialize Plausible on the client side
+    import("@plausible-analytics/tracker").then(({ init }) => {
+      init({
+        domain: 'iambicnana.com',
+      });
     });
   }, []);
 
