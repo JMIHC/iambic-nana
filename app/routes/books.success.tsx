@@ -86,8 +86,8 @@ export default function BookSuccess() {
   if (error || !data) {
     return (
       <div className="container mx-auto px-4 py-8 max-w-4xl text-center">
-        <h1 className="text-3xl font-bold mb-4 text-red-600">Error</h1>
-        <p className="text-lg text-gray-600 mb-4">{error}</p>
+        <h1 className="text-3xl font-bold mb-4 text-red-600 dark:text-red-400">Error</h1>
+        <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">{error}</p>
         <Link
           to="/tiny-books"
           className="inline-block bg-purple-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-purple-700 transition-colors"
@@ -107,24 +107,24 @@ export default function BookSuccess() {
       <div className="text-center mb-8">
         <div className="text-6xl mb-4">🎉</div>
         <h1 className="text-3xl font-bold mb-2">Order Successful!</h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-gray-600 dark:text-gray-400">
           Thank you for your order, {data.customerName}!
         </p>
       </div>
 
       {/* Order Summary */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-        
+
         {/* Books Ordered */}
         <div className="mb-6">
           <h3 className="font-semibold mb-3">Books Ordered:</h3>
           <div className="space-y-2">
             {data.lineItems.map((item: any, index: number) => (
-              <div key={index} className="flex justify-between py-2 border-b">
+              <div key={index} className="flex justify-between py-2 border-b dark:border-gray-700">
                 <div>
                   <p className="font-medium">{item.description}</p>
-                  <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Quantity: {item.quantity}</p>
                 </div>
                 <div className="text-right">
                   <p>${(item.amount_total / 100).toFixed(2)}</p>
@@ -135,7 +135,7 @@ export default function BookSuccess() {
         </div>
 
         {/* Pricing Details */}
-        <div className="border-t pt-4 space-y-2">
+        <div className="border-t dark:border-gray-700 pt-4 space-y-2">
           <div className="flex justify-between">
             <span>Total Books:</span>
             <span className="font-semibold">{totalQuantity}</span>
@@ -160,22 +160,22 @@ export default function BookSuccess() {
             </div>
           )}
 
-          <div className="flex justify-between text-xl font-bold pt-2 border-t">
+          <div className="flex justify-between text-xl font-bold pt-2 border-t dark:border-gray-700">
             <span>Total Paid:</span>
-            <span className="text-purple-600">${data.totalAmount.toFixed(2)}</span>
+            <span className="text-purple-600 dark:text-purple-400">${data.totalAmount.toFixed(2)}</span>
           </div>
         </div>
       </div>
 
       {/* Shipping Information */}
       {data.shippingAddress && (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-bold mb-4">Shipping Information</h2>
 
           {/* Shipping Address */}
           <div className="mb-4">
-            <h3 className="font-semibold text-gray-700 mb-2">Shipping Address:</h3>
-            <div className="text-gray-600">
+            <h3 className="font-semibold text-gray-700 dark:text-gray-300 mb-2">Shipping Address:</h3>
+            <div className="text-gray-600 dark:text-gray-400">
               {data.shippingName && <p className="font-medium">{data.shippingName}</p>}
               <p>{data.shippingAddress.line1}</p>
               {data.shippingAddress.line2 && <p>{data.shippingAddress.line2}</p>}
@@ -188,13 +188,13 @@ export default function BookSuccess() {
 
           {/* Shipping Method */}
           {(data.shippingCarrier || data.shippingService) && (
-            <div className="pt-4 border-t">
-              <h3 className="font-semibold text-gray-700 mb-2">Shipping Method:</h3>
-              <div className="text-gray-600">
+            <div className="pt-4 border-t dark:border-gray-700">
+              <h3 className="font-semibold text-gray-700 dark:text-gray-300 mb-2">Shipping Method:</h3>
+              <div className="text-gray-600 dark:text-gray-400">
                 {data.shippingCarrier && <p>{data.shippingCarrier}</p>}
                 {data.shippingService && !data.shippingCarrier && <p>{data.shippingService}</p>}
                 {data.shippingRate && (
-                  <p className="text-sm text-gray-500 mt-1">Rate: ${parseFloat(data.shippingRate).toFixed(2)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">Rate: ${parseFloat(data.shippingRate).toFixed(2)}</p>
                 )}
               </div>
             </div>
@@ -203,18 +203,18 @@ export default function BookSuccess() {
       )}
 
       {/* What's Next */}
-      <div className="bg-coral-50 rounded-lg p-6 mb-6">
-        <h2 className="text-xl font-bold mb-4 text-coral-700">What's Next?</h2>
-        <ul className="space-y-2 text-coral-700">
+      <div className="bg-coral-50 dark:bg-coral-900/30 rounded-lg p-6 mb-6">
+        <h2 className="text-xl font-bold mb-4 text-coral-700 dark:text-coral-300">What's Next?</h2>
+        <ul className="space-y-2 text-coral-700 dark:text-coral-300">
           <li>• Your books will be shipped within 5-7 business days</li>
           <li>• Questions? Email us at <a href="mailto:mytinybooks919@gmail.com" className="underline">mytinybooks919@gmail.com</a></li>
         </ul>
       </div>
 
       {/* Pricing Tier Achievement */}
-      {totalQuantity >= 10 && (
-        <div className="bg-green-50 border border-green-300 rounded-lg p-4 mb-6">
-          <p className="text-green-700 font-semibold">
+      {unitPrice < 2.00 && (
+        <div className="bg-green-50 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-lg p-4 mb-6">
+          <p className="text-green-700 dark:text-green-300 font-semibold">
             🎯 Great job! You unlocked bulk pricing at ${unitPrice.toFixed(2)} per book!
           </p>
         </div>
@@ -228,8 +228,8 @@ export default function BookSuccess() {
         >
           Back to tiny books
         </Link>
-        
-        <p className="mt-4 text-sm text-gray-600">
+
+        <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
           Order ID: {data.sessionId}
         </p>
       </div>
