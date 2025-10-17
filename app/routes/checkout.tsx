@@ -468,7 +468,7 @@ function CheckoutForm() {
             <button
               type="submit"
               disabled={loading || !stripe}
-              className="flex-1 bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+              className="flex-1 bg-purple-600 text-primary-foreground py-3 rounded-md font-semibold hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
             >
               {loading ? 'Processing...' : `Pay $${total.toFixed(2)}`}
             </button>
@@ -507,7 +507,7 @@ export default function CheckoutPage() {
           </p>
           <button
             onClick={() => navigate('/tiny-books')}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 cursor-pointer"
+            className="px-4 py-2 bg-purple-600 text-primary-foreground rounded-md hover:opacity-90 cursor-pointer"
           >
             Return to Cart
           </button>
