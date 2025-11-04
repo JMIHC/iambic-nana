@@ -46,9 +46,10 @@ function BookCard({ book }: { book: Book }) {
           <div className="flex items-center gap-2">
             <input
               type="number"
-              min="1"
+              min="0"
+              placeholder="1"
               value={quantity}
-              onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+              onChange={(e) => setQuantity(Math.max(0, parseInt(e.target.value) || 0))}
               className="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
               onClick={(e) => e.stopPropagation()}
             />
@@ -194,19 +195,31 @@ export default function TinyBooks() {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => updateQuantity(item.bookId, Math.max(1, item.quantity - 1))}
+                        onClick={() => {
+                          const newQty = item.quantity - 1;
+                          if (newQty <= 0) {
+                            removeFromCart(item.bookId);
+                          } else {
+                            updateQuantity(item.bookId, newQty);
+                          }
+                        }}
                         className="w-6 h-6 flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-500 text-sm transition-colors cursor-pointer"
-                        disabled={item.quantity <= 1}
+                        disabled={item.quantity <= 0}
                       >
                         -
                       </button>
                       <input
                         type="number"
-                        min="1"
+                        min="0"
+                        placeholder="1"
                         value={item.quantity}
                         onChange={(e) => {
-                          const newQty = Math.max(1, parseInt(e.target.value) || 1);
-                          updateQuantity(item.bookId, newQty);
+                          const newQty = Math.max(0, parseInt(e.target.value) || 0);
+                          if (newQty === 0) {
+                            removeFromCart(item.bookId);
+                          } else {
+                            updateQuantity(item.bookId, newQty);
+                          }
                         }}
                         className="w-12 h-6 text-center text-xs border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded px-1"
                         onClick={(e) => e.stopPropagation()}
