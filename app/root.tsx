@@ -184,6 +184,7 @@ export default function App() {
 export function HiddenOrderForm() {
   return (
     <form name="order-notifications" data-netlify="true" hidden style={{ display: 'none' }}>
+      <input type="hidden" name="form-name" value="order-notifications" />
       <input type="text" name="customerName" />
       <input type="email" name="customerEmail" />
       <input type="text" name="customerPhone" />
