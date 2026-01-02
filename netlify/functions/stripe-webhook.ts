@@ -309,15 +309,26 @@ export const handler = async (event: HandlerEvent, context: HandlerContext) => {
           JSON.parse(paymentIntent.metadata.items) : [],
       };
 
+      // Book title lookup
+      const bookTitles: Record<string, string> = {
+        'bahai-faith-english': 'The Bahá\'í Faith: A Tiny Introduction',
+        'bahai-faith-spanish': 'La Fe Bahá\'í: Una pequeña introducción',
+        'tiny-book-prayers': 'A Tiny Book of Prayers',
+        'soul-is-forever': 'A Soul Is Forever: A Tiny Book of Comfort',
+      };
+
+      // Calculate unit price from subtotal and total quantity
+      const unitPrice = totalQuantity > 0 ? subtotalAmount / totalQuantity : 0;
+
       // Send notification email
       await sendOrderNotification({
         ...orderData,
         sessionId: paymentIntent.id, // Use payment intent ID as session ID
         lineItems: orderData.items.map((item: any) => ({
-          productName: `Book ID: ${item.bookId}`,
+          productName: bookTitles[item.bookId] || item.bookId,
           quantity: item.quantity,
-          unitAmount: 0, // Will be calculated from subtotal
-          totalAmount: 0,
+          unitAmount: unitPrice,
+          totalAmount: unitPrice * item.quantity,
         })),
       });
 
