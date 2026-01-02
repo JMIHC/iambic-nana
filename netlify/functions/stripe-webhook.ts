@@ -60,10 +60,11 @@ const sendOrderNotification = async (orderData: any) => {
 
     console.log('Submitting form to Netlify:', formData.toString());
 
-    // Submit to Netlify Forms
-    const response = await fetch('https://iambic-nana.netlify.app/', {
+    // Submit to Netlify Forms - POST to the page containing the form definition
+    const siteUrl = process.env.URL || 'https://iambic-nana.netlify.app';
+    const response = await fetch(`${siteUrl}/order-form.html`, {
       method: 'POST',
-      headers: { 
+      headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'Netlify Function'
       },

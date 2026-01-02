@@ -183,8 +183,16 @@ export default function App() {
 {/* Hidden Netlify Form for order notifications */}
 export function HiddenOrderForm() {
   return (
-    <form name="order-notifications" data-netlify="true" hidden style={{ display: 'none' }}>
+    <form
+      name="order-notifications"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+      style={{ display: 'none' }}
+    >
       <input type="hidden" name="form-name" value="order-notifications" />
+      <input type="hidden" name="bot-field" />
       <input type="text" name="customerName" />
       <input type="email" name="customerEmail" />
       <input type="text" name="customerPhone" />

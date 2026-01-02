@@ -4,8 +4,10 @@
     <title>Order Notifications Form</title>
 </head>
 <body>
-    <!-- Hidden form for Netlify Forms detection -->
-    <form name="order-notifications" netlify hidden>
+    <!-- Hidden form for Netlify Forms detection - required for programmatic submissions -->
+    <form name="order-notifications" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="order-notifications" />
+        <input type="hidden" name="bot-field" />
         <input type="text" name="customerName" />
         <input type="email" name="customerEmail" />
         <input type="text" name="customerPhone" />

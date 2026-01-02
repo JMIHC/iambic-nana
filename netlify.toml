@@ -32,6 +32,12 @@
   to = "/.netlify/functions/robots"
   status = 200
 
+# Exclude static HTML form from SPA routing (needed for Netlify Forms detection)
+[[redirects]]
+  from = "/order-form.html"
+  to = "/order-form.html"
+  status = 200
+
 # SPA routing - redirect all requests to index.html for client-side routing
 [[redirects]]
   from = "/*"
